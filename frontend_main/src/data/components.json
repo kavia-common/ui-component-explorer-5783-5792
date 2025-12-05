@@ -1,0 +1,32 @@
+[
+  {
+    "id": "button-primary",
+    "name": "Button (Primary)",
+    "category": "Buttons",
+    "tags": ["action", "cta", "primary"],
+    "description": "Prominent primary button suitable for main actions.",
+    "preview": "button",
+    "usage": "Use for primary actions. Combine with size modifiers and icons as needed.",
+    "code": "export function ButtonPrimary({ children }) {\n  return (\n    <button className=\"px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400\">\n      {children}\n    </button>\n  );\n}"
+  },
+  {
+    "id": "card-basic",
+    "name": "Card (Basic)",
+    "category": "Cards",
+    "tags": ["layout", "container", "surface"],
+    "description": "Basic card container with title and actions.",
+    "preview": "card",
+    "usage": "Wrap content inside the card. Add headers, footers, and media as necessary.",
+    "code": "export function Card({ title, children, action }) {\n  return (\n    <div className=\"p-4 rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-neutral-900\">\n      {title && <h3 className=\"font-semibold\">{title}</h3>}\n      <div className=\"mt-2 text-sm text-gray-600 dark:text-gray-300\">{children}</div>\n      {action && <div className=\"mt-3\">{action}</div>}\n    </div>\n  );\n}"
+  },
+  {
+    "id": "badge-info",
+    "name": "Badge (Info)",
+    "category": "Badges",
+    "tags": ["status", "label", "info"],
+    "description": "Compact label for statuses and tags.",
+    "preview": "badge",
+    "usage": "Place next to headings or items to indicate status or category.",
+    "code": "export function Badge({ children }) {\n  return (\n    <span className=\"inline-flex items-center px-2 py-0.5 rounded-md text-xs bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-200\">{children}</span>\n  );\n}"
+  }
+]

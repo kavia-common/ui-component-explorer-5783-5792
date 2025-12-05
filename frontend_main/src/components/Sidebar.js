@@ -53,7 +53,7 @@ export default function Sidebar({ isOpen, onClose }) {
     return () => window.removeEventListener('keydown', handler);
   }, [isOpen, onClose]);
 
-  const desktopTopOffset = 72;
+  const desktopTopOffset = 76;
 
   const renderAccordion = () => (
     <nav aria-label="Component sections" role="navigation" className="h-full flex flex-col">

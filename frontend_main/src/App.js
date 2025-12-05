@@ -43,7 +43,7 @@ function Header({ theme, toggleTheme, onOpenSidebar }) {
       aria-label="Primary"
     >
       {/* Full-width flex, no outer margins/padding pushing inward */}
-      <div className="w-full flex items-center justify-between text-white px-3 sm:px-4 py-3 sm:py-3.5">
+      <div className="w-full flex items-center justify-between text-white px-3 sm:px-4 py-3.5 sm:py-4">
         <div className="flex items-center gap-3">
           <button
             className="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/70"

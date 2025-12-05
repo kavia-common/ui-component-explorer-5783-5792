@@ -43,7 +43,7 @@ export const demoRegistry = {
   <h4 class="font-semibold">Card Title</h4>
   <p class="text-sm text-gray-600 mt-1">Card content...</p>
   <div class="mt-3">
-    <button class="px-3 py-1.5 rounded-md bg-blue-600 text-white text-sm hover:bg-blue-700">Action</button>
+    <button class="inline-flex items-center justify-center font-semibold text-white rounded-lg px-3 py-2 bg-[linear-gradient(45deg,_#af2497_10%,_#902d9a_20%,_#1840a0_100%)] hover:brightness-[.98] shadow-[0_6px_12px_rgba(16,24,40,0.10)] transition-[filter,transform,box-shadow,background-color] duration-150">Action</button>
   </div>
 </div>`,
     js: `// No JS required for static card`,
@@ -78,8 +78,8 @@ export const demoRegistry = {
   'Buttons': {
     componentKey: 'ButtonsDemo',
     html: `<div class="flex flex-wrap gap-2">
-  <button class="px-3 py-2 rounded-lg bg-blue-600 text-white text-sm hover:bg-blue-700">Primary</button>
-  <button class="px-3 py-2 rounded-lg border text-sm">Secondary</button>
+  <button class="inline-flex items-center justify-center font-semibold text-white rounded-lg px-3 py-2 bg-[linear-gradient(45deg,_#af2497_10%,_#902d9a_20%,_#1840a0_100%)] hover:brightness-[.98] text-sm">Primary</button>
+  <button class="px-3 py-2 rounded-lg border text-sm hover:bg-gray-50">Secondary</button>
   <button class="px-3 py-2 rounded-lg bg-amber-500 text-white text-sm hover:bg-amber-600">Warning</button>
   <button class="px-3 py-2 rounded-lg bg-red-500 text-white text-sm hover:bg-red-600">Danger</button>
 </div>`,
@@ -132,7 +132,7 @@ export const demoRegistry = {
   'Tooltips': {
     componentKey: 'TooltipsDemo',
     html: `<div class="relative inline-block">
-  <button class="px-3 py-2 rounded-lg border text-sm">Hover me</button>
+  <button class="px-3 py-2 rounded-lg border text-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60">Hover me</button>
   <!-- For Playground demonstration, tooltip visibility can be toggled manually -->
   <!-- <div role="tooltip" class="absolute left-1/2 -translate-x-1/2 mt-2 whitespace-nowrap text-xs bg-black text-white px-2 py-1 rounded">Tooltip text</div> -->
 </div>`,

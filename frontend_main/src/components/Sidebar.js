@@ -63,7 +63,7 @@ export default function Sidebar({ isOpen, onClose }) {
           className="inline-flex items-center gap-2 px-3 py-2 rounded-lg text-white bg-white/10 select-none"
           aria-hidden="true"
         >
-          <span className="text-sm font-medium">Browse</span>
+          <span className="text-[0.8rem] font-semibold tracking-wide uppercase">Browse</span>
         </div>
       </div>
 
@@ -72,13 +72,13 @@ export default function Sidebar({ isOpen, onClose }) {
         className="min-h-0 grow overflow-y-auto pb-8"
         style={{ maxHeight: `calc(100vh - ${desktopTopOffset + 16}px)` }}
       >
-        <ul className="px-2 space-y-2" role="list">
+        <ul className="px-2 space-y-2 divide-y divide-white/5" role="list">
           {sections.map((section, idx) => {
             const sectionId = `accordion-section-${idx}`;
             const panelId = `accordion-panel-${idx}`;
             const open = openGroups.has(section.title);
             return (
-              <li key={section.title} className="rounded-lg">
+              <li key={section.title} className="rounded-lg pt-2 first:pt-0">
                 <h3 className="px-1">
                   <button
                     id={sectionId}
@@ -94,7 +94,7 @@ export default function Sidebar({ isOpen, onClose }) {
                     aria-controls={panelId}
                     onClick={() => toggleGroup(section.title)}
                   >
-                    <span className="text-[0.85rem]">{section.title}</span>
+                    <span className="text-[0.82rem]">{section.title}</span>
                     <span
                       className={'inline-block transform transition-transform opacity-90 ' + (open ? 'rotate-90' : 'rotate-0')}
                       aria-hidden="true"
@@ -124,11 +124,8 @@ export default function Sidebar({ isOpen, onClose }) {
                           <Link
                             to={to}
                             className={
-                              'group sidebar-item transition-colors-transform ' +
-                              (isActive
-                                ? 'sidebar-item--active'
-                                : '') +
-                              ' focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70'
+                              'group sidebar-item transition-colors-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 ' +
+                              (isActive ? 'sidebar-item--active' : '')
                             }
                             aria-current={isActive ? 'page' : undefined}
                           >
@@ -182,7 +179,7 @@ export default function Sidebar({ isOpen, onClose }) {
           <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-lg bg-white/30" />
-              <span className="font-semibold uppercase tracking-wide text-sm">Components</span>
+              <span className="font-semibold uppercase tracking-wide text-[0.8rem]">Components</span>
             </div>
             <button
               onClick={onClose}

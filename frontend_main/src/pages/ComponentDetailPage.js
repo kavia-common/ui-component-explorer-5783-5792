@@ -108,7 +108,8 @@ export default function ComponentDetailPage() {
               <SyntaxHighlighter
                 language="javascript"
                 style={document.documentElement.classList.contains('dark') ? atomOneDark : atomOneLight}
-                customStyle={{ margin: 0, borderRadius: '0.5rem', fontSize: '0.85rem' }}
+                customStyle={{ margin: 0, borderRadius: '10px', fontSize: '0.875rem', padding: '12px 14px', background: '#F8FAFC',
+                fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace' }}
                 wrapLongLines
               >
                 {item.code}

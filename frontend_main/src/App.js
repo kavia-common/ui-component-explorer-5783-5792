@@ -62,7 +62,7 @@ function Header({ theme, toggleTheme, onOpenSidebar }) {
 
           <button
             onClick={toggleTheme}
-            className="inline-flex items-center justify-center px-3 py-2 rounded-lg text-white hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/60"
+            className="inline-flex items-center justify-center px-3 py-2 rounded-lg text-white hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/70"
             aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
             title="Toggle theme"
           >
@@ -85,10 +85,10 @@ function Layout({ children, theme, toggleTheme }) {
         onOpenSidebar={() => setDrawerOpen(true)}
       />
       <div className="w-full">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex gap-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex gap-6 lg:gap-8">
             <Sidebar isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />
-            <main className="flex-1 py-8">
+            <main className="flex-1 py-8 sm:py-10 lg:py-12 container-prose">
               {children}
             </main>
           </div>

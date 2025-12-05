@@ -91,10 +91,10 @@ export default function ComponentsListPage() {
   // Breadcrumbs reflect current selection
   const Breadcrumbs = () => (
     <nav className="mb-6" aria-label="Breadcrumb">
-      <ol className="flex items-center gap-2 text-sm text-slate-600">
-        <li><Link to="/" className="hover:underline text-slate-600">Home</Link></li>
+      <ol className="breadcrumbs flex items-center gap-2">
+        <li><Link to="/" className="hover:underline">Home</Link></li>
         <li aria-hidden="true" className="text-slate-400">/</li>
-        <li><Link to="/components" className="hover:underline text-slate-600">Components</Link></li>
+        <li><Link to="/components" className="hover:underline">Components</Link></li>
         {selectedItem ? (
           <>
             <li aria-hidden="true" className="text-slate-400">/</li>
@@ -207,7 +207,7 @@ export default function App() {
     if (selectedItem === 'Installation') {
       return (
         <article className="space-y-4">
-          <h2 className="text-lg font-bold text-gray-900 dark:text-white">Installation</h2>
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white tracking-tight">Installation</h2>
           <InstallationContent />
         </article>
       );
@@ -223,7 +223,7 @@ export default function App() {
     return (
       <article className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-bold text-gray-900 dark:text-white">{selectedItem}</h2>
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white tracking-tight">{selectedItem}</h2>
           <button
             className="btn-ghost"
             onClick={() => {
@@ -238,11 +238,13 @@ export default function App() {
           </button>
         </div>
 
-        <div className="flex items-center justify-start min-h-[140px] rounded-lg border border-dashed border-gray-300 dark:border-white/10 bg-white dark:bg-neutral-900 px-4 py-6">
+        <div className="flex items-center justify-start min-h-[140px] rounded-lg border border-gray-200 dark:border-white/10 bg-white dark:bg-neutral-900 px-5 py-6">
           <Comp />
         </div>
 
-        <CodeBlock code={code} />
+        <div className="mt-2">
+          <CodeBlock code={code} />
+        </div>
       </article>
     );
   };

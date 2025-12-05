@@ -123,7 +123,7 @@ export default function Sidebar({ isOpen, onClose }) {
     <>
       {/* Desktop sidebar */}
       <aside
-        className="hidden lg:block lg:sticky lg:top-[72px] self-start w-72 min-w-72 h-[calc(100vh-88px)] rounded-r-xl text-white bg-sidebar-gradient shadow-soft"
+        className="hidden lg:block lg:sticky lg:top-[72px] self-start w-72 min-w-72 h-[calc(100vh-88px)] rounded-r-xl text-white bg-navbar-gradient shadow-soft"
         aria-hidden={false}
       >
         {content}
@@ -144,7 +144,7 @@ export default function Sidebar({ isOpen, onClose }) {
         {/* Panel */}
         <div
           className={
-            'absolute top-0 left-0 h-full w-80 max-w-[85%] bg-sidebar-gradient text-white shadow-2xl transform transition-transform ' +
+            'absolute top-0 left-0 h-full w-80 max-w-[85%] bg-navbar-gradient text-white shadow-2xl transform transition-transform ' +
             (isOpen ? 'translate-x-0' : '-translate-x-full')
           }
           role="dialog"

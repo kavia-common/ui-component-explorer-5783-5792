@@ -13,17 +13,28 @@ html, body, #root {
   height: 100%;
 }
 body {
-  @apply bg-[var(--bg)] text-[var(--text)] antialiased;
+  /* Base text and smoothing */
+  @apply text-[var(--text)] antialiased;
 }
+
+/* Section/hero helper (kept) */
 .gradient-ocean {
   @apply bg-gradient-to-br from-blue-500/10 to-gray-50;
 }
 
 /* Custom gradient utilities requested */
-.bg-sidebar-gradient {
+/* Reusable Navbar gradient */
+.bg-navbar-gradient {
+  background: linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%);
+}
+
+/* App/page background gradient (87deg) */
+.bg-app-gradient {
   background: linear-gradient(87deg, #95bff0 20%, #ac7de9 80%);
 }
-.bg-navbar-gradient {
+
+/* Deprecated: unify sidebar to use navbar gradient. Keeping class for backward compatibility. */
+.bg-sidebar-gradient {
   background: linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%);
 }
 

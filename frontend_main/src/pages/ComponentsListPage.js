@@ -28,7 +28,7 @@ export default function ComponentsListPage() {
   }, [query, category]);
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-10">
+    <div className="py-2">
       <div className="grid lg:grid-cols-4 gap-8">
         <aside className="lg:col-span-1 space-y-6">
           <div className="card p-4">

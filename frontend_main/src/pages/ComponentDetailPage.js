@@ -68,7 +68,7 @@ export default function ComponentDetailPage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-10">
+    <div className="px-0 py-2">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{item.name}</h1>

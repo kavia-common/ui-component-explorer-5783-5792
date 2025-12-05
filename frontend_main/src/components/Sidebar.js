@@ -19,7 +19,8 @@ export default function Sidebar({ isOpen, onClose }) {
 
   const sections = useMemo(
     () => [
-      { title: 'Getting Started', items: ['Introduction', 'Installation', 'Quick Start', 'Theming', 'Dark Mode'] },
+      // Getting Started simplified to keep only Installation
+      { title: 'Getting Started', items: ['Installation'] },
       { title: 'Layout & Content', items: ['Grid', 'Container', 'Section', 'Card', 'Typography', 'Lists', 'Media'] },
       { title: 'Base Components', items: ['Buttons', 'Badges', 'Avatars', 'Alerts', 'Tags', 'Chips', 'Tooltips'] },
       { title: 'Navigations', items: ['Navbar', 'Sidebar', 'Tabs', 'Breadcrumbs', 'Pagination', 'Steps'] },
@@ -30,8 +31,8 @@ export default function Sidebar({ isOpen, onClose }) {
     []
   );
 
-  const linkFor = (section, item) =>
-    `/components?section=${encodeURIComponent(section)}&item=${encodeURIComponent(item)}`;
+  const linkFor = (_section, item) =>
+    `/components?item=${encodeURIComponent(item)}`;
 
   // Accordion open state (multi-open). Start with none open by default.
   const [openGroups, setOpenGroups] = useState(() => new Set());
@@ -56,15 +57,14 @@ export default function Sidebar({ isOpen, onClose }) {
 
   const renderAccordion = () => (
     <nav aria-label="Component sections" role="navigation" className="h-full flex flex-col">
-      {/* Fixed header area */}
+      {/* Fixed header area (Home removed as requested) */}
       <div className="px-4 pt-4 pb-3 shrink-0">
-        <Link
-          to="/"
-          className="inline-flex items-center gap-2 px-3 py-2 rounded-lg text-white bg-white/10 hover:bg-white/15 shadow-sm hover:shadow transition-colors-transform hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+        <div
+          className="inline-flex items-center gap-2 px-3 py-2 rounded-lg text-white bg-white/10 select-none"
+          aria-hidden="true"
         >
-          <span className="text-lg" aria-hidden="true">🏠</span>
-          <span className="text-sm font-medium">Home</span>
-        </Link>
+          <span className="text-sm font-medium">Browse</span>
+        </div>
       </div>
 
       {/* Scrollable groups */}

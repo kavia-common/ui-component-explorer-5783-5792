@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { BrowserRouter, Routes, Route, Link, NavLink } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import './index.css';
 import './App.css';
 import HomePage from './pages/HomePage';
@@ -34,7 +34,7 @@ export function useTheme() {
   return useMemo(() => ({ theme, setTheme }), [theme]);
 }
 
-// Header/Navbar with gradient background
+// Header/Navbar with gradient background (brand + theme toggle only)
 function Header({ theme, toggleTheme, onOpenSidebar }) {
   return (
     <header className="sticky top-0 z-40 border-b border-black/10">
@@ -57,29 +57,8 @@ function Header({ theme, toggleTheme, onOpenSidebar }) {
             </Link>
           </div>
 
-          <nav className="hidden sm:flex items-center gap-1">
-            <NavLink
-              to="/"
-              end
-              className={({ isActive }) =>
-                `px-3 py-2 rounded-lg text-sm ${
-                  isActive ? 'bg-white/25 text-white' : 'text-white/90 hover:bg-white/15'
-                }`
-              }
-            >
-              Home
-            </NavLink>
-            <NavLink
-              to="/components"
-              className={({ isActive }) =>
-                `px-3 py-2 rounded-lg text-sm ${
-                  isActive ? 'bg-white/25 text-white' : 'text-white/90 hover:bg-white/15'
-                }`
-              }
-            >
-              Components
-            </NavLink>
-          </nav>
+          {/* Removed Home and Components links per requirement */}
+          <div />
 
           <button
             onClick={toggleTheme}
@@ -134,7 +113,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/components" element={<ComponentsListPage />} />
-          <Route path="/components/:id" element={<ComponentDetailPage />} />
+          <Route path="/components/:id" element={<ComponentsListPage />} />
         </Routes>
       </Layout>
     </BrowserRouter>

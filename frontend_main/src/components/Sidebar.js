@@ -4,11 +4,10 @@ import { Link, useLocation } from 'react-router-dom';
 /**
  * PUBLIC_INTERFACE
  * Sidebar: Persistent left sidebar (sticky on desktop, drawer on mobile) listing component sections and items.
- * - Container uses navbar gradient for background
- * - Accessible accordion with independent per-group toggles (multi-open)
- * - Independent scroll area with overflow-y-auto
- * - Refined hover/focus visuals without borders on items
- * - Keyboard accessible: buttons with aria-expanded/controls and unique IDs
+ * - Uses navbar gradient background for both desktop and mobile
+ * - Section headers styled per reference with uppercase label and chevron
+ * - Items have tighter spacing, subtle hover overlays, and clear focus states
+ * - None open by default; multiple groups can be open; independent scroll
  */
 export default function Sidebar({ isOpen, onClose }) {
   const location = useLocation();
@@ -18,44 +17,24 @@ export default function Sidebar({ isOpen, onClose }) {
     setActivePath(location.pathname + location.search);
   }, [location]);
 
-  // Group data per requirements
-  const sections = useMemo(() => ([
-    {
-      title: 'Getting Started',
-      items: ['Introduction', 'Installation', 'Quick Start', 'Theming', 'Dark Mode'],
-    },
-    {
-      title: 'Layout & Content',
-      items: ['Grid', 'Container', 'Section', 'Card', 'Typography', 'Lists', 'Media'],
-    },
-    {
-      title: 'Base Components',
-      items: ['Buttons', 'Badges', 'Avatars', 'Alerts', 'Tags', 'Chips', 'Tooltips'],
-    },
-    {
-      title: 'Navigations',
-      items: ['Navbar', 'Sidebar', 'Tabs', 'Breadcrumbs', 'Pagination', 'Steps'],
-    },
-    {
-      title: 'Basic Forms',
-      items: ['Inputs', 'Select', 'Checkbox', 'Radio', 'Text Area', 'Switch'],
-    },
-    {
-      title: 'Advanced Forms',
-      items: ['Date Picker', 'File Upload', 'Range Slider', 'Autocomplete', 'Validation'],
-    },
-    {
-      title: 'Tables',
-      items: ['Simple Table', 'Sortable Table', 'Data Table', 'Pagination', 'Filtering'],
-    },
-  ]), []);
+  const sections = useMemo(
+    () => [
+      { title: 'Getting Started', items: ['Introduction', 'Installation', 'Quick Start', 'Theming', 'Dark Mode'] },
+      { title: 'Layout & Content', items: ['Grid', 'Container', 'Section', 'Card', 'Typography', 'Lists', 'Media'] },
+      { title: 'Base Components', items: ['Buttons', 'Badges', 'Avatars', 'Alerts', 'Tags', 'Chips', 'Tooltips'] },
+      { title: 'Navigations', items: ['Navbar', 'Sidebar', 'Tabs', 'Breadcrumbs', 'Pagination', 'Steps'] },
+      { title: 'Basic Forms', items: ['Inputs', 'Select', 'Checkbox', 'Radio', 'Text Area', 'Switch'] },
+      { title: 'Advanced Forms', items: ['Date Picker', 'File Upload', 'Range Slider', 'Autocomplete', 'Validation'] },
+      { title: 'Tables', items: ['Simple Table', 'Sortable Table', 'Data Table', 'Pagination', 'Filtering'] },
+    ],
+    []
+  );
 
   const linkFor = (section, item) =>
     `/components?section=${encodeURIComponent(section)}&item=${encodeURIComponent(item)}`;
 
   // Accordion open state (multi-open). Start with none open by default.
   const [openGroups, setOpenGroups] = useState(() => new Set());
-
   const toggleGroup = (title) => {
     setOpenGroups((prev) => {
       const next = new Set(prev);
@@ -65,63 +44,50 @@ export default function Sidebar({ isOpen, onClose }) {
     });
   };
 
-  // Accessibility: close drawer on Escape when open (desktop unaffected)
+  // Close drawer on Escape
   useEffect(() => {
     if (!isOpen) return;
-    const handler = (e) => {
-      if (e.key === 'Escape') onClose?.();
-    };
+    const handler = (e) => e.key === 'Escape' && onClose?.();
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
   }, [isOpen, onClose]);
 
-  const headerHeight = 72; // approximate sticky header height in px
-  const desktopTopOffset = headerHeight; // matches lg:top-[72px] used below
+  const desktopTopOffset = 72;
 
   const renderAccordion = () => (
-    <nav
-      aria-label="Component sections"
-      role="navigation"
-      className="h-full flex flex-col"
-    >
-      {/* Static area (non-scrolling) */}
+    <nav aria-label="Component sections" role="navigation" className="h-full flex flex-col">
+      {/* Fixed header area */}
       <div className="px-4 pt-4 pb-3 shrink-0">
         <Link
           to="/"
           className="inline-flex items-center gap-2 px-3 py-2 rounded-lg text-white bg-white/10 hover:bg-white/15 shadow-sm hover:shadow transition-colors-transform hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
         >
-          <span className="text-lg">🏠</span>
+          <span className="text-lg" aria-hidden="true">🏠</span>
           <span className="text-sm font-medium">Home</span>
         </Link>
       </div>
 
-      {/* Scrollable content */}
+      {/* Scrollable groups */}
       <div
         className="min-h-0 grow overflow-y-auto pb-8"
-        style={{ maxHeight: `calc(100vh - ${desktopTopOffset + 16}px)` }} // safe cap on desktop
+        style={{ maxHeight: `calc(100vh - ${desktopTopOffset + 16}px)` }}
       >
         <ul className="px-2 space-y-2" role="list">
           {sections.map((section, idx) => {
             const sectionId = `accordion-section-${idx}`;
             const panelId = `accordion-panel-${idx}`;
             const open = openGroups.has(section.title);
-
             return (
               <li key={section.title} className="rounded-lg">
-                {/* Group header with distinct typography and subtle overlay */}
                 <h3 className="px-1">
                   <button
                     id={sectionId}
                     type="button"
                     className={
-                      // Typography: uppercase, semibold, tracking; no borders
                       'w-full flex items-center justify-between gap-2 px-3 py-2 rounded-md text-[0.82rem] tracking-wide ' +
                       'text-white/90 font-semibold uppercase ' +
-                      // Visuals: subtle bg/overlay on hover/focus, tiny movement
                       'bg-white/0 hover:bg-white/10 focus:bg-white/10 ' +
-                      'shadow-[inset_0_0_0_0_rgba(255,255,255,0)] hover:shadow-[inset_0_0_0_9999px_rgba(255,255,255,0.02)] ' +
                       'transition-colors-transform hover:translate-x-[1px] ' +
-                      // Accessibility
                       'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70'
                     }
                     aria-expanded={open}
@@ -130,10 +96,7 @@ export default function Sidebar({ isOpen, onClose }) {
                   >
                     <span className="text-[0.78rem] sm:text-[0.8rem]">{section.title}</span>
                     <span
-                      className={
-                        'inline-block transform transition-transform opacity-90 ' +
-                        (open ? 'rotate-90' : 'rotate-0')
-                      }
+                      className={'inline-block transform transition-transform opacity-90 ' + (open ? 'rotate-90' : 'rotate-0')}
                       aria-hidden="true"
                     >
                       ▶
@@ -141,7 +104,6 @@ export default function Sidebar({ isOpen, onClose }) {
                   </button>
                 </h3>
 
-                {/* Group separator (translucent), no hard borders on items */}
                 <div className="mt-1 px-1">
                   <div className="h-px bg-white/10" aria-hidden="true" />
                 </div>
@@ -150,10 +112,7 @@ export default function Sidebar({ isOpen, onClose }) {
                   id={panelId}
                   role="region"
                   aria-labelledby={sectionId}
-                  className={
-                    'overflow-hidden transition-all ' +
-                    (open ? 'max-h-[1200px] opacity-100 mt-2' : 'max-h-0 opacity-0')
-                  }
+                  className={'overflow-hidden transition-all ' + (open ? 'max-h-[1200px] opacity-100 mt-2' : 'max-h-0 opacity-0')}
                 >
                   <ul role="list" className="space-y-1">
                     {section.items.map((item) => {
@@ -164,9 +123,7 @@ export default function Sidebar({ isOpen, onClose }) {
                           <Link
                             to={to}
                             className={
-                              // Subitems: smaller, regular weight; no borders
-                              'group flex items-center gap-2 px-3 py-1.5 rounded-md text-[0.88rem] font-normal ' +
-                              'transition-colors-transform ' +
+                              'group flex items-center gap-2 px-3 py-1.5 rounded-md text-[0.88rem] font-normal transition-colors-transform ' +
                               (isActive
                                 ? 'bg-white/20 text-white shadow'
                                 : 'text-white/90 hover:text-white hover:bg-white/10 hover:shadow-sm') +
@@ -176,10 +133,7 @@ export default function Sidebar({ isOpen, onClose }) {
                             aria-current={isActive ? 'page' : undefined}
                           >
                             <span
-                              className={
-                                'inline-block w-1.5 h-1.5 rounded-full shrink-0 ' +
-                                (isActive ? 'bg-white' : 'bg-white/70 group-hover:bg-white')
-                              }
+                              className={'inline-block w-1.5 h-1.5 rounded-full shrink-0 ' + (isActive ? 'bg-white' : 'bg-white/70 group-hover:bg-white')}
                               aria-hidden="true"
                             />
                             <span className="truncate">{item}</span>
@@ -197,39 +151,28 @@ export default function Sidebar({ isOpen, onClose }) {
     </nav>
   );
 
-  // Desktop: sticky sidebar
-  // Mobile: slide-in drawer
   return (
     <>
-      {/* Desktop sidebar */}
+      {/* Desktop sidebar with navbar gradient and subtle inner overlay for readability */}
       <aside
         className="hidden lg:block lg:sticky lg:top-[72px] self-start w-72 min-w-72 h-[calc(100vh-88px)] rounded-r-xl text-white bg-navbar-gradient shadow-soft"
         aria-hidden={false}
       >
-        {renderAccordion()}
+        <div className="h-full navbar-overlay">{renderAccordion()}</div>
       </aside>
 
-      {/* Mobile drawer */}
+      {/* Mobile drawer with backdrop */}
       <div
-        className={
-          'fixed inset-0 z-50 lg:hidden transition ' +
-          (isOpen ? 'opacity-100' : 'pointer-events-none opacity-0')
-        }
+        className={'fixed inset-0 z-50 lg:hidden transition ' + (isOpen ? 'opacity-100' : 'pointer-events-none opacity-0')}
         aria-hidden={!isOpen}
       >
-        {/* Backdrop */}
         <div
-          className={
-            'absolute inset-0 bg-black/40 transition-opacity ' +
-            (isOpen ? 'opacity-100' : 'opacity-0')
-          }
+          className={'absolute inset-0 bg-black/40 transition-opacity ' + (isOpen ? 'opacity-100' : 'opacity-0')}
           onClick={onClose}
         />
-        {/* Panel */}
         <div
           className={
-            'absolute top-0 left-0 h-full w-80 max-w-[85%] bg-navbar-gradient text-white shadow-2xl ' +
-            'transform transition-transform ' +
+            'absolute top-0 left-0 h-full w-80 max-w-[85%] bg-navbar-gradient text-white shadow-2xl transform transition-transform ' +
             (isOpen ? 'translate-x-0' : '-translate-x-full')
           }
           role="dialog"
@@ -249,7 +192,7 @@ export default function Sidebar({ isOpen, onClose }) {
               ✕
             </button>
           </div>
-          <div className="h-full">{renderAccordion()}</div>
+          <div className="h-full navbar-overlay">{renderAccordion()}</div>
         </div>
       </div>
     </>

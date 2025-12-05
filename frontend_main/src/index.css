@@ -43,6 +43,12 @@ body {
   @apply backdrop-blur supports-[backdrop-filter]:bg-white/10;
 }
 
+/* Focus-visible helper to ensure clear keyboard outlines throughout */
+:focus-visible {
+  outline: none;
+}
+
+/* Card and common components */
 .card {
   @apply bg-surface dark:bg-neutral-900 border border-gray-200/60 dark:border-white/10 rounded-xl shadow-soft;
 }

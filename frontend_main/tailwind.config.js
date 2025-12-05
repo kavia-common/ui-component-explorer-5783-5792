@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: 'class',
+  // Ensure CRA scans JS/JSX under src for class usage
   content: ["./src/**/*.{js,jsx}"],
   theme: {
     extend: {

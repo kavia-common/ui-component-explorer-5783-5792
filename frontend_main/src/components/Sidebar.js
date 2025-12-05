@@ -5,7 +5,7 @@ import { Link, useLocation } from 'react-router-dom';
  * PUBLIC_INTERFACE
  * Sidebar: Persistent left sidebar (sticky on desktop, drawer on mobile) listing component sections and items.
  * - Container uses navbar gradient for background
- * - Accessible accordion with single-open policy
+ * - Accessible accordion with independent per-group toggles (multi-open)
  * - Independent scroll area with overflow-y-auto
  * - Subtle border/shadow/scale hover/focus for items
  * - Keyboard accessible: buttons with aria-expanded/controls and unique IDs
@@ -53,24 +53,22 @@ export default function Sidebar({ isOpen, onClose }) {
   const linkFor = (section, item) =>
     `/components?section=${encodeURIComponent(section)}&item=${encodeURIComponent(item)}`;
 
-  // Determine default open group (first or inferred from activePath)
-  const inferredGroup = useMemo(() => {
-    try {
-      const url = new URL(activePath, window.location.origin);
-      const group = url.searchParams.get('section');
-      if (group && sections.find(s => s.title === group)) return group;
-    } catch {
-      // ignore
-    }
-    return sections[0]?.title || null;
-  }, [activePath, sections]);
+  // Accordion open state (multi-open). Start with none open by default.
+  const [openGroups, setOpenGroups] = useState(() => new Set());
 
-  const [activeGroup, setActiveGroup] = useState(inferredGroup);
-  useEffect(() => {
-    setActiveGroup(inferredGroup);
-  }, [inferredGroup]);
+  // Preserve open state during navigation: do not auto-close on route change.
+  // We only update activePath for highlighting links above.
 
-  // Accessibility: close on Escape when drawer is open
+  const toggleGroup = (title) => {
+    setOpenGroups((prev) => {
+      const next = new Set(prev);
+      if (next.has(title)) next.delete(title);
+      else next.add(title);
+      return next;
+    });
+  };
+
+  // Accessibility: close drawer on Escape when open (desktop unaffected)
   useEffect(() => {
     if (!isOpen) return;
     const handler = (e) => {
@@ -109,7 +107,7 @@ export default function Sidebar({ isOpen, onClose }) {
           {sections.map((section, idx) => {
             const sectionId = `accordion-section-${idx}`;
             const panelId = `accordion-panel-${idx}`;
-            const open = activeGroup === section.title;
+            const open = openGroups.has(section.title);
 
             return (
               <li key={section.title} className="rounded-lg">
@@ -124,8 +122,7 @@ export default function Sidebar({ isOpen, onClose }) {
                     }
                     aria-expanded={open}
                     aria-controls={panelId}
-                    onClick={() => setActiveGroup(prev => (prev === section.title ? section.title : section.title))}
-                    // single-open policy: clicking any header sets that group active
+                    onClick={() => toggleGroup(section.title)}
                   >
                     <span className="font-medium">{section.title}</span>
                     <span

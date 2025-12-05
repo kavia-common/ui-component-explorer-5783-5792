@@ -48,6 +48,12 @@ body {
   outline: none;
 }
 
+/* Optional utility for consistent soft ring on gradients */
+.focus-soft:focus-visible {
+  /* Slightly toned ring to ensure contrast on gradient backgrounds */
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.7);
+}
+
 /* Card and common components */
 .card {
   @apply bg-surface dark:bg-neutral-900 border border-gray-200/60 dark:border-white/10 rounded-xl shadow-soft;

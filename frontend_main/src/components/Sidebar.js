@@ -7,7 +7,7 @@ import { Link, useLocation } from 'react-router-dom';
  * - Container uses navbar gradient for background
  * - Accessible accordion with independent per-group toggles (multi-open)
  * - Independent scroll area with overflow-y-auto
- * - Subtle border/shadow/scale hover/focus for items
+ * - Refined hover/focus visuals without borders on items
  * - Keyboard accessible: buttons with aria-expanded/controls and unique IDs
  */
 export default function Sidebar({ isOpen, onClose }) {
@@ -56,9 +56,6 @@ export default function Sidebar({ isOpen, onClose }) {
   // Accordion open state (multi-open). Start with none open by default.
   const [openGroups, setOpenGroups] = useState(() => new Set());
 
-  // Preserve open state during navigation: do not auto-close on route change.
-  // We only update activePath for highlighting links above.
-
   const toggleGroup = (title) => {
     setOpenGroups((prev) => {
       const next = new Set(prev);
@@ -91,7 +88,7 @@ export default function Sidebar({ isOpen, onClose }) {
       <div className="px-4 pt-4 pb-3 shrink-0">
         <Link
           to="/"
-          className="inline-flex items-center gap-2 px-3 py-2 rounded-lg text-white border border-white/15 hover:border-white/25 shadow-sm hover:shadow transition-colors-transform hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+          className="inline-flex items-center gap-2 px-3 py-2 rounded-lg text-white bg-white/10 hover:bg-white/15 shadow-sm hover:shadow transition-colors-transform hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
         >
           <span className="text-lg">🏠</span>
           <span className="text-sm font-medium">Home</span>
@@ -103,7 +100,7 @@ export default function Sidebar({ isOpen, onClose }) {
         className="min-h-0 grow overflow-y-auto pb-8"
         style={{ maxHeight: `calc(100vh - ${desktopTopOffset + 16}px)` }} // safe cap on desktop
       >
-        <ul className="space-y-3 px-2" role="list">
+        <ul className="px-2 space-y-2" role="list">
           {sections.map((section, idx) => {
             const sectionId = `accordion-section-${idx}`;
             const panelId = `accordion-panel-${idx}`;
@@ -111,23 +108,31 @@ export default function Sidebar({ isOpen, onClose }) {
 
             return (
               <li key={section.title} className="rounded-lg">
+                {/* Group header with distinct typography and subtle overlay */}
                 <h3 className="px-1">
                   <button
                     id={sectionId}
                     type="button"
                     className={
-                      'w-full flex items-center justify-between gap-2 px-3 py-2 rounded-md text-sm text-white/95 ' +
-                      'border border-white/10 hover:border-white/20 shadow-sm hover:shadow transition-colors-transform ' +
+                      // Typography: uppercase, semibold, tracking; no borders
+                      'w-full flex items-center justify-between gap-2 px-3 py-2 rounded-md text-[0.82rem] tracking-wide ' +
+                      'text-white/90 font-semibold uppercase ' +
+                      // Visuals: subtle bg/overlay on hover/focus, tiny movement
+                      'bg-white/0 hover:bg-white/10 focus:bg-white/10 ' +
+                      'shadow-[inset_0_0_0_0_rgba(255,255,255,0)] hover:shadow-[inset_0_0_0_9999px_rgba(255,255,255,0.02)] ' +
+                      'transition-colors-transform hover:translate-x-[1px] ' +
+                      // Accessibility
                       'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70'
                     }
                     aria-expanded={open}
                     aria-controls={panelId}
                     onClick={() => toggleGroup(section.title)}
                   >
-                    <span className="font-medium">{section.title}</span>
+                    <span className="text-[0.78rem] sm:text-[0.8rem]">{section.title}</span>
                     <span
                       className={
-                        'inline-block transform transition-transform ' + (open ? 'rotate-90' : 'rotate-0')
+                        'inline-block transform transition-transform opacity-90 ' +
+                        (open ? 'rotate-90' : 'rotate-0')
                       }
                       aria-hidden="true"
                     >
@@ -135,6 +140,11 @@ export default function Sidebar({ isOpen, onClose }) {
                     </span>
                   </button>
                 </h3>
+
+                {/* Group separator (translucent), no hard borders on items */}
+                <div className="mt-1 px-1">
+                  <div className="h-px bg-white/10" aria-hidden="true" />
+                </div>
 
                 <div
                   id={panelId}
@@ -154,17 +164,20 @@ export default function Sidebar({ isOpen, onClose }) {
                           <Link
                             to={to}
                             className={
-                              'group flex items-center gap-2 px-3 py-2 rounded-md text-sm transition-colors-transform ' +
-                              'border ' +
+                              // Subitems: smaller, regular weight; no borders
+                              'group flex items-center gap-2 px-3 py-1.5 rounded-md text-[0.88rem] font-normal ' +
+                              'transition-colors-transform ' +
                               (isActive
-                                ? 'bg-white/20 text-white border-white/20 shadow'
-                                : 'text-white/90 hover:text-white hover:bg-white/10 border-white/10 hover:border-white/20 hover:shadow') +
-                              ' hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70'
+                                ? 'bg-white/20 text-white shadow'
+                                : 'text-white/90 hover:text-white hover:bg-white/10 hover:shadow-sm') +
+                              ' hover:translate-x-[1px] hover:scale-[1.005] ' +
+                              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70'
                             }
+                            aria-current={isActive ? 'page' : undefined}
                           >
                             <span
                               className={
-                                'inline-block w-1.5 h-1.5 rounded-full ' +
+                                'inline-block w-1.5 h-1.5 rounded-full shrink-0 ' +
                                 (isActive ? 'bg-white' : 'bg-white/70 group-hover:bg-white')
                               }
                               aria-hidden="true"
@@ -223,10 +236,10 @@ export default function Sidebar({ isOpen, onClose }) {
           aria-modal="true"
           aria-label="Sidebar"
         >
-          <div className="flex items-center justify-between px-4 py-3 border-b border-white/20">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-lg bg-white/30" />
-              <span className="font-medium">Components</span>
+              <span className="font-semibold uppercase tracking-wide text-sm">Components</span>
             </div>
             <button
               onClick={onClose}

@@ -99,7 +99,7 @@ function Header({ theme, toggleTheme, onOpenSidebar }) {
 function Layout({ children, theme, toggleTheme }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   return (
-    <div className="min-h-screen flex flex-col bg-app-gradient dark:bg-neutral-950 transition-colors">
+    <div className="min-h-screen flex flex-col bg-white dark:bg-neutral-950 transition-colors">
       <Header
         theme={theme}
         toggleTheme={toggleTheme}
@@ -115,7 +115,7 @@ function Layout({ children, theme, toggleTheme }) {
           </div>
         </div>
       </div>
-      <footer className="mt-auto border-t border-gray-200/60 dark:border-white/10 py-6 text-center text-sm text-gray-700 dark:text-gray-300">
+      <footer className="mt-auto border-t border-gray-200/60 dark:border-white/10 py-6 text-center text-sm text-gray-700 dark:text-gray-300 bg-white dark:bg-neutral-950">
         Built with React & Tailwind • Ocean Professional
       </footer>
     </div>

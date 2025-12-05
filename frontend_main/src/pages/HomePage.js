@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
  */
 export default function HomePage() {
   return (
-    <div className="bg-background">
+    <div className="bg-white dark:bg-neutral-950">
       {/* Breadcrumb */}
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-6" aria-label="Breadcrumb">
         <ol role="list" className="flex items-center gap-2 text-sm text-slate-600">

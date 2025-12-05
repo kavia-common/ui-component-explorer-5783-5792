@@ -19,23 +19,25 @@ export default function HomePage() {
         </ol>
       </nav>
 
-      {/* Minimal content linking to components */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
-        <div className="rounded-xl border border-gray-200 bg-white shadow-sm p-6 sm:p-8">
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">
-            UI Component Explorer
-          </h1>
-          <p className="mt-2 text-sm sm:text-base leading-6 text-slate-600">
-            Browse ready-to-use React + Tailwind components with live previews and copyable code.
-          </p>
-          <div className="mt-5">
-            <Link
-              to="/components?item=Installation"
-              className="inline-flex items-center justify-center rounded-lg bg-main-gradient px-4 py-2 text-sm font-semibold text-white shadow-sm focus:outline-none focus:ring-2 focus-ring-main-gradient"
-              aria-label="Browse components"
-            >
-              Browse Components
-            </Link>
+      {/* Hero section with 87° app gradient background */}
+      <section className="w-full bg-app-87">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
+          <div className="rounded-xl border border-white/30 bg-white/30 backdrop-blur-[2px] shadow-sm p-6 sm:p-8">
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-brand-45">
+              UI Component Explorer
+            </h1>
+            <p className="mt-2 text-sm sm:text-base leading-6 text-slate-700">
+              Browse ready-to-use React + Tailwind components with live previews and copyable code.
+            </p>
+            <div className="mt-5">
+              <Link
+                to="/components?item=Installation"
+                className="btn-brand-45"
+                aria-label="Browse components"
+              >
+                Browse Components
+              </Link>
+            </div>
           </div>
         </div>
       </section>

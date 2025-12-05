@@ -37,38 +37,41 @@ export function useTheme() {
 // Header/Navbar with gradient background (brand + theme toggle only)
 function Header({ theme, toggleTheme, onOpenSidebar }) {
   return (
-    <header className="sticky top-0 z-40 border-b border-black/10">
-      <div className="bg-navbar-gradient navbar-overlay">
-        <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between text-white">
-          <div className="flex items-center gap-3">
-            <button
-              className="lg:hidden inline-flex items-center justify-center w-9 h-9 rounded-lg hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/60"
-              onClick={onOpenSidebar}
-              aria-label="Open sidebar"
-            >
-              ☰
-            </button>
-            <Link to="/" className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-white/30 shadow-soft" />
-              <div className="flex flex-col">
-                <span className="font-semibold">UI Component Explorer</span>
-                <span className="text-xs text-white/80">Ocean Professional</span>
-              </div>
-            </Link>
-          </div>
-
-          {/* Removed Home and Components links per requirement */}
-          <div />
-
+    <header
+      className="sticky top-0 z-40 bg-navbar-gradient navbar-overlay shadow-sm"
+      role="banner"
+      aria-label="Primary"
+    >
+      {/* Full-width flex, no outer margins/padding pushing inward */}
+      <div className="w-full flex items-center justify-between text-white px-3 sm:px-4 py-3 sm:py-3.5">
+        <div className="flex items-center gap-3">
           <button
-            onClick={toggleTheme}
-            className="inline-flex items-center justify-center px-3 py-2 rounded-lg text-white hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/70"
-            aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-            title="Toggle theme"
+            className="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/70"
+            onClick={onOpenSidebar}
+            aria-label="Open sidebar"
           >
-            {theme === 'light' ? '🌙' : '☀️'}
+            ☰
           </button>
+          <Link to="/" className="flex items-center gap-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 rounded-lg">
+            <div className="w-10 h-10 rounded-xl bg-white/30 shadow-soft" />
+            <div className="flex flex-col leading-tight">
+              <span className="font-semibold tracking-tight">UI Component Explorer</span>
+              <span className="text-[11px] text-white/80">Ocean Professional</span>
+            </div>
+          </Link>
         </div>
+
+        {/* Spacer to keep full-width layout without inner nav items */}
+        <div aria-hidden="true" />
+
+        <button
+          onClick={toggleTheme}
+          className="inline-flex items-center justify-center h-10 px-3 rounded-lg text-white font-medium hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/70"
+          aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+          title="Toggle theme"
+        >
+          {theme === 'light' ? '🌙' : '☀️'}
+        </button>
       </div>
     </header>
   );

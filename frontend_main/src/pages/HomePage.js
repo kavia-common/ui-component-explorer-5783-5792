@@ -3,12 +3,14 @@ import { Link } from 'react-router-dom';
 
 /**
  * PUBLIC_INTERFACE
- * HomePage: Simplified landing that links to Components; promotional hero/cards removed.
+ * HomePage: Welcome hero refined to match screenshot styling (container, headline/subheadline, CTAs, badges).
+ * - Preserves existing navbar/sidebar layout and avoids left outer gaps.
+ * - Uses semantic headings and accessible CTA labels.
  */
 export default function HomePage() {
   return (
     <div className="bg-white dark:bg-neutral-950">
-      {/* Breadcrumb */}
+      {/* Breadcrumb (kept subtle) */}
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-6" aria-label="Breadcrumb">
         <ol role="list" className="breadcrumbs flex items-center gap-2">
           <li>
@@ -19,36 +21,44 @@ export default function HomePage() {
         </ol>
       </nav>
 
-      {/* Hero section with 87° app gradient background */}
-      <section className="w-full bg-app-87">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
-          {/* Polished hero: subtle glass surface, divider, and action panel */}
-          <div className="rounded-xl border border-white/30 bg-white/40 backdrop-blur-[2px] shadow-sm p-6 sm:p-8">
-            <div className="flex flex-col md:grid md:grid-cols-[1fr,auto] md:items-center md:gap-8">
-              {/* Left: title + description */}
+      {/* Hero: white surface card on canvas, matching screenshot hierarchy */}
+      <section className="w-full">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+          {/* Surface hero card */}
+          <div className="card p-6 sm:p-7 lg:p-8 relative overflow-hidden">
+            {/* Two-column layout at md+, stacked on small screens */}
+            <div className="grid md:grid-cols-[7fr,5fr] md:items-center gap-5 sm:gap-6 md:gap-8">
+              {/* Left column: Eyebrow badge, Title, Description */}
               <div>
                 <span
                   aria-label="Welcome"
-                  className="inline-flex px-2.5 py-1 rounded-full text-xs font-semibold tracking-wide bg-white/70 text-slate-700 border border-white/60"
+                  className="inline-flex items-center px-2.5 py-1 rounded-full text-[12px] font-semibold tracking-wide"
+                  style={{
+                    backgroundColor: '#EEE7FF',
+                    color: '#5B3ABF',
+                  }}
                 >
                   Welcome
                 </span>
-                <h1 className="mt-3 text-2xl sm:text-3xl font-bold tracking-tight text-brand-45">
-                  UI Component Explorer
+
+                <h1 className="mt-3 text-[28px] sm:text-[30px] font-bold leading-tight text-slate-900">
+                  Build faster with ready-to-use UI components
                 </h1>
-                <p className="mt-2 text-sm sm:text-base leading-6 text-slate-700">
-                  Browse ready-to-use React + Tailwind components with live previews and copyable code.
+
+                <p className="mt-2.5 text-[15px] text-slate-600">
+                  Explore a curated library of React + Tailwind components with live previews,
+                  copyable code, and a modern, accessible design system.
                 </p>
               </div>
 
-              {/* Right: action panel with subtle surface and separator on mobile */}
-              <div className="mt-5 md:mt-0">
-                <div className="md:border md:border-white/50 md:bg-white/60 md:backdrop-blur-sm md:rounded-lg md:p-2">
+              {/* Right column: Action group inside light panel */}
+              <div className="mt-4 md:mt-0 md:pl-6 md:border-l md:border-gray-200">
+                <div className="rounded-lg border border-gray-200 bg-slate-50 p-2.5">
                   <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
                     <Link
                       to="/components?item=Installation"
-                      className="btn-brand-45"
-                      aria-label="Browse components"
+                      className="btn-primary"
+                      aria-label="Browse components (primary action)"
                     >
                       Browse Components
                     </Link>
@@ -57,31 +67,31 @@ export default function HomePage() {
                       className="btn-link"
                       aria-label="View all components"
                     >
-                      View all
+                      Popular Categories
                     </Link>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Subtle divider and meta row */}
-            <div className="mt-6 pt-6 border-t border-white/60 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-slate-700/80">
-              <div className="inline-flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" aria-hidden="true" />
-                Live previews
-              </div>
-              <div className="inline-flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" aria-hidden="true" />
-                Copyable code
-              </div>
-              <div className="inline-flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-amber-500" aria-hidden="true" />
-                Light/Dark mode
-              </div>
+            {/* Meta row under content */}
+            <div className="mt-6 pt-6 border-t border-gray-200 flex flex-wrap items-center gap-x-6 gap-y-2 text-[12.5px] text-slate-600">
+              <MetaDot colorClass="bg-emerald-500">Live previews</MetaDot>
+              <MetaDot colorClass="bg-indigo-500">Copyable code</MetaDot>
+              <MetaDot colorClass="bg-amber-500">Light/Dark mode</MetaDot>
             </div>
           </div>
         </div>
       </section>
+    </div>
+  );
+}
+
+function MetaDot({ colorClass, children }) {
+  return (
+    <div className="inline-flex items-center gap-1.5">
+      <span className={`w-1.5 h-1.5 rounded-full ${colorClass}`} aria-hidden="true" />
+      <span>{children}</span>
     </div>
   );
 }

@@ -102,7 +102,7 @@ small, .text-xs { font-size: 0.75rem; }
   background: linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%);
   -webkit-background-clip: text;
   background-clip: text;
-  color: transparent;
+  color: transparent; /* text-transparent */
 }
 
 /* Button using brand gradient with accessible focus ring and state styles */
@@ -123,7 +123,7 @@ small, .text-xs { font-size: 0.75rem; }
 }
 .btn-brand-45:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(110,86,207,0.35);
+  box-shadow: 0 0 0 3px rgba(110,86,207,0.35), 0 1px 2px rgba(16,24,40,0.06);
 }
 
 /* Focus-visible helper: accessible ring color on white canvas */

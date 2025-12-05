@@ -8,6 +8,9 @@ import { Link } from 'react-router-dom';
  * - Uses semantic headings and accessible CTA labels.
  */
 export default function HomePage() {
+  // Header height ~72px; layout main has top/bottom padding which we keep.
+  // Ensure hero section fits nicely in viewport height remaining next to sidebar, centered vertically.
+  // We avoid left gaps; container respects existing layout paddings.
   return (
     <div className="bg-white dark:bg-neutral-950">
       {/* Breadcrumb (kept subtle) */}
@@ -21,11 +24,19 @@ export default function HomePage() {
         </ol>
       </nav>
 
-      {/* Hero: white surface card on canvas, matching screenshot hierarchy */}
+      {/* Hero: center within remaining viewport height; preserve white canvas and layout rhythm */}
       <section className="w-full">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <div
+          className="
+            mx-auto max-w-7xl px-4 sm:px-6 lg:px-8
+            pt-6 sm:pt-8
+            min-h-[calc(100vh-72px-96px)]
+            flex items-center
+          "
+          aria-label="Welcome hero"
+        >
           {/* Surface hero card */}
-          <div className="card p-6 sm:p-7 lg:p-8 relative overflow-hidden">
+          <div className="card p-6 sm:p-7 lg:p-8 relative overflow-hidden w-full">
             {/* Two-column layout at md+, stacked on small screens */}
             <div className="grid md:grid-cols-[7fr,5fr] md:items-center gap-5 sm:gap-6 md:gap-8">
               {/* Left column: Eyebrow badge, Title, Description */}
@@ -41,7 +52,7 @@ export default function HomePage() {
                   Welcome
                 </span>
 
-                <h1 className="mt-3 text-[28px] sm:text-[30px] font-bold leading-tight text-slate-900">
+                <h1 className="mt-3 text-[28px] sm:text-[30px] font-bold leading-tight text-brand-45">
                   Build faster with ready-to-use UI components
                 </h1>
 
@@ -57,17 +68,10 @@ export default function HomePage() {
                   <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
                     <Link
                       to="/components?item=Installation"
-                      className="btn-primary"
-                      aria-label="Browse components (primary action)"
+                      className="btn-brand-45"
+                      aria-label="Getting Started"
                     >
-                      Browse Components
-                    </Link>
-                    <Link
-                      to="/components"
-                      className="btn-link"
-                      aria-label="View all components"
-                    >
-                      Popular Categories
+                      Getting Started
                     </Link>
                   </div>
                 </div>

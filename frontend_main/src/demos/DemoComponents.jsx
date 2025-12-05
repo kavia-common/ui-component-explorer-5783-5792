@@ -7,7 +7,7 @@
  import React from 'react';
  
  // Shared style tokens for demos (Tailwind-only for Playground)
- const primaryBtn = 'inline-flex items-center justify-center font-semibold text-white rounded-lg px-3 py-2 bg-[linear-gradient(45deg,_#af2497_10%,_#902d9a_20%,_#1840a0_100%)] hover:brightness-[.98] shadow-[0_6px_12px_rgba(16,24,40,0.10)] hover:-translate-y-px active:translate-y-0 transition-[filter,transform,box-shadow,background-color] duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70';
+ const primaryBtn = 'inline-flex items-center justify-center font-semibold text-white rounded-lg px-3 py-2 bg-gradient-to-r from-indigo-600 via-violet-600 to-blue-700 hover:opacity-95 shadow-md hover:-translate-y-px active:translate-y-0 transition duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500';
  const secondaryBtn = 'px-3 py-2 rounded-lg border text-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60';
  const inputField = 'w-full px-3 py-2 rounded-lg border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60';
  

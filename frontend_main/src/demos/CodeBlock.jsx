@@ -122,10 +122,13 @@ export default function CodeBlock({ code, language = 'javascript', title = 'Code
             className="inline-flex items-center gap-1 h-9 px-3 rounded-lg text-sm text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-white/10 bg-white hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60"
             aria-label={copied ? 'Code copied' : 'Copy code to clipboard'}
             title={copied ? 'Copied' : 'Copy code'}
-            style={{
-              backgroundImage: copied ? 'linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%)' : undefined,
-              color: copied ? '#fff' : undefined
-            }}
+            style={undefined}
+            className={
+              "inline-flex items-center gap-1 h-9 px-3 rounded-lg text-sm border border-gray-200 dark:border-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60 " +
+              (copied
+                ? "text-white bg-gradient-to-r from-indigo-600 via-violet-600 to-blue-700"
+                : "text-gray-700 dark:text-gray-200 bg-white hover:bg-gray-50")
+            }
           >
             {copied ? 'Copied ✓' : 'Copy'}
           </button>

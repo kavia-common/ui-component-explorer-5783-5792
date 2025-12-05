@@ -43,7 +43,7 @@ export const demoRegistry = {
   <h4 class="font-semibold">Card Title</h4>
   <p class="text-sm text-gray-600 mt-1">Card content...</p>
   <div class="mt-3">
-    <button class="inline-flex items-center justify-center font-semibold text-white rounded-lg px-3 py-2 bg-[linear-gradient(45deg,_#af2497_10%,_#902d9a_20%,_#1840a0_100%)] hover:brightness-[.98] shadow-[0_6px_12px_rgba(16,24,40,0.10)] transition-[filter,transform,box-shadow,background-color] duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70">Action</button>
+    <button class="inline-flex items-center justify-center font-semibold text-white rounded-lg px-3 py-2 bg-gradient-to-r from-indigo-600 via-violet-600 to-blue-700 hover:opacity-95 shadow-md transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">Action</button>
   </div>
 </div>`,
     js: `// No JS required — card is static.`,
@@ -78,10 +78,10 @@ export const demoRegistry = {
   'Buttons': {
     componentKey: 'ButtonsDemo',
     html: `<div class="flex flex-wrap gap-2">
-  <button class="inline-flex items-center justify-center font-semibold text-white rounded-lg px-3 py-2 bg-[linear-gradient(45deg,_#af2497_10%,_#902d9a_20%,_#1840a0_100%)] hover:brightness-[.98] text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70">Primary</button>
-  <button class="px-3 py-2 rounded-lg border text-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60">Secondary</button>
-  <button class="px-3 py-2 rounded-lg bg-amber-500 text-white text-sm hover:bg-amber-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60">Warning</button>
-  <button class="px-3 py-2 rounded-lg bg-red-500 text-white text-sm hover:bg-red-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60">Danger</button>
+  <button class="inline-flex items-center justify-center font-semibold text-white rounded-lg px-3 py-2 bg-gradient-to-r from-indigo-600 via-violet-600 to-blue-700 hover:opacity-95 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">Primary</button>
+  <button class="px-3 py-2 rounded-lg border text-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">Secondary</button>
+  <button class="px-3 py-2 rounded-lg bg-amber-500 text-white text-sm hover:bg-amber-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">Warning</button>
+  <button class="px-3 py-2 rounded-lg bg-red-500 text-white text-sm hover:bg-red-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">Danger</button>
 </div>`,
     js: `// No JS required — buttons without behavior are presentational.`,
   },

@@ -220,6 +220,12 @@ input.input{
   max-width: var(--maxw-content);
 }
 
+/* Prevent unintended outer gutters on layout wrappers */
+.no-left-gutter {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+}
+
 /* Code preview surfaces */
 .code-surface {
   background-color: #F8FAFC; /* slate-50-ish */

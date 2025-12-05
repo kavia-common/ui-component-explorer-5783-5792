@@ -77,7 +77,7 @@ function Header({ theme, toggleTheme, onOpenSidebar }) {
   );
 }
 
-// Layout with persistent sidebar
+// Layout with persistent sidebar - no left gap, content flush to sidebar
 function Layout({ children, theme, toggleTheme }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   return (
@@ -87,14 +87,16 @@ function Layout({ children, theme, toggleTheme }) {
         toggleTheme={toggleTheme}
         onOpenSidebar={() => setDrawerOpen(true)}
       />
+      {/* Two-column layout: fixed sidebar width + fluid content, no outer gutters */}
       <div className="w-full">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex gap-6 lg:gap-8">
-            <Sidebar isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />
-            <main className="flex-1 py-8 sm:py-10 lg:py-12 container-prose">
+        <div className="grid grid-cols-[240px,1fr] lg:grid-cols-[240px,1fr] gap-0">
+          <Sidebar isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />
+          {/* Content column spans full remaining width; internal padding only */}
+          <main className="min-w-0 py-8 sm:py-10 lg:py-12 px-4 sm:px-6 lg:px-8">
+            <div className="container-prose">
               {children}
-            </main>
-          </div>
+            </div>
+          </main>
         </div>
       </div>
       <footer className="mt-auto border-t border-gray-200/60 dark:border-white/10 py-6 text-center text-sm text-gray-700 dark:text-gray-300 bg-white dark:bg-neutral-950">

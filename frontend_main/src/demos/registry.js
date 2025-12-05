@@ -4,11 +4,15 @@ export const demoRegistry = {
     componentKey: 'Introduction',
     html: `<!-- Introduction: no interactive UI - see documentation -->`,
     js: `// No JS required for this item.`,
+    dependencies: [],
+    dependencyNotes: '',
   },
   'Installation': {
     componentKey: 'Installation',
     html: `<!-- Installation: follow steps in Components > Installation -->`,
     js: `// No JS required for this item.`,
+    dependencies: [],
+    dependencyNotes: '',
   },
 
   // Layout & Content (presentational only)
@@ -23,11 +27,15 @@ export const demoRegistry = {
   <div class="h-16 rounded-lg border bg-white flex items-center justify-center text-sm text-gray-500">Box 6</div>
 </div>`,
     js: `// No JS required — purely presentational grid.`,
+    dependencies: [],
+    dependencyNotes: '',
   },
   'Container': {
     componentKey: 'ContainerDemo',
     html: `<div class="max-w-4xl mx-auto px-4">Responsive container</div>`,
     js: `// No JS required — purely presentational container.`,
+    dependencies: [],
+    dependencyNotes: '',
   },
   'Section': {
     componentKey: 'SectionDemo',
@@ -36,6 +44,8 @@ export const demoRegistry = {
   <div class="px-4 text-sm text-gray-600">Content...</div>
 </section>`,
     js: `// No JS required — purely presentational section.`,
+    dependencies: [],
+    dependencyNotes: '',
   },
   'Card': {
     componentKey: 'CardDemo',
@@ -47,6 +57,8 @@ export const demoRegistry = {
   </div>
 </div>`,
     js: `// No JS required — card is static.`,
+    dependencies: [],
+    dependencyNotes: '',
   },
   'Typography': {
     componentKey: 'TypographyDemo',
@@ -56,6 +68,8 @@ export const demoRegistry = {
   <p class="text-sm text-gray-700">Body text</p>
 </div>`,
     js: `// No JS required — text styles only.`,
+    dependencies: [],
+    dependencyNotes: '',
   },
   'Lists': {
     componentKey: 'ListsDemo',
@@ -64,6 +78,8 @@ export const demoRegistry = {
   <li>Second</li>
 </ul>`,
     js: `// No JS required — static list.`,
+    dependencies: [],
+    dependencyNotes: '',
   },
   'Media': {
     componentKey: 'MediaDemo',
@@ -72,6 +88,8 @@ export const demoRegistry = {
   <figcaption class="p-2 text-xs text-gray-600">Sample image</figcaption>
 </figure>`,
     js: `// No JS required — static media figure.`,
+    dependencies: [],
+    dependencyNotes: '',
   },
 
   // Base Components
@@ -84,6 +102,8 @@ export const demoRegistry = {
   <button class="px-3 py-2 rounded-lg bg-red-500 text-white text-sm hover:bg-red-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">Danger</button>
 </div>`,
     js: `// No JS required — buttons without behavior are presentational.`,
+    dependencies: [],
+    dependencyNotes: '',
   },
   'Badges': {
     componentKey: 'BadgesDemo',
@@ -92,6 +112,8 @@ export const demoRegistry = {
   <span class="inline-flex px-2 py-0.5 rounded bg-green-100 text-green-700 text-xs">Success</span>
 </div>`,
     js: `// No JS required — static badges.`,
+    dependencies: [],
+    dependencyNotes: '',
   },
   'Avatars': {
     componentKey: 'AvatarsDemo',
@@ -103,11 +125,15 @@ export const demoRegistry = {
   </div>
 </div>`,
     js: `// No JS required — static avatar.`,
+    dependencies: [],
+    dependencyNotes: '',
   },
   'Alerts': {
     componentKey: 'AlertsDemo',
     html: `<div role="alert" class="rounded-lg border border-blue-200 bg-blue-50 text-blue-800 p-3 text-sm">Info alert</div>`,
     js: `// No JS required — static alert.`,
+    dependencies: [],
+    dependencyNotes: '',
   },
   'Tags': {
     componentKey: 'TagsDemo',
@@ -116,6 +142,8 @@ export const demoRegistry = {
   <span class="inline-flex items-center px-2 py-0.5 rounded-full border text-xs">UI</span>
 </div>`,
     js: `// No JS required — static tags.`,
+    dependencies: [],
+    dependencyNotes: '',
   },
   'Chips': {
     componentKey: 'ChipsDemo',
@@ -134,6 +162,8 @@ document.querySelectorAll('[data-chip]').forEach(btn=>{
     if (x) btn.remove();
   });
 });`,
+    dependencies: [],
+    dependencyNotes: '',
   },
   'Tooltips': {
     componentKey: 'TooltipsDemo',
@@ -152,6 +182,8 @@ if (trigger && tip) {
   trigger.addEventListener('focus', show);
   trigger.addEventListener('blur', hide);
 }`,
+    dependencies: [],
+    dependencyNotes: '',
   },
 
   // Navigations
@@ -165,6 +197,8 @@ if (trigger && tip) {
   </div>
 </nav>`,
     js: `// No JS required — static navbar.`,
+    dependencies: [],
+    dependencyNotes: '',
   },
   'Sidebar': {
     componentKey: 'SidebarDemo',
@@ -173,6 +207,8 @@ if (trigger && tip) {
   <a class="block rounded px-2 py-1 text-sm hover:bg-gray-50" href="#b">Item B</a>
 </aside>`,
     js: `// No JS required — static sidebar.`,
+    dependencies: [],
+    dependencyNotes: '',
   },
   'Tabs': {
     componentKey: 'TabsDemo',
@@ -209,6 +245,8 @@ document.querySelectorAll('[data-tabs]').forEach(root=>{
     b.addEventListener('click', ()=> activate(b.getAttribute('data-tab')));
   });
 });`,
+    dependencies: [],
+    dependencyNotes: '',
   },
   'Breadcrumbs': {
     componentKey: 'BreadcrumbsDemo',
@@ -220,6 +258,8 @@ document.querySelectorAll('[data-tabs]').forEach(root=>{
   </ol>
 </nav>`,
     js: `// No JS required.`,
+    dependencies: [],
+    dependencyNotes: '',
   },
   'Pagination': {
     componentKey: 'PaginationDemo',
@@ -254,6 +294,8 @@ if (span && prev && next){
   </li>
 </ol>`,
     js: `// No JS required — static steps.`,
+    dependencies: [],
+    dependencyNotes: '',
   },
 
   // Basic Forms
@@ -321,6 +363,8 @@ if (cb && out){
   <div class="text-xs text-gray-500">Selected is reflected by native checked state.</div>
 </div>`,
     js: `// No extra JS required — native radio behavior.`,
+    dependencies: [],
+    dependencyNotes: '',
   },
   'Text Area': {
     componentKey: 'TextAreaDemo',
@@ -329,6 +373,8 @@ if (cb && out){
   <textarea class="w-full px-3 py-2 rounded-lg border" rows="3" placeholder="Type..."></textarea>
 </div>`,
     js: `// No JS required.`,
+    dependencies: [],
+    dependencyNotes: '',
   },
   'Switch': {
     componentKey: 'SwitchDemo',
@@ -460,6 +506,8 @@ if (i && err){
   </tbody>
 </table>`,
     js: `// No JS required — static table.`,
+    dependencies: [],
+    dependencyNotes: '',
   },
   'Sortable Table': {
     componentKey: 'SortableTableDemo',
@@ -527,9 +575,20 @@ document.querySelectorAll('[data-datatable]').forEach(root=>{
     componentKey: 'TableFilteringDemo',
     html: `<!-- See Data Table example with filter input above -->`,
     js: `// See Data Table example for filtering approach.`,
+    dependencies: [],
+    dependencyNotes: '',
   },
 };
 
 export function getDemoForItem(itemName) {
-  return demoRegistry[itemName] || null;
+  const entry = demoRegistry[itemName] || null;
+  if (!entry) return null;
+  // Normalize optional fields for downstream rendering safety
+  return {
+    dependencies: [],
+    dependencyNotes: '',
+    ...entry,
+    dependencies: Array.isArray(entry.dependencies) ? entry.dependencies : [],
+    dependencyNotes: typeof entry.dependencyNotes === 'string' ? entry.dependencyNotes : '',
+  };
 }

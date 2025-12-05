@@ -362,6 +362,8 @@ npm run build`}
           </div>
         </div>
 
+        <DependenciesCallout entry={entry} />
+
         {view === 'Preview' ? (
           <div
             id="item-view-panel-preview"
@@ -400,6 +402,103 @@ npm run build`}
       <Breadcrumbs />
       {renderSelected()}
     </div>
+  );
+}
+
+// Small callout panel that shows dependency requirements and install commands.
+// Styled with white background, subtle border/shadow, and brand-accent heading.
+function DependenciesCallout({ entry }) {
+  const deps = entry?.dependencies || [];
+  const note = entry?.dependencyNotes || '';
+  const [copied, setCopied] = useState('');
+  if (!Array.isArray(deps)) return null;
+
+  const npmCmd = deps.length ? `npm install ${deps.join(' ')}` : 'npm install';
+  const yarnCmd = deps.length ? `yarn add ${deps.join(' ')}` : 'yarn add';
+  const pnpmCmd = deps.length ? `pnpm add ${deps.join(' ')}` : 'pnpm add';
+
+  const copy = async (text, key) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(key);
+      setTimeout(() => setCopied(''), 1400);
+    } catch {
+      // no-op
+    }
+  };
+
+  return (
+    <section aria-labelledby="deps-title" className="bg-white border border-gray-200 rounded-xl shadow-sm">
+      <div className="px-4 py-3 border-b border-gray-200 flex items-center justify-between">
+        <h3 id="deps-title" className="text-sm font-semibold text-gray-900 flex items-center gap-2">
+          <span className="inline-block w-2 h-2 rounded-full bg-brand-45" aria-hidden="true"></span>
+          {deps.length > 0 ? 'Requirements' : 'Dependencies'}
+        </h3>
+        {deps.length === 0 && (
+          <span className="text-xs text-gray-500">No additional libraries required</span>
+        )}
+      </div>
+
+      {deps.length > 0 ? (
+        <div className="p-4 space-y-3">
+          <div className="text-sm text-gray-700">
+            This component relies on:
+            <ul className="list-disc pl-5 mt-1">
+              {deps.map((d) => (
+                <li key={d}>
+                  <code className="mono text-xs bg-slate-100 px-1.5 py-0.5 rounded border">{d}</code>
+                </li>
+              ))}
+            </ul>
+            {note ? <p className="mt-2 text-xs text-gray-600">{note}</p> : null}
+          </div>
+
+          <div className="grid sm:grid-cols-3 gap-3">
+            <div className="space-y-1">
+              <div className="text-xs font-medium text-gray-600">npm</div>
+              <div className="flex items-center gap-2">
+                <code className="mono text-[12px] bg-slate-50 border border-gray-200 rounded px-2 py-1 overflow-x-auto">{npmCmd}</code>
+                <button
+                  onClick={() => copy(npmCmd, 'npm')}
+                  className="inline-flex items-center gap-1 h-8 px-2.5 rounded-lg text-xs text-gray-700 border border-gray-200 bg-white hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60"
+                  aria-label="Copy npm command"
+                >
+                  {copied === 'npm' ? 'Copied ✓' : 'Copy'}
+                </button>
+              </div>
+            </div>
+
+            <div className="space-y-1">
+              <div className="text-xs font-medium text-gray-600">yarn</div>
+              <div className="flex items-center gap-2">
+                <code className="mono text-[12px] bg-slate-50 border border-gray-200 rounded px-2 py-1 overflow-x-auto">{yarnCmd}</code>
+                <button
+                  onClick={() => copy(yarnCmd, 'yarn')}
+                  className="inline-flex items-center gap-1 h-8 px-2.5 rounded-lg text-xs text-gray-700 border border-gray-200 bg-white hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60"
+                  aria-label="Copy yarn command"
+                >
+                  {copied === 'yarn' ? 'Copied ✓' : 'Copy'}
+                </button>
+              </div>
+            </div>
+
+            <div className="space-y-1">
+              <div className="text-xs font-medium text-gray-600">pnpm</div>
+              <div className="flex items-center gap-2">
+                <code className="mono text-[12px] bg-slate-50 border border-gray-200 rounded px-2 py-1 overflow-x-auto">{pnpmCmd}</code>
+                <button
+                  onClick={() => copy(pnpmCmd, 'pnpm')}
+                  className="inline-flex items-center gap-1 h-8 px-2.5 rounded-lg text-xs text-gray-700 border border-gray-200 bg-white hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60"
+                  aria-label="Copy pnpm command"
+                >
+                  {copied === 'pnpm' ? 'Copied ✓' : 'Copy'}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : null}
+    </section>
   );
 }
 

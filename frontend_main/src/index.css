@@ -74,9 +74,10 @@ small, .text-xs { font-size: 0.75rem; }
 .navbar-overlay{ @apply backdrop-blur supports-[backdrop-filter]:bg-white/10; }
 
 /* Gradient utilities per design directives */
-/* Full-surface hero background at 87deg */
-.bg-app-87 {
-  background: linear-gradient(87deg, #95bff0 20%, #ac7de9 80%);
+/* Full-surface hero background at 87deg, semi-transparent so white shows through */
+.bg-app-87,
+.bg-app-87-soft {
+  background: linear-gradient(87deg, rgba(149,191,240,0.5) 20%, rgba(172,125,233,0.5) 80%);
 }
 
 /* Optional subtle hero overlay if needed */

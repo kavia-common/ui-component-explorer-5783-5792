@@ -9,16 +9,14 @@ import {
   SimpleTableDemo, SortableTableDemo, DataTableDemo, TableFilteringDemo
 } from '../demos/DemoComponents';
 import CodeBlock from '../demos/CodeBlock';
+import { CodeTabs, TabToggle } from '../demos/PreviewCodeToggle';
 import { getDemoForItem } from '../demos/registry';
 
 // PUBLIC_INTERFACE
 export default function ComponentsListPage() {
   /**
-   * Components view (single-item mode):
-   * - Reads selected item from /components/:id or /components?item=...
-   * - Renders only that item (preview + code).
-   * - If no item, shows a minimal prompt.
-   * - Breadcrumbs reflect current selection.
+   * Components view (single-item mode) with Preview/Code toggle and HTML/JS sub-tabs in Code view.
+   * Breadcrumbs preserved; selection via /components/:id or ?item=...
    */
   const { id: routeId } = useParams();
   const [searchParams] = useSearchParams();
@@ -31,17 +29,6 @@ export default function ComponentsListPage() {
     if (routeId) return decodeRouteItem(routeId);
     return qp || '';
   }, [routeId, searchParams]);
-
-  // Sidebar structure (mirrors Sidebar: Getting Started only has Installation)
-  const sidebarStructure = useMemo(() => ([
-    { title: 'Getting Started', items: ['Installation'] },
-    { title: 'Layout & Content', items: ['Grid','Container','Section','Card','Typography','Lists','Media'] },
-    { title: 'Base Components', items: ['Buttons','Badges','Avatars','Alerts','Tags','Chips','Tooltips'] },
-    { title: 'Navigations', items: ['Navbar','Sidebar','Tabs','Breadcrumbs','Pagination','Steps'] },
-    { title: 'Basic Forms', items: ['Inputs','Select','Checkbox','Radio','Text Area','Switch'] },
-    { title: 'Advanced Forms', items: ['Date Picker','File Upload','Range Slider','Autocomplete','Validation'] },
-    { title: 'Tables', items: ['Simple Table','Sortable Table','Data Table','Pagination','Filtering'] },
-  ]), []);
 
   // Map item name -> Demo component
   const componentMap = {
@@ -189,10 +176,12 @@ export default function App() {
             {copied ? 'Copied ✓' : 'Copy'}
           </button>
         </div>
-        <CodeBlock code={code} />
+        <CodeBlock code={code} language="javascript" title="Shell/JS" />
       </div>
     );
   }
+
+  const [view, setView] = useState('Preview');
 
   // Render the selected item or prompt
   const renderSelected = () => {
@@ -214,9 +203,9 @@ export default function App() {
     }
 
     const Comp = componentMap[selectedItem];
-    const code = codeFor(selectedItem);
+    const entry = getDemoForItem(selectedItem);
 
-    if (!Comp) {
+    if (!Comp || !entry) {
       return <div className="text-sm text-gray-500">No preview available for "{selectedItem}".</div>;
     }
 
@@ -224,27 +213,48 @@ export default function App() {
       <article className="space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-bold text-gray-900 dark:text-white tracking-tight">{selectedItem}</h2>
-          <button
-            className="btn-ghost"
-            onClick={() => {
-              // Normalize to query route when coming from /components/:id
-              if (location.pathname.startsWith('/components/')) {
-                navigate(`/components?item=${encodeURIComponent(selectedItem)}`, { replace: true });
-              }
-            }}
-            title="Use query route"
+          <div className="flex items-center gap-3">
+            <TabToggle value={view} onChange={setView} idBase="item-view" />
+            <button
+              className="btn-ghost"
+              onClick={() => {
+                if (location.pathname.startsWith('/components/')) {
+                  navigate(`/components?item=${encodeURIComponent(selectedItem)}`, { replace: true });
+                }
+              }}
+              title="Use query route"
+            >
+              Use query route
+            </button>
+          </div>
+        </div>
+
+        {view === 'Preview' ? (
+          <div
+            id="item-view-panel-preview"
+            role="tabpanel"
+            aria-labelledby="item-view-tab-preview"
+            className="flex items-center justify-start min-h-[140px] rounded-lg border border-gray-200 dark:border-white/10 bg-white dark:bg-neutral-900 px-5 py-6"
           >
-            Use query route
-          </button>
-        </div>
-
-        <div className="flex items-center justify-start min-h-[140px] rounded-lg border border-gray-200 dark:border-white/10 bg-white dark:bg-neutral-900 px-5 py-6">
-          <Comp />
-        </div>
-
-        <div className="mt-2">
-          <CodeBlock code={code} />
-        </div>
+            <Comp />
+          </div>
+        ) : (
+          <div
+            id="item-view-panel-code"
+            role="tabpanel"
+            aria-labelledby="item-view-tab-code"
+            className="space-y-2"
+          >
+            <CodeTabs
+              html={entry.html || '<!-- No HTML available -->'}
+              js={entry.js || '// No JS available'}
+              renderBlock={({ code, language, title }) => (
+                <CodeBlock code={code} language={language} title={title} />
+              )}
+              idBase="item-code-tabs"
+            />
+          </div>
+        )}
       </article>
     );
   };
@@ -261,9 +271,4 @@ function decodeRouteItem(routeId) {
   // Convert "simple-table" to "Simple Table" etc.
   const words = String(routeId).split('-').filter(Boolean).map(w => w.charAt(0).toUpperCase() + w.slice(1));
   return words.join(' ');
-}
-
-function codeFor(name) {
-  const entry = getDemoForItem(name);
-  return entry?.code || '// No code available';
 }

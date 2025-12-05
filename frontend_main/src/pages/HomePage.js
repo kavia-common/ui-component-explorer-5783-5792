@@ -28,6 +28,7 @@ export default function HomePage() {
       <section className="w-full">
         <div
           className="
+            relative
             mx-auto max-w-7xl px-4 sm:px-6 lg:px-8
             pt-6 sm:pt-8
             min-h-[calc(100vh-72px-96px)]
@@ -35,6 +36,8 @@ export default function HomePage() {
           "
           aria-label="Welcome hero"
         >
+          {/* Background gradient layer - semi-transparent at 87deg */}
+          <div className="absolute inset-0 -z-10 bg-app-87-soft" aria-hidden="true" />
           {/* Surface hero card */}
           <div className="card p-6 sm:p-7 lg:p-8 relative overflow-hidden w-full">
             {/* Two-column layout at md+, stacked on small screens */}

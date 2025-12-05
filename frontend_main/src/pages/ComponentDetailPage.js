@@ -82,8 +82,11 @@ export default function ComponentDetailPage() {
       </div>
 
       <div className="mt-8 grid lg:grid-cols-2 gap-6">
-        <div className="card p-6 flex items-center justify-center min-h-[220px]">
-          <PreviewRenderer preview={item.preview} />
+        <div className="preview-surface p-6 flex items-center justify-center min-h-[220px]">
+          <div className="preview-accent-bar" aria-hidden="true"></div>
+          <div className="pt-4">
+            <PreviewRenderer preview={item.preview} />
+          </div>
         </div>
 
         <div className="card">
@@ -93,7 +96,7 @@ export default function ComponentDetailPage() {
               <TabButton active={tab==='usage'} onClick={() => setTab('usage')}>Usage</TabButton>
             </div>
             <div className="relative">
-              <button onClick={copy} className="btn-ghost" aria-live="polite">
+              <button onClick={copy} className="inline-flex items-center gap-1 h-9 px-3 rounded-lg text-sm text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-white/10 bg-white hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60" aria-live="polite">
                 {copied ? 'Copied ✓' : 'Copy'}
               </button>
               {copied && (

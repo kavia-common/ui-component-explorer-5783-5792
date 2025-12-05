@@ -55,33 +55,39 @@ export default function CodeBlock({ code, language = 'javascript', title = 'Code
         <span className="text-sm font-medium text-gray-700 dark:text-gray-200">{title}</span>
         <button
           onClick={onCopy}
-          className="btn-ghost focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60"
+          className="inline-flex items-center gap-1 h-9 px-3 rounded-lg text-sm text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-white/10 bg-white hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60"
           aria-live="polite"
           aria-label="Copy code to clipboard"
           title="Copy code"
+          style={{
+            backgroundImage: copied ? 'linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%)' : undefined,
+            color: copied ? '#fff' : undefined
+          }}
         >
           {copied ? 'Copied ✓' : 'Copy'}
         </button>
       </div>
 
-      <div className="overflow-auto code-surface">
-        <SyntaxHighlighter
-          language={langKey}
-          style={style}
-          customStyle={{
-            margin: 0,
-            borderRadius: '10px',
-            fontSize: '0.875rem',
-            padding: '12px 14px',
-            background: isDark ? undefined : '#F8FAFC',
-            fontFamily:
-              'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
-          }}
-          wrapLongLines
-          showLineNumbers={false}
-        >
-          {code}
-        </SyntaxHighlighter>
+      <div className="overflow-auto">
+        <div className="code-surface">
+          <SyntaxHighlighter
+            language={langKey}
+            style={style}
+            customStyle={{
+              margin: 0,
+              borderRadius: '10px',
+              fontSize: '0.875rem',
+              padding: '14px 16px',
+              background: isDark ? undefined : '#F8FAFC',
+              fontFamily:
+                'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+            }}
+            wrapLongLines
+            showLineNumbers={false}
+          >
+            {code}
+          </SyntaxHighlighter>
+        </div>
       </div>
     </div>
   );

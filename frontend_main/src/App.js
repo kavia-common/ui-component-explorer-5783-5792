@@ -81,7 +81,7 @@ function Header({ theme, toggleTheme, onOpenSidebar }) {
 function Layout({ children, theme, toggleTheme }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   return (
-    <div className="min-h-screen flex flex-col bg-white dark:bg-neutral-950 transition-colors">
+    <div className="min-h-screen flex flex-col bg-white dark:bg-neutral-950 transition-colors relative z-[1]">
       <Header
         theme={theme}
         toggleTheme={toggleTheme}

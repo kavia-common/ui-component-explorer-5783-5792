@@ -172,7 +172,7 @@ export default function App() {
       <div className="space-y-2">
         <div className="flex items-center justify-between">
           <h3 className="text-sm font-semibold text-gray-900 dark:text-white">{title}</h3>
-          <button onClick={onCopy} className="btn-ghost" aria-live="polite">
+          <button onClick={onCopy} className="inline-flex items-center gap-1 h-9 px-3 rounded-lg text-sm text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-white/10 bg-white hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60" aria-live="polite">
             {copied ? 'Copied ✓' : 'Copy'}
           </button>
         </div>
@@ -187,8 +187,11 @@ export default function App() {
   const renderSelected = () => {
     if (!selectedItem) {
       return (
-        <div className="p-6 border rounded-lg bg-white dark:bg-neutral-900 text-sm text-gray-700 dark:text-gray-200">
-          Select an item from the sidebar to view its preview and code.
+        <div className="p-6 preview-surface">
+          <div className="preview-accent-bar" aria-hidden="true"></div>
+          <div className="px-2 pt-3 pb-1 text-sm text-gray-700">
+            Select an item from the sidebar to view its preview and code.
+          </div>
         </div>
       );
     }
@@ -196,7 +199,7 @@ export default function App() {
     if (selectedItem === 'Installation') {
       return (
         <article className="space-y-4">
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white tracking-tight">Installation</h2>
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white tracking-tight">{selectedItem}</h2>
           <InstallationContent />
         </article>
       );
@@ -212,7 +215,10 @@ export default function App() {
     return (
       <article className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white tracking-tight">{selectedItem}</h2>
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white tracking-tight flex items-center gap-2">
+            <span className="preview-accent-dot" aria-hidden="true"></span>
+            {selectedItem}
+          </h2>
           <div className="flex items-center gap-3">
             <TabToggle value={view} onChange={setView} idBase="item-view" />
           </div>
@@ -223,9 +229,12 @@ export default function App() {
             id="item-view-panel-preview"
             role="tabpanel"
             aria-labelledby="item-view-tab-preview"
-            className="flex items-center justify-start min-h-[140px] rounded-lg border border-gray-200 dark:border-white/10 bg-white dark:bg-neutral-900 px-5 py-6"
+            className="preview-surface px-5 py-6"
           >
-            <Comp />
+            <div className="preview-accent-bar" aria-hidden="true"></div>
+            <div className="pt-4">
+              <Comp />
+            </div>
           </div>
         ) : (
           <div

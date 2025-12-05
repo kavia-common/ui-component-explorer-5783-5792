@@ -259,3 +259,40 @@ input.input{
 .mono {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
+
+/* Subtle decorative background for large screens only (keeps white-first) */
+@media (min-width: 1024px) {
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background:
+      radial-gradient(600px 300px at -10% 10%, rgba(147,197,253,0.08), rgba(147,197,253,0) 60%),
+      radial-gradient(600px 300px at 110% -10%, rgba(196,181,253,0.08), rgba(196,181,253,0) 55%);
+  }
+}
+
+/* Preview wrapper polish (used across demos) */
+.preview-surface {
+  background: var(--surface);
+  border: 1px solid color-mix(in srgb, var(--border) 88%, var(--accent) 12%);
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(16,24,40,0.04);
+  transition: box-shadow .15s ease, transform .15s ease, border-color .2s ease;
+}
+.preview-surface:hover {
+  box-shadow: 0 8px 18px -8px rgba(16,24,40,0.18);
+  transform: translateY(-1px);
+}
+.preview-accent-bar {
+  background: linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%);
+  height: 3px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+.preview-accent-dot {
+  width: 8px; height: 8px; border-radius: 999px;
+  background: linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%);
+}

@@ -23,11 +23,14 @@ export function TabToggle({ value, onChange, idBase = 'preview-code' }) {
             tabIndex={selected ? 0 : -1}
             onClick={() => onChange?.(t)}
             className={
-              'px-3 py-1.5 text-sm rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60 ' +
+              'px-3 py-1.5 text-sm rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60 transition-colors ' +
               (selected
-                ? 'bg-blue-600 text-white'
+                ? 'text-white'
                 : 'text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-white/5')
             }
+            style={{
+              background: selected ? 'linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%)' : undefined
+            }}
           >
             {t}
           </button>
@@ -63,11 +66,14 @@ export function CodeTabs({ html, js, renderBlock, idBase = 'code-tabs' }) {
                 tabIndex={selected ? 0 : -1}
                 onClick={() => setTab(t)}
                 className={
-                  'px-2.5 py-1.5 text-xs sm:text-sm rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60 ' +
+                  'px-2.5 py-1.5 text-xs sm:text-sm rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60 transition-colors ' +
                   (selected
-                    ? 'bg-blue-600 text-white'
+                    ? 'text-white'
                     : 'text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-white/5')
                 }
+                style={{
+                  background: selected ? 'linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%)' : undefined
+                }}
               >
                 {t}
               </button>

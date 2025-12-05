@@ -92,69 +92,207 @@ export default function ComponentsListPage() {
     </nav>
   );
 
-  // Installation content: concise CRA + Tailwind steps with copy buttons
+  // Installation content: CLI-first Tailwind setup with commands, configs, and troubleshooting
   const InstallationContent = () => (
     <div className="space-y-6">
       <p className="text-sm text-gray-700 dark:text-gray-200">
-        Set up a Create React App project with Tailwind CSS. This project already uses CRA + Tailwind.
+        Get identical styling by setting up Tailwind via the CLI or using your existing bundler (Vite/CRA/Next). This app already uses CRA + Tailwind, but the steps below work for any project.
       </p>
 
-      <Step
-        title="1) Install dependencies"
-        code={`# Using npm
-npx create-react-app my-app
-cd my-app
-npm install -D tailwindcss postcss autoprefixer
-npx tailwindcss init -p`}
-      />
+      <section aria-labelledby="cli-setup">
+        <h3 id="cli-setup" className="text-base font-semibold text-gray-900 dark:text-white">Option 1 — CLI-first (standalone or any framework)</h3>
+        <Step
+          title="1) Initialize project and install Tailwind"
+          code={`# Initialize (if needed)
+npm init -y
 
-      <Step
-        title="2) Configure tailwind.config.js"
-        code={`// tailwind.config.js
+# Install Tailwind + PostCSS + Autoprefixer
+npm install -D tailwindcss postcss autoprefixer
+
+# Create configs
+npx tailwindcss init -p`}
+        />
+        <Step
+          title="2) Tailwind config with correct content globs"
+          code={`// tailwind.config.js
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: 'class',
-  content: ['./src/**/*.{js,jsx}'],
-  theme: { extend: {} },
+  content: [
+    './*.html',
+    './snippets/**/*.{html,js}',
+    './src/**/*.{js,jsx,ts,tsx}'
+  ],
+  theme: {
+    extend: {
+      colors: {
+        primary: '#2563EB',
+        secondary: '#F59E0B',
+        error: '#EF4444'
+      },
+      boxShadow: {
+        soft: '0 10px 25px -10px rgba(0,0,0,0.15)'
+      }
+    }
+  },
   plugins: []
 };`}
-      />
-
-      <Step
-        title="3) Configure postcss.config.js"
-        code={`// postcss.config.js
+        />
+        <Step
+          title="3) PostCSS config"
+          code={`// postcss.config.js
 module.exports = {
   plugins: {
     tailwindcss: {},
     autoprefixer: {},
   },
 };`}
-      />
+        />
+        <Step
+          title="4) Create input CSS with Tailwind directives"
+          code={`/* input.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-      <Step
-        title="4) Import Tailwind directives in src/index.css"
-        code={`/* src/index.css */
+/* Optional: custom utilities used in snippets */
+.bg-navbar-gradient{ background: linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%); }
+.btn-brand-45{ display:inline-flex; align-items:center; justify-content:center; font-weight:600; color:white; border-radius:0.5rem; background: linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%); padding:0.625rem 1rem; }`}
+        />
+        <Step
+          title="5) Build CSS (watch or production)"
+          code={`# Dev watch
+npx tailwindcss -i ./input.css -o ./dist/output.css --watch
+
+# Production (purged/minified)
+NODE_ENV=production npx tailwindcss -i ./input.css -o ./dist/output.css --minify`}
+        />
+        <Step
+          title="6) Reference CSS and paste HTML/JS"
+          code={`<!-- index.html -->
+<link href="/dist/output.css" rel="stylesheet" />
+
+<!-- Paste snippet HTML -->
+<div class="p-6">
+  <button class="btn-brand-45">Action</button>
+</div>
+
+<!-- Paste snippet JS after HTML so elements exist -->
+<script>
+  document.querySelector('.btn-brand-45')?.addEventListener('click', () => alert('Clicked!'));
+</script>`}
+        />
+      </section>
+
+      <section aria-labelledby="bundler-setup">
+        <h3 id="bundler-setup" className="text-base font-semibold text-gray-900 dark:text-white">Option 2 — Bundler (Vite/CRA/Next)</h3>
+        <Step
+          title="1) Install and init"
+          code={`# Install Tailwind + PostCSS + Autoprefixer
+npm install -D tailwindcss postcss autoprefixer
+
+# Create configs
+npx tailwindcss init -p`}
+        />
+        <Step
+          title="2) tailwind.config.js (example)"
+          code={`// tailwind.config.js
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  darkMode: 'class',
+  content: [
+    './index.html',
+    './src/**/*.{js,jsx,ts,tsx}'
+  ],
+  theme: { extend: {} },
+  plugins: []
+};`}
+        />
+        <Step
+          title="3) postcss.config.js"
+          code={`// postcss.config.js
+module.exports = {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+};`}
+        />
+        <Step
+          title="4) Add Tailwind directives to your CSS entry"
+          code={`/* src/index.css (or styles/globals.css in Next) */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;`}
-      />
+        />
+        <Step
+          title="5) Import CSS in your app entry"
+          code={`// React (Vite/CRA)
+import './index.css';
 
-      <Step
-        title="5) Add Tailwind classes"
-        code={`// Example: src/App.js
-export default function App() {
+// Next.js: import in pages/_app.(js|tsx)
+import '../styles/globals.css';`}
+        />
+        <Step
+          title="6) Paste snippet HTML (JSX) + tiny JS"
+          code={`// Example React component
+import React, { useEffect, useRef } from 'react';
+import './index.css';
+
+export default function ExampleCard() {
+  const btnRef = useRef(null);
+  useEffect(() => {
+    const btn = btnRef.current;
+    if (!btn) return;
+    const onClick = () => console.log('Clicked!');
+    btn.addEventListener('click', onClick);
+    return () => btn.removeEventListener('click', onClick);
+  }, []);
+
   return (
-    <div className="p-6">
-      <button className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700">
-        Hello Tailwind
-      </button>
+    <div className="card p-4">
+      <button ref={btnRef} className="btn-brand-45">Action</button>
     </div>
   );
 }`}
-      />
+        />
+        <Step
+          title="7) Run or build"
+          code={`# Vite
+npm run dev
+npm run build
+
+# CRA
+npm start
+npm run build
+
+# Next
+npm run dev
+npm run build`}
+        />
+      </section>
+
+      <section aria-labelledby="troubleshooting">
+        <h3 id="troubleshooting" className="text-base font-semibold text-gray-900 dark:text-white">Troubleshooting checklist</h3>
+        <div className="space-y-2 text-sm text-gray-700 dark:text-gray-200">
+          <ul className="list-disc pl-5 space-y-1">
+            <li>Content globs include all folders where your snippets live (e.g., <code>./src/**/*.{`{`}js,jsx,ts,tsx{`}`}</code>, <code>./*.html</code>, <code>./snippets/**/*.{`{`}html,js{`}`}</code>).</li>
+            <li>CSS entry has Tailwind directives: <code>@tailwind base;</code> <code>@tailwind components;</code> <code>@tailwind utilities;</code>.</li>
+            <li>Built CSS is actually linked/imported (bundler import or <code>&lt;link href="/dist/output.css" rel="stylesheet" /&gt;</code>).</li>
+            <li>Arbitrary utilities (e.g., <code>bg-[linear-gradient(...)]</code> or <code>bg-[#123456]</code>) exist in files matched by your content globs.</li>
+            <li>For precise gradients/angles, use a small custom class (e.g., <code>.bg-navbar-gradient</code>) if arbitrary values are stripped by tooling.</li>
+            <li>Dark mode: set <code>darkMode: 'class'</code> and toggle <code>document.documentElement.classList.add('dark')</code> to enable <code>dark:</code> variants.</li>
+            <li>If styles work in dev but not prod, ensure <code>NODE_ENV=production</code> and verify content globs (purge may be removing classes).</li>
+            <li>Avoid scanning large/unrelated folders; never include <code>node_modules</code> in content globs.</li>
+          </ul>
+        </div>
+        <div className="text-xs text-gray-500 mt-2">
+          Tip: If spacing/colors look off, copy any custom utilities (like <code>.btn-brand-45</code>) used by the snippet into your CSS entry.
+        </div>
+      </section>
 
       <div className="text-xs text-gray-500">
-        Tip: For dark mode, toggle the "dark" class on document.documentElement.
+        For quick experiments without a build step, you can also use the Tailwind Play CDN in a standalone HTML file.
       </div>
     </div>
   );

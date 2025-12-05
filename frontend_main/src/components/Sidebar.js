@@ -84,8 +84,8 @@ export default function Sidebar({ isOpen, onClose }) {
                     id={sectionId}
                     type="button"
                     className={
-                      'w-full flex items-center justify-between gap-2 px-3 py-2 rounded-md text-[0.82rem] tracking-wide ' +
-                      'text-white/90 font-semibold uppercase ' +
+                      'w-full flex items-center justify-between gap-2 px-3 py-2 rounded-md text-[0.85rem] ' +
+                      'text-white/90 font-semibold uppercase tracking-wide ' +
                       'bg-white/0 hover:bg-white/10 focus:bg-white/10 ' +
                       'transition-colors-transform hover:translate-x-[1px] ' +
                       'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70'
@@ -94,10 +94,11 @@ export default function Sidebar({ isOpen, onClose }) {
                     aria-controls={panelId}
                     onClick={() => toggleGroup(section.title)}
                   >
-                    <span className="text-[0.78rem] sm:text-[0.8rem]">{section.title}</span>
+                    <span className="text-[0.85rem]">{section.title}</span>
                     <span
                       className={'inline-block transform transition-transform opacity-90 ' + (open ? 'rotate-90' : 'rotate-0')}
                       aria-hidden="true"
+                      style={{ fontSize: 12 }}
                     >
                       ▶
                     </span>
@@ -123,12 +124,11 @@ export default function Sidebar({ isOpen, onClose }) {
                           <Link
                             to={to}
                             className={
-                              'group flex items-center gap-2 px-3 py-1.5 rounded-md text-[0.88rem] font-normal transition-colors-transform ' +
+                              'group sidebar-item transition-colors-transform ' +
                               (isActive
-                                ? 'bg-white/20 text-white shadow'
-                                : 'text-white/90 hover:text-white hover:bg-white/10 hover:shadow-sm') +
-                              ' hover:translate-x-[1px] hover:scale-[1.005] ' +
-                              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70'
+                                ? 'sidebar-item--active'
+                                : '') +
+                              ' focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70'
                             }
                             aria-current={isActive ? 'page' : undefined}
                           >
@@ -155,7 +155,7 @@ export default function Sidebar({ isOpen, onClose }) {
     <>
       {/* Desktop sidebar with navbar gradient and subtle inner overlay for readability */}
       <aside
-        className="hidden lg:block lg:sticky lg:top-[72px] self-start w-72 min-w-72 h-[calc(100vh-88px)] rounded-r-xl text-white bg-navbar-gradient shadow-soft"
+        className="hidden lg:block lg:sticky lg:top-[72px] self-start w-[240px] min-w-[240px] h-[calc(100vh-88px)] rounded-r-xl text-white bg-navbar-gradient shadow-soft"
         aria-hidden={false}
       >
         <div className="h-full navbar-overlay">{renderAccordion()}</div>

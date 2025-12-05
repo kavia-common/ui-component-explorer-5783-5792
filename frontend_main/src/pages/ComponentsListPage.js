@@ -215,17 +215,6 @@ export default function App() {
           <h2 className="text-xl font-bold text-gray-900 dark:text-white tracking-tight">{selectedItem}</h2>
           <div className="flex items-center gap-3">
             <TabToggle value={view} onChange={setView} idBase="item-view" />
-            <button
-              className="btn-ghost"
-              onClick={() => {
-                if (location.pathname.startsWith('/components/')) {
-                  navigate(`/components?item=${encodeURIComponent(selectedItem)}`, { replace: true });
-                }
-              }}
-              title="Use query route"
-            >
-              Use query route
-            </button>
           </div>
         </div>
 

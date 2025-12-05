@@ -25,7 +25,7 @@ export function TabToggle({ value, onChange, idBase = 'preview-code' }) {
             className={
               'px-3 py-1.5 text-sm rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60 transition-colors ' +
               (selected
-                ? 'text-white bg-gradient-to-r from-indigo-600 via-violet-600 to-blue-700'
+                ? 'text-white bg-[linear-gradient(45deg,_#af2497_10%,_#902d9a_20%,_#1840a0_100%)]'
                 : 'text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-white/5')
             }
           >
@@ -65,7 +65,7 @@ export function CodeTabs({ html, js, renderBlock, idBase = 'code-tabs' }) {
                 className={
                   'px-2.5 py-1.5 text-xs sm:text-sm rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60 transition-colors ' +
                   (selected
-                    ? 'text-white bg-gradient-to-r from-indigo-600 via-violet-600 to-blue-700'
+                    ? 'text-white bg-[linear-gradient(45deg,_#af2497_10%,_#902d9a_20%,_#1840a0_100%)]'
                     : 'text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-white/5')
                 }
               >

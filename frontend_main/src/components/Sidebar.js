@@ -5,12 +5,9 @@ import catalog from '../data/catalog.json';
 
 /**
  * PUBLIC_INTERFACE
- * Sidebar renders a fixed catalog of sections and items per requirements.
- * - Keeps gradient/flush-left/scrollable behavior and styling.
- * - Local search filters visible items without affecting global filters.
- * - Links:
- *   - Category chips point to /components?category=...
- *   - Items link to catalog details (/catalog with inline detail) using anchors via state or fallback to /components search.
+ * Sidebar renders navigational sections and items.
+ * Note: Container (position, gradient, width, scroll) is controlled by the App shell.
+ * This component outputs only inner content with transparent background.
  */
 const Sidebar = () => {
   const location = useLocation();
@@ -85,31 +82,31 @@ const Sidebar = () => {
   const matchQuery = (text) => !query || String(text).toLowerCase().includes(query.toLowerCase());
 
   return (
-    <aside className="w-64 shrink-0 border-r border-gray-200 bg-white/80 backdrop-blur-sm">
-      <div className="p-4 border-b border-gray-100">
-        <h2 className="text-sm font-semibold text-gray-700 tracking-wide uppercase">Browse</h2>
+    <div className="text-white">
+      <div className="p-4 border-b border-white/15">
+        <h2 className="text-sm font-semibold tracking-wide uppercase">Browse</h2>
         <div className="mt-3">
           <input
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Quick filter..."
-            className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500"
+            className="w-full rounded-md border border-white/20 bg-white/10 text-white placeholder:text-white/60 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-white/40"
             aria-label="Quick filter menu items"
           />
         </div>
       </div>
 
-      <nav className="p-3 space-y-6 overflow-y-auto max-h-[calc(100vh-140px)]">
+      <nav className="p-3 space-y-6">
         <div>
           <Link
             to="/components"
             className={`flex items-center justify-between rounded-md px-3 py-2 text-sm transition-colors ${
-              isActiveComponentsRoot ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+              isActiveComponentsRoot ? 'bg-white/15 text-white' : 'text-white/90 hover:bg-white/10 hover:text-white'
             }`}
           >
             <span>All Components</span>
-            <span className="text-[10px] rounded bg-gray-100 px-1.5 py-0.5 text-gray-600">
+            <span className="text-[10px] rounded bg-white/15 px-1.5 py-0.5 text-white/90">
               {componentsData.length}
             </span>
           </Link>
@@ -123,7 +120,7 @@ const Sidebar = () => {
           const categoryChip = (
             <Link
               to={`/components?category=${encodeURIComponent(section.title)}`}
-              className="ml-auto text-[10px] rounded bg-gray-100 px-2 py-0.5 text-gray-600 hover:bg-gray-200"
+              className="ml-auto text-[10px] rounded bg-white/15 px-2 py-0.5 text-white/90 hover:bg-white/20"
               title={`View ${section.title} in list`}
             >
               {componentsCountByCategory[section.title] || 0}
@@ -133,7 +130,7 @@ const Sidebar = () => {
           return (
             <div key={section.title}>
               <div className="mb-2 flex items-center gap-2 px-3">
-                <h3 className="text-xs font-medium uppercase tracking-wide text-gray-500">{section.title}</h3>
+                <h3 className="text-xs font-medium uppercase tracking-wide text-white/80">{section.title}</h3>
                 {categoryChip}
               </div>
               <ul className="space-y-1">
@@ -149,7 +146,7 @@ const Sidebar = () => {
                       <Link
                         to={to}
                         state={inCatalog ? { selectId: it.id } : undefined}
-                        className="block rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+                        className="block rounded-md px-3 py-2 text-sm text-white/90 hover:bg-white/10 hover:text-white"
                         title={it.name}
                       >
                         {it.name}
@@ -162,7 +159,7 @@ const Sidebar = () => {
           );
         })}
       </nav>
-    </aside>
+    </div>
   );
 };
 

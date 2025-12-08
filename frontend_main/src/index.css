@@ -76,6 +76,8 @@ small, .text-xs { font-size: 0.75rem; }
 .bg-brand-45 {
   background: linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%);
 }
+/* Helper to remove any unintended left gap on shells if applied by 3rd-party styles */
+.layout-no-left-gap { margin-left: 0 !important; padding-left: 0 !important; }
 /* Slightly lighter overlay variation for hover/active states over the gradient */
 .bg-brand-45-soft { background: linear-gradient(45deg, rgba(175,36,151,0.9) 10%, rgba(144,45,154,0.9) 20%, rgba(24,64,160,0.9) 100%); }
 

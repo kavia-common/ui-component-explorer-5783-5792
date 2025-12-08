@@ -4,17 +4,13 @@ import { Link } from 'react-router-dom';
 /**
  * PUBLIC_INTERFACE
  * HomePage: Welcome hero refined to match screenshot styling (container, headline/subheadline, CTAs, badges).
- * - Preserves existing navbar/sidebar layout and avoids left outer gaps.
- * - Uses semantic headings and accessible CTA labels.
+ * - Preserves navbar/sidebar layout; main area scrolls independently.
  */
 export default function HomePage() {
-  // Header height ~72px; layout main has top/bottom padding which we keep.
-  // Ensure hero section fits nicely in viewport height remaining next to sidebar, centered vertically.
-  // We avoid left gaps; container respects existing layout paddings.
   return (
-    <div className="bg-white dark:bg-neutral-950">
+    <div className="bg-white">
       {/* Breadcrumb (kept subtle) */}
-      <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-6" aria-label="Breadcrumb">
+      <nav className="pt-2" aria-label="Breadcrumb">
         <ol role="list" className="breadcrumbs flex items-center gap-2">
           <li>
             <Link to="/" className="hover:underline">Home</Link>
@@ -24,14 +20,13 @@ export default function HomePage() {
         </ol>
       </nav>
 
-      {/* Hero: center within remaining viewport height; preserve white canvas and layout rhythm */}
+      {/* Hero */}
       <section className="w-full">
         <div
           className="
             relative
-            mx-auto max-w-7xl px-4 sm:px-6 lg:px-8
-            pt-6 sm:pt-8
-            min-h-[calc(100vh-72px-96px)]
+            pt-4
+            min-h-[420px]
             flex items-center
           "
           aria-label="Welcome hero"

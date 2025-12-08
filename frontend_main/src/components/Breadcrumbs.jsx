@@ -24,7 +24,6 @@ export default function Breadcrumbs({ componentsIndex = [] }) {
     '/catalog': 'Catalog',
     '/getting-started': 'Getting Started',
     '/getting-started/installation': 'Installation',
-    '/installation': 'Installation',
   };
 
   // Escape/sanitize plain text for rendering (e.g., names that include <hr>)

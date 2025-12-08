@@ -1,26 +1,19 @@
 import React from 'react';
 import CodeBlock from '../demos/CodeBlock';
-import Breadcrumbs from '../components/Breadcrumbs';
 
 /**
  * PUBLIC_INTERFACE
- * InstallationPage: Tailwind CSS setup guide so users can paste snippets and get identical rendering.
- * - Includes prerequisites; setup via PostCSS or Tailwind CLI; sample tailwind.config.js and postcss.config.js;
- *   index.css with @tailwind directives; brand gradient utilities used by the app; how to run the dev server;
- *   and a verification step with a sample snippet.
- * - Uses CodeBlock with copy-to-clipboard for every code sample.
- * - Preserves navbar/sidebar layout and Ocean Professional gradients.
- * - Breadcrumbs show Home > Getting Started > Installation.
+ * InstallationPage: Tailwind CSS setup guide with copyable steps and Ocean Professional accents.
+ * Uses the standard app shell (Navbar + flush-left gradient Sidebar) and shows breadcrumbs via App.
  */
 export default function InstallationPage() {
-  // Content: prerequisites
+  // Content blocks
   const prerequisites = `- Node.js 16+ (LTS recommended)
 - npm 7+ (or yarn/pnpm)
 - Git
 - A modern browser
 `;
 
-  // Running this repository locally
   const cloneRun = `# 1) Clone this repository
 git clone https://github.com/your-org/ui-component-explorer.git
 cd ui-component-explorer/frontend_main
@@ -33,7 +26,6 @@ npm start
 # App runs on http://localhost:3000
 `;
 
-  // Tailwind install (PostCSS workflow)
   const tailwindInstall = `# Install Tailwind CSS, PostCSS, and Autoprefixer
 npm install -D tailwindcss postcss autoprefixer
 
@@ -41,7 +33,6 @@ npm install -D tailwindcss postcss autoprefixer
 npx tailwindcss init -p
 `;
 
-  // postcss.config.js example
   const postcssConfig = `module.exports = {
   plugins: {
     tailwindcss: {},
@@ -49,7 +40,6 @@ npx tailwindcss init -p
   },
 };`;
 
-  // tailwind.config.js example with content globs and theme extension hints
   const tailwindConfig = `/** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: 'class',
@@ -83,7 +73,6 @@ module.exports = {
   plugins: [],
 };`;
 
-  // index.css directives and brand utilities used in this app
   const cssDirectives = `/* Tailwind layers */
 @tailwind base;
 @tailwind components;
@@ -94,7 +83,7 @@ module.exports = {
   background: linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%);
 }
 
-/* Brand background token for convenience (used by Navbar) */
+/* Brand background token for convenience (used by Navbar/Sidebar) */
 .bg-brand-45 {
   background: linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%);
 }
@@ -123,11 +112,9 @@ module.exports = {
 }
 `;
 
-  // Entry import line
   const importCss = `// In your app entry file (e.g., src/index.js or src/main.jsx)
 import './index.css';`;
 
-  // Verification snippet to paste and compare appearance
   const verificationSnippet = `export default function VerifyTailwind() {
   return (
     <div className="p-6 space-y-4">
@@ -149,7 +136,6 @@ import './index.css';`;
 }
 `;
 
-  // Tailwind CLI flow (no framework) for those who want a minimal setup
   const cliBuild = `# Tailwind CLI (no framework required)
 
 # 1) Initialize a project and install Tailwind
@@ -172,7 +158,6 @@ npx tailwindcss -i ./input.css -o ./dist/output.css --watch
 NODE_ENV=production npx tailwindcss -i ./input.css -o ./dist/output.css --minify
 `;
 
-  // Quick CDN test option
   const standaloneCdn = `<!doctype html>
 <html lang="en">
   <head>
@@ -210,8 +195,7 @@ NODE_ENV=production npx tailwindcss -i ./input.css -o ./dist/output.css --minify
 
   return (
     <div className="max-w-5xl mx-auto">
-      {/* Breadcrumbs */}
-      <Breadcrumbs />
+      {/* Heading */}
       <header className="mb-6">
         <span
           className="inline-flex items-center px-2.5 py-1 rounded-full text-[12px] font-semibold tracking-wide"
@@ -219,7 +203,10 @@ NODE_ENV=production npx tailwindcss -i ./input.css -o ./dist/output.css --minify
         >
           Getting Started
         </span>
-        <h1 className="mt-3 text-2xl font-bold" style={{ backgroundImage: 'linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%)', WebkitBackgroundClip: 'text', color: 'transparent' }}>
+        <h1
+          className="mt-3 text-2xl font-bold"
+          style={{ backgroundImage: 'linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%)', WebkitBackgroundClip: 'text', color: 'transparent' }}
+        >
           Installation
         </h1>
         <p className="mt-2 text-sm text-slate-600">
@@ -228,7 +215,6 @@ NODE_ENV=production npx tailwindcss -i ./input.css -o ./dist/output.css --minify
       </header>
 
       <div className="space-y-8">
-        {/* Prerequisites */}
         <section className="card p-5">
           <h2 className="text-lg font-semibold">Prerequisites</h2>
           <p className="mt-1 text-sm text-slate-600">Ensure the following tools are installed:</p>
@@ -237,7 +223,6 @@ NODE_ENV=production npx tailwindcss -i ./input.css -o ./dist/output.css --minify
           </div>
         </section>
 
-        {/* Run this repository locally */}
         <section className="card p-5">
           <h2 className="text-lg font-semibold">Run this project locally</h2>
           <ol className="mt-2 list-decimal pl-5 text-sm text-slate-700 space-y-1">
@@ -249,7 +234,6 @@ NODE_ENV=production npx tailwindcss -i ./input.css -o ./dist/output.css --minify
           </div>
         </section>
 
-        {/* Tailwind PostCSS setup */}
         <section className="card p-5">
           <h2 className="text-lg font-semibold">Setup with PostCSS (recommended)</h2>
           <p className="mt-1 text-sm text-slate-600">
@@ -273,7 +257,6 @@ NODE_ENV=production npx tailwindcss -i ./input.css -o ./dist/output.css --minify
           </p>
         </section>
 
-        {/* Verification */}
         <section className="card p-5">
           <h2 className="text-lg font-semibold">Verification</h2>
           <p className="mt-1 text-sm text-slate-600">
@@ -284,7 +267,6 @@ NODE_ENV=production npx tailwindcss -i ./input.css -o ./dist/output.css --minify
           </div>
         </section>
 
-        {/* Standalone and CLI options */}
         <section className="card p-5">
           <h2 className="text-lg font-semibold">Alternative setups</h2>
           <div className="mt-3 grid gap-4 md:grid-cols-2">
@@ -305,7 +287,6 @@ NODE_ENV=production npx tailwindcss -i ./input.css -o ./dist/output.css --minify
           </div>
         </section>
 
-        {/* Troubleshooting */}
         <section className="rounded-lg border border-gray-200 bg-slate-50 p-4">
           <div className="flex items-start gap-3">
             <span className="preview-accent-dot mt-1.5" aria-hidden="true" />
@@ -322,7 +303,6 @@ NODE_ENV=production npx tailwindcss -i ./input.css -o ./dist/output.css --minify
           </div>
         </section>
 
-        {/* CTA */}
         <div className="flex flex-wrap gap-3">
           <a href="/components" className="btn-brand-45" aria-label="Browse Components">
             Browse Components

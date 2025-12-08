@@ -18,7 +18,10 @@ const Sidebar = () => {
   const STRUCTURE = useMemo(() => ([
     {
       title: 'Getting Started',
-      items: [{ id: 'installation', name: 'Installation', type: 'catalog', category: 'Getting Started' }],
+      items: [
+        // Explicit route to the Installation page (not a catalog detail)
+        { id: 'installation', name: 'Installation', type: 'route', to: '/getting-started/installation' },
+      ],
     },
     {
       title: 'Layout & Content',

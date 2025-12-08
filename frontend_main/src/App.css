@@ -33,11 +33,23 @@
   padding: 0.5rem 0.75rem;
   border-radius: 0.5rem;
 }
-.btn-ghost {
-  background: transparent;
-  color: #111827;
-  padding: 0.25rem 0.5rem;
+/* Branded gradient button used by Installation page and others */
+.btn-brand-45 {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: white;
   border-radius: 0.5rem;
+  padding: 0.625rem 1rem;
+  background: linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%);
+}
+.btn-ghost {
+  background: #ffffff;
+  color: #111827;
+  padding: 0.625rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(0,0,0,0.08);
 }
 .card {
   border-radius: 12px;
@@ -45,6 +57,13 @@
   background: #fff;
   box-shadow: 0 1px 2px rgba(16,24,40,0.04);
   padding: 1rem;
+}
+/* Accent dot for notes/tips */
+.preview-accent-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  background: linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%);
 }
 
 /* Soft shadow utility used in copy feedback tooltip */

@@ -62,7 +62,9 @@ function App() {
                 <Route path="/components" element={<ComponentsListPage />} />
                 <Route path="/components/:id" element={<ComponentCatalogDetail />} />
                 <Route path="/catalog" element={<CatalogPage />} />
+                {/* Getting Started - Installation route (exact) */}
                 <Route path="/getting-started/installation" element={<InstallationPage />} />
+                {/* Back-compat alias in case docs linked directly */}
                 <Route path="/installation" element={<InstallationPage />} />
               </Routes>
             </div>

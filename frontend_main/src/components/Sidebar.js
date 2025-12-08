@@ -5,11 +5,9 @@ import catalog from '../data/catalog.json';
 /**
  * PUBLIC_INTERFACE
  * Sidebar
- * - Strictly renders ONLY the exact, whitelisted sections and the items inside them
- *   from catalog.json. No extras, no missing items.
- * - Preserves existing routing (/components and /components/:id).
- * - Preserves search/filter behavior: filters items by name across sections.
- * - Styling and gradient remain unchanged; container gradient is applied by parent (bg-brand-45).
+ * - STRICT whitelist rendering for sections and items.
+ * - Adds a static "Installation" link under Getting Started that routes to /getting-started/installation.
+ * - Filters only within the whitelist. Any dynamic catalog extras are ignored.
  */
 const Sidebar = () => {
   const location = useLocation();
@@ -50,22 +48,11 @@ const Sidebar = () => {
       if (sectionsOrder.includes(it.category)) {
         map.get(it.category).push(it);
       }
-      // Ignore any items from categories not in the whitelist
     });
 
-    // Sort within each section by name, keeping "Installation" first for Getting Started
+    // Sort within each section by name
     sectionsOrder.forEach((sec) => {
-      const arr = map.get(sec) || [];
-      if (sec === 'Getting Started') {
-        arr.sort((a, b) => {
-          const ai = a.name.toLowerCase() === 'installation' ? -1 : 0;
-          const bi = b.name.toLowerCase() === 'installation' ? -1 : 0;
-          if (ai !== bi) return ai - bi;
-          return a.name.localeCompare(b.name);
-        });
-      } else {
-        arr.sort((a, b) => a.name.localeCompare(b.name));
-      }
+      const arr = (map.get(sec) || []).sort((a, b) => a.name.localeCompare(b.name));
       map.set(sec, arr);
     });
 
@@ -85,6 +72,23 @@ const Sidebar = () => {
     return res;
   }, [grouped, query]);
 
+  // Helper to render a nav link
+  const NavLink = ({ to, label, isActive }) => (
+    <Link
+      to={to}
+      className={`block rounded-md px-3 py-2 text-sm transition-colors ${
+        isActive ? 'bg-white/15 text-white' : 'text-white/90 hover:bg-white/10 hover:text-white'
+      }`}
+      title={label}
+    >
+      {label}
+    </Link>
+  );
+
+  // Determine active state for the static Installation item
+  const installationPaths = ['/getting-started/installation', '/installation'];
+  const isInstallationActive = installationPaths.includes(location.pathname);
+
   return (
     <div className="text-white">
       <div className="p-4 border-b border-white/15">
@@ -103,20 +107,14 @@ const Sidebar = () => {
 
       <nav className="p-3 space-y-6">
         <div>
-          <Link
-            to="/components"
-            className={`block rounded-md px-3 py-2 text-sm transition-colors ${
-              isActiveComponentsRoot
-                ? 'bg-white/15 text-white'
-                : 'text-white/90 hover:bg-white/10 hover:text-white'
-            }`}
-          >
-            All Components
-          </Link>
+          <NavLink to="/components" label="All Components" isActive={isActiveComponentsRoot} />
         </div>
 
         {sectionsOrder.map((section) => {
           const items = filteredGrouped.get(section) || [];
+          const isGettingStarted = section === 'Getting Started';
+          const filteredItems = items;
+
           return (
             <div key={section}>
               <div className="mb-2 flex items-center gap-2 px-3">
@@ -125,27 +123,27 @@ const Sidebar = () => {
                 </h3>
               </div>
               <ul className="space-y-1">
-                {items.map((it) => {
+                {isGettingStarted && matchQuery('installation') && (
+                  <li key="installation-static">
+                    <NavLink
+                      to="/getting-started/installation"
+                      label="Installation"
+                      isActive={isInstallationActive}
+                    />
+                  </li>
+                )}
+                {filteredItems.map((it) => {
                   const active = location.pathname === it.to;
                   return (
                     <li key={it.id}>
-                      <Link
-                        to={it.to}
-                        className={`block rounded-md px-3 py-2 text-sm transition-colors ${
-                          active
-                            ? 'bg-white/15 text-white'
-                            : 'text-white/90 hover:bg-white/10 hover:text-white'
-                        }`}
-                        title={it.name}
-                      >
-                        {it.name}
-                      </Link>
+                      <NavLink to={it.to} label={it.name} isActive={active} />
                     </li>
                   );
                 })}
-                {items.length === 0 && (
+                {(!isGettingStarted && filteredItems.length === 0) ||
+                (isGettingStarted && filteredItems.length === 0 && !matchQuery('installation')) ? (
                   <li className="px-3 py-1 text-xs text-white/50">No matches</li>
-                )}
+                ) : null}
               </ul>
             </div>
           );

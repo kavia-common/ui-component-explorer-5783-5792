@@ -8,6 +8,7 @@ import ComponentsListPage from './pages/ComponentsListPage.js';
 import ComponentCatalogDetail from './pages/ComponentCatalogDetail.jsx';
 import CatalogPage from './pages/CatalogPage.jsx';
 import InstallationPage from './pages/InstallationPage.jsx';
+import LayoutSplitterPage from './pages/LayoutSplitterPage.jsx';
 import componentsIndex from './data/components.json';
 import './App.css';
 
@@ -64,6 +65,8 @@ function App() {
                 <Route path="/catalog" element={<CatalogPage />} />
                 {/* Getting Started - Installation route (canonical) */}
                 <Route path="/getting-started/installation" element={<InstallationPage />} />
+                {/* Layout Splitter detailed docs/demos */}
+                <Route path="/components/layout-splitter-docs" element={<LayoutSplitterPage />} />
               </Routes>
             </div>
           </main>

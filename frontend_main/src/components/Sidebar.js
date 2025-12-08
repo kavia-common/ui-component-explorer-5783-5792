@@ -13,10 +13,12 @@ const Sidebar = () => {
   const location = useLocation();
 
   // Fixed sections and items per specification
+  const slugify = (s) => String(s || '').toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+  const catalogIds = useMemo(() => new Set((Array.isArray(catalog?.components) ? catalog.components : []).map(c => String(c.id))), []);
   const STRUCTURE = useMemo(() => ([
     {
       title: 'Getting Started',
-      items: [{ id: 'installation', name: 'Installation', type: 'route', category: 'Getting Started', to: '/getting-started/installation' }],
+      items: [{ id: 'installation', name: 'Installation', type: 'catalog', category: 'Getting Started' }],
     },
     {
       title: 'Layout & Content',
@@ -35,31 +37,51 @@ const Sidebar = () => {
     },
     {
       title: 'Base Components',
-      items: [
-        'Accordion','Alerts','Avatar','Avatar Group','Badge','Blockquote','Buttons','Button Group','Card','Chat Bubbles','Carousel','Collapse','Datepicker','Devices','Lists','List Group','Legend Indicator','Progress','File Uploading Progress','Ratings','Skeleton','Spinners','Styled Icons','Toasts','Timeline','Tree View'
-      ].map((name) => ({ id: name.toLowerCase().replace(/[^a-z0-9]+/g,'-'), name, type: 'components', category: 'Base Components' })),
+      items: Array.from(new Map(
+        [
+          'Accordion','Alerts','Avatar','Avatar Group','Badge','Blockquote','Buttons','Button Group','Card','Chat Bubbles','Carousel','Collapse','Datepicker','Devices','Lists','List Group','Legend Indicator','Progress','File Uploading Progress','Ratings','Skeleton','Spinners','Styled Icons','Toasts','Timeline','Tree View'
+        ].map((name) => {
+          const id = slugify(name);
+          return [id, { id, name, type: 'catalog', category: 'Base Components' }];
+        })
+      ).values()),
     },
     {
       title: 'Navigations',
-      items: [
-        'Navbar','Mega Menu','Navs','Tabs','Sidebar New','Scrollspy','Breadcrumb','Pagination','Stepper'
-      ].map((name) => ({ id: name.toLowerCase().replace(/[^a-z0-9]+/g,'-'), name, type: 'components', category: 'Navigations' })),
+      items: Array.from(new Map(
+        [
+          'Navbar','Mega Menu','Navs','Tabs','Sidebar New','Scrollspy','Breadcrumb','Pagination','Stepper'
+        ].map((name) => {
+          const id = slugify(name);
+          return [id, { id, name, type: 'catalog', category: 'Navigations' }];
+        })
+      ).values()),
     },
     {
       title: 'Basic Forms',
-      items: [
-        'Input','Input Group','Textarea','File Input','Checkbox','Radio','Switch','Select','Range Slider','Color Picker','TimePicker'
-      ].map((name) => ({ id: name.toLowerCase().replace(/[^a-z0-9]+/g,'-'), name, type: 'components', category: 'Basic Forms' })),
+      items: Array.from(new Map(
+        [
+          'Input','Input Group','Textarea','File Input','Checkbox','Radio','Switch','Select','Range Slider','Color Picker','TimePicker'
+        ].map((name) => {
+          const id = slugify(name);
+          return [id, { id, name, type: 'catalog', category: 'Basic Forms' }];
+        })
+      ).values()),
     },
     {
       title: 'Advanced Forms',
-      items: [
-        'Advanced Select','ComboBox','SearchBox','Input Number','Strong Password','Toggle Password','Toggle Count','Copy Markup','PIN Input','Overlays','Dropdown','Context Menu','Modal','Offcanvas (Drawer)','Popover','Tooltip'
-      ].map((name) => ({ id: name.toLowerCase().replace(/[^a-z0-9]+/g,'-'), name, type: 'components', category: 'Advanced Forms' })),
+      items: Array.from(new Map(
+        [
+          'Advanced Select','ComboBox','SearchBox','Input Number','Strong Password','Toggle Password','Toggle Count','Copy Markup','PIN Input','Overlays','Dropdown','Context Menu','Modal','Offcanvas (Drawer)','Popover','Tooltip'
+        ].map((name) => {
+          const id = slugify(name);
+          return [id, { id, name, type: 'catalog', category: 'Advanced Forms' }];
+        })
+      ).values()),
     },
     {
       title: 'Tables',
-      items: [{ id: 'tables', name: 'Tables', type: 'components', category: 'Tables' }],
+      items: [{ id: slugify('Tables'), name: 'Tables', type: 'catalog', category: 'Tables' }],
     },
   ]), []);
 
@@ -138,13 +160,14 @@ const Sidebar = () => {
                   // Determine destination:
                   // - catalog-backed items route to /components/:id (detail view with Preview + HTML/React tabs elsewhere)
                   // - otherwise, fall back to /components with a search filter so user still lands somewhere useful
-                  const inCatalog = Array.isArray(catalog?.components) && catalog.components.some((c) => String(c.id) === String(it.id));
+                  const sid = slugify(it.id || it.name);
+                  const inCatalog = catalogIds.has(String(sid));
                   const to = inCatalog
-                    ? `/components/${encodeURIComponent(it.id)}`
+                    ? `/components/${encodeURIComponent(sid)}`
                     : { pathname: '/components', search: `?q=${encodeURIComponent(it.name)}` };
 
                   const isActive =
-                    (typeof to === 'string' && location.pathname === decodeURIComponent(to)) ||
+                    (typeof to === 'string' && location.pathname === to) ||
                     (typeof to !== 'string' &&
                       location.pathname.startsWith('/components') &&
                       (to.search || '').includes('q='));

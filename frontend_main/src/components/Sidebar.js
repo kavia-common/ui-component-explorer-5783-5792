@@ -43,10 +43,31 @@ const Sidebar = () => {
     const map = new Map();
     sectionsOrder.forEach((sec) => map.set(sec, []));
 
+    // Define allowed item names for "Layout & Content" per requirements
+    const allowedLayoutNames = new Set([
+      'Container',
+      'Columns',
+      'Grid',
+      'Layout Splitter',
+      'Typography',
+      'Images',
+      'Links',
+      'Dividers and <hr>',
+      'KBD',
+      'Custom Scrollbar',
+    ]);
+
     // Only add items whose category is exactly in the whitelist
     items.forEach((it) => {
       if (sectionsOrder.includes(it.category)) {
-        map.get(it.category).push(it);
+        // If section is "Layout & Content", further restrict to the allowed names
+        if (it.category === 'Layout & Content') {
+          if (allowedLayoutNames.has(it.name)) {
+            map.get(it.category).push(it);
+          }
+        } else {
+          map.get(it.category).push(it);
+        }
       }
     });
 

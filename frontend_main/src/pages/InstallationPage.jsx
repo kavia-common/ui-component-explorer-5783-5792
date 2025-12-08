@@ -212,6 +212,9 @@ NODE_ENV=production npx tailwindcss -i ./input.css -o ./dist/output.css --minify
         <p className="mt-2 text-sm text-slate-600">
           Set up Tailwind CSS so copied snippets render exactly like in this app. Choose PostCSS (recommended) or the Tailwind CLI.
         </p>
+        <p className="mt-2 text-xs text-slate-500">
+          This guide preserves the app’s Ocean Professional accents and gradient (purple → blue) used across the Navbar and Sidebar.
+        </p>
       </header>
 
       <div className="space-y-8">
@@ -227,10 +230,39 @@ NODE_ENV=production npx tailwindcss -i ./input.css -o ./dist/output.css --minify
           <h2 className="text-lg font-semibold">Run this project locally</h2>
           <ol className="mt-2 list-decimal pl-5 text-sm text-slate-700 space-y-1">
             <li>Clone the repository and install dependencies.</li>
+            <li>Configure environment variables (see below).</li>
             <li>Start the dev server.</li>
           </ol>
           <div className="mt-3">
             <CodeBlock code={cloneRun} language="javascript" title="Commands" />
+          </div>
+
+          <div className="mt-4">
+            <h3 className="text-sm font-semibold">Environment variables</h3>
+            <p className="mt-1 text-sm text-slate-600">
+              Create a .env file at the project root (frontend_main) with the following keys. Values will be provided by your environment or deployment platform.
+            </p>
+            <CodeBlock
+              language="bash"
+              title=".env.example"
+              code={`# Frontend environment
+REACT_APP_API_BASE=
+REACT_APP_BACKEND_URL=
+REACT_APP_FRONTEND_URL=
+REACT_APP_WS_URL=
+REACT_APP_NODE_ENV=development
+REACT_APP_NEXT_TELEMETRY_DISABLED=1
+REACT_APP_ENABLE_SOURCE_MAPS=true
+REACT_APP_PORT=3000
+REACT_APP_TRUST_PROXY=false
+REACT_APP_LOG_LEVEL=info
+REACT_APP_HEALTHCHECK_PATH=/healthz
+REACT_APP_FEATURE_FLAGS=
+REACT_APP_EXPERIMENTS_ENABLED=false`}
+            />
+            <p className="mt-2 text-xs text-slate-600">
+              Do not commit secrets. For production, map these variables via your hosting provider's dashboard.
+            </p>
           </div>
         </section>
 

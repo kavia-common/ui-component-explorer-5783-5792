@@ -84,7 +84,7 @@ export default function Sidebar() {
   // Gradient background wrapper + white/translucent hover/active states for legibility
   return (
     <div
-      className="rounded-xl p-4 text-white"
+      className="rounded-xl p-4 text-white max-h-screen overflow-y-auto"
       style={{
         background: 'linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%)',
       }}

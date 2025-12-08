@@ -47,8 +47,11 @@ function WithSidebarLayout() {
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-10">
       <div className="grid grid-cols-1 md:grid-cols-[260px,1fr] gap-6">
         <aside aria-label="Component navigation sidebar" className="md:sticky md:self-start top-6 z-10">
-          <div className="rounded-xl border border-gray-200 bg-white p-0 shadow-sm overflow-hidden">
-            <Sidebar />
+          <div className="rounded-xl border border-gray-200 bg-white p-0 shadow-sm">
+            {/* Constrain the sidebar panel to viewport height and allow vertical scrolling */}
+            <div className="max-h-screen overflow-y-auto">
+              <Sidebar />
+            </div>
           </div>
         </aside>
         <section aria-label={isComponents ? 'Component content' : 'Content'}>

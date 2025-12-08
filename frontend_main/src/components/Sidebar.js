@@ -5,14 +5,11 @@ import catalog from '../data/catalog.json';
 /**
  * PUBLIC_INTERFACE
  * Sidebar
- * - Renders the complete, strict component list grouped by the provided sections:
- *   Getting Started, Layout & Content, Base Components, Navigations,
- *   Basic Forms, Advanced Forms, Tables.
- * - All items from catalog.json are always visible (no subitem removal).
+ * - Strictly renders ONLY the exact, whitelisted sections and the items inside them
+ *   from catalog.json. No extras, no missing items.
  * - Preserves existing routing (/components and /components/:id).
- * - Preserves search/filter behavior: filters items by name across all sections.
- * - Uses exact gradient on container via class applied by parent; ensures white text,
- *   hover, and active states for readability.
+ * - Preserves search/filter behavior: filters items by name across sections.
+ * - Styling and gradient remain unchanged; container gradient is applied by parent (bg-brand-45).
  */
 const Sidebar = () => {
   const location = useLocation();
@@ -21,7 +18,7 @@ const Sidebar = () => {
   const isActiveComponentsRoot =
     location.pathname === '/components' || location.pathname === '/components/';
 
-  // Define the exact section order as specified
+  // Exact section whitelist and order
   const sectionsOrder = [
     'Getting Started',
     'Layout & Content',
@@ -32,35 +29,34 @@ const Sidebar = () => {
     'Tables',
   ];
 
-  // Build full grouped list from catalog.json
+  // Build strictly grouped list from catalog.json, constrained to whitelist
   const grouped = useMemo(() => {
     const comps = Array.isArray(catalog?.components) ? catalog.components : [];
-    // Normalize all items into common structure
+
+    // Normalize items
     const items = comps.map((c) => ({
       id: String(c.id),
       name: String(c.name),
-      category: String(c.category || 'Other'),
+      category: String(c.category || ''),
       to: `/components/${encodeURIComponent(c.id)}`,
     }));
 
-    // Group by category preserving specified order
+    // Initialize all known whitelist sections
     const map = new Map();
     sectionsOrder.forEach((sec) => map.set(sec, []));
+
+    // Only add items whose category is exactly in the whitelist
     items.forEach((it) => {
-      if (map.has(it.category)) {
+      if (sectionsOrder.includes(it.category)) {
         map.get(it.category).push(it);
-      } else {
-        // If an unexpected category appears, append after known ones
-        if (!map.has('Other')) map.set('Other', []);
-        map.get('Other').push(it);
       }
+      // Ignore any items from categories not in the whitelist
     });
 
-    // Sort within each section by name, but keep "Installation" first for Getting Started
+    // Sort within each section by name, keeping "Installation" first for Getting Started
     sectionsOrder.forEach((sec) => {
       const arr = map.get(sec) || [];
       if (sec === 'Getting Started') {
-        // Keep Installation first if present, then alphabetical
         arr.sort((a, b) => {
           const ai = a.name.toLowerCase() === 'installation' ? -1 : 0;
           const bi = b.name.toLowerCase() === 'installation' ? -1 : 0;
@@ -79,19 +75,13 @@ const Sidebar = () => {
   const matchQuery = (text) =>
     !query || String(text).toLowerCase().includes(query.toLowerCase());
 
-  // Filtered view that still shows all sections but with items filtered by query
+  // Filtered view that shows only whitelisted sections with filtered items
   const filteredGrouped = useMemo(() => {
     const res = new Map();
     sectionsOrder.forEach((sec) => {
       const items = grouped.get(sec) || [];
-      const vis = items.filter((it) => matchQuery(it.name));
-      res.set(sec, vis);
+      res.set(sec, items.filter((it) => matchQuery(it.name)));
     });
-    // Handle any 'Other' group if present
-    if (grouped.has('Other')) {
-      const items = grouped.get('Other') || [];
-      res.set('Other', items.filter((it) => matchQuery(it.name)));
-    }
     return res;
   }, [grouped, query]);
 
@@ -125,7 +115,6 @@ const Sidebar = () => {
           </Link>
         </div>
 
-        {/* Render all sections with their full item lists */}
         {sectionsOrder.map((section) => {
           const items = filteredGrouped.get(section) || [];
           return (
@@ -154,7 +143,6 @@ const Sidebar = () => {
                     </li>
                   );
                 })}
-                {/* If a section has no items after filtering, still render an empty state spacer to retain layout rhythm */}
                 {items.length === 0 && (
                   <li className="px-3 py-1 text-xs text-white/50">No matches</li>
                 )}
@@ -162,37 +150,6 @@ const Sidebar = () => {
             </div>
           );
         })}
-
-        {/* Render any unexpected categories at the end under 'Other' if present */}
-        {filteredGrouped.has('Other') && (filteredGrouped.get('Other') || []).length > 0 && (
-          <div>
-            <div className="mb-2 flex items-center gap-2 px-3">
-              <h3 className="text-xs font-medium uppercase tracking-wide text-white/80">
-                Other
-              </h3>
-            </div>
-            <ul className="space-y-1">
-              {(filteredGrouped.get('Other') || []).map((it) => {
-                const active = location.pathname === it.to;
-                return (
-                  <li key={it.id}>
-                    <Link
-                      to={it.to}
-                      className={`block rounded-md px-3 py-2 text-sm transition-colors ${
-                        active
-                          ? 'bg-white/15 text-white'
-                          : 'text-white/90 hover:bg-white/10 hover:text-white'
-                      }`}
-                      title={it.name}
-                    >
-                      {it.name}
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        )}
       </nav>
     </div>
   );

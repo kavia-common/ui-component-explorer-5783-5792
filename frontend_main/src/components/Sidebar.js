@@ -31,8 +31,9 @@ export default function Sidebar({ isOpen, onClose }) {
     []
   );
 
+  // Link to the unified catalog route; selection handled via query string.
   const linkFor = (_section, item) =>
-    `/components/explorer?item=${encodeURIComponent(item)}`;
+    `/components?item=${encodeURIComponent(item)}`;
 
   // Accordion open state (multi-open). Start with none open by default.
   const [openGroups, setOpenGroups] = useState(() => new Set());
@@ -118,7 +119,7 @@ export default function Sidebar({ isOpen, onClose }) {
                   <ul role="list" className="space-y-1">
                     {section.items.map((item) => {
                       const to = linkFor(section.title, item);
-                      const isActive = activePath.includes(`item=${encodeURIComponent(item)}`);
+                      const isActive = activePath.startsWith('/components') && activePath.includes(`item=${encodeURIComponent(item)}`);
                       return (
                         <li key={item}>
                           <Link

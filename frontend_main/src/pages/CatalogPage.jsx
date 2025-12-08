@@ -110,11 +110,13 @@ function Breadcrumbs({ selected }) {
   return (
     <nav aria-label="Breadcrumb" className="mb-1">
       <ol className="breadcrumbs flex items-center gap-2">
-        <li><Link to="/" className="hover:underline">Home</Link></li>
-        <li aria-hidden="true" className="text-slate-400">/</li>
         <li><Link to="/components" className="hover:underline">Components</Link></li>
-        <li aria-hidden="true" className="text-slate-400">/</li>
-        <li className="text-slate-700 font-medium">{selected ? selected.name : 'Catalog'}</li>
+        {selected ? (
+          <>
+            <li aria-hidden="true" className="text-slate-400">/</li>
+            <li className="text-slate-700 font-medium">{selected.name}</li>
+          </>
+        ) : null}
       </ol>
     </nav>
   );

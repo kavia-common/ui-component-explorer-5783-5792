@@ -101,14 +101,11 @@ const Sidebar = () => {
         <div>
           <Link
             to="/components"
-            className={`flex items-center justify-between rounded-md px-3 py-2 text-sm transition-colors ${
+            className={`block rounded-md px-3 py-2 text-sm transition-colors ${
               isActiveComponentsRoot ? 'bg-white/15 text-white' : 'text-white/90 hover:bg-white/10 hover:text-white'
             }`}
           >
-            <span>All Components</span>
-            <span className="text-[10px] rounded bg-white/15 px-1.5 py-0.5 text-white/90">
-              {componentsData.length}
-            </span>
+            All Components
           </Link>
         </div>
 
@@ -116,22 +113,10 @@ const Sidebar = () => {
           const visibleItems = section.items.filter((it) => matchQuery(it.name));
           if (visibleItems.length === 0) return null;
 
-          // Category chip navigates to /components list for that high-level section
-          const categoryChip = (
-            <Link
-              to={`/components?category=${encodeURIComponent(section.title)}`}
-              className="ml-auto text-[10px] rounded bg-white/15 px-2 py-0.5 text-white/90 hover:bg-white/20"
-              title={`View ${section.title} in list`}
-            >
-              {componentsCountByCategory[section.title] || 0}
-            </Link>
-          );
-
           return (
             <div key={section.title}>
               <div className="mb-2 flex items-center gap-2 px-3">
                 <h3 className="text-xs font-medium uppercase tracking-wide text-white/80">{section.title}</h3>
-                {categoryChip}
               </div>
               <ul className="space-y-1">
                 {visibleItems.map((it) => {

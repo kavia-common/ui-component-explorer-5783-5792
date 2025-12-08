@@ -9,16 +9,7 @@ import { Link } from 'react-router-dom';
 export default function HomePage() {
   return (
     <div className="bg-white">
-      {/* Breadcrumb (kept subtle) */}
-      <nav className="pt-2" aria-label="Breadcrumb">
-        <ol role="list" className="breadcrumbs flex items-center gap-2">
-          <li>
-            <Link to="/" className="hover:underline">Home</Link>
-          </li>
-          <li aria-hidden="true" className="text-slate-400">/</li>
-          <li className="text-slate-500">Welcome</li>
-        </ol>
-      </nav>
+      
 
       {/* Hero */}
       <section className="w-full">

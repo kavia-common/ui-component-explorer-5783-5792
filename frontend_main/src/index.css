@@ -275,6 +275,7 @@ input.input{
 }
 .breadcrumbs a { color: #334155; }
 .breadcrumbs a:hover { text-decoration: underline; }
+.breadcrumbs [aria-current="page"] { color: #0f172a; }
 
 /* Monospace stack for code blocks */
 .mono {

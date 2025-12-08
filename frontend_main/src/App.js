@@ -2,10 +2,12 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar.jsx';
 import Sidebar from './components/Sidebar';
+import Breadcrumbs from './components/Breadcrumbs.jsx';
 import HomePage from './pages/HomePage.js';
 import ComponentsListPage from './pages/ComponentsListPage.js';
 import ComponentDetailPage from './pages/ComponentDetailPage.js';
 import CatalogPage from './pages/CatalogPage.jsx';
+import componentsIndex from './data/components.json';
 import './App.css';
 
 /**
@@ -53,6 +55,7 @@ function App() {
           >
             {/* Page container: consistent paddings across routes, no left outer gap */}
             <div className="px-4 sm:px-6 lg:px-8 py-6">
+              <Breadcrumbs componentsIndex={componentsIndex} />
               <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/components" element={<ComponentsListPage />} />

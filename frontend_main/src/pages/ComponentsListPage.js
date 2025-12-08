@@ -1,14 +1,14 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import componentsData from '../data/components.json';
+import catalog from '../data/catalog.json';
 
 /**
  * PUBLIC_INTERFACE
  * ComponentsListPage renders the list of components and supports filtering via URL params:
  * - category: selected category filter
  * - q: search query
- * This restores the previous behavior where Sidebar only sets URL params via links
- * and does not directly control list state beyond navigation.
+ * In addition, renders a consolidated "Main Components" section (moved from sidebar) at the top.
  */
 const ComponentsListPage = () => {
   const location = useLocation();
@@ -67,6 +67,153 @@ const ComponentsListPage = () => {
   const clearFilters = () => {
     navigate('/components');
   };
+
+  // Build consolidated "Main Components" list using previous sidebar items
+  const slugify = (s) =>
+    String(s || '')
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '');
+  const catalogIds = useMemo(
+    () => new Set((Array.isArray(catalog?.components) ? catalog.components : []).map((c) => String(c.id))),
+    []
+  );
+
+  const MAIN_SECTIONS = useMemo(
+    () => [
+      {
+        title: 'Layout & Content',
+        items: [
+          'Container',
+          'Columns',
+          'Grid',
+          'Layout Splitter',
+          'Typography',
+          'Images',
+          'Links',
+          'Dividers and <hr>',
+          'KBD',
+          'Custom Scrollbar',
+        ],
+      },
+      {
+        title: 'Base Components',
+        items: [
+          'Accordion',
+          'Alerts',
+          'Avatar',
+          'Avatar Group',
+          'Badge',
+          'Blockquote',
+          'Buttons',
+          'Button Group',
+          'Card',
+          'Chat Bubbles',
+          'Carousel',
+          'Collapse',
+          'Datepicker',
+          'Devices',
+          'Lists',
+          'List Group',
+          'Legend Indicator',
+          'Progress',
+          'File Uploading Progress',
+          'Ratings',
+          'Skeleton',
+          'Spinners',
+          'Styled Icons',
+          'Toasts',
+          'Timeline',
+          'Tree View',
+        ],
+      },
+      {
+        title: 'Navigations',
+        items: [
+          'Navbar',
+          'Mega Menu',
+          'Navs',
+          'Tabs',
+          'Sidebar New',
+          'Scrollspy',
+          'Breadcrumb',
+          'Pagination',
+          'Stepper',
+        ],
+      },
+      {
+        title: 'Basic Forms',
+        items: [
+          'Input',
+          'Input Group',
+          'Textarea',
+          'File Input',
+          'Checkbox',
+          'Radio',
+          'Switch',
+          'Select',
+          'Range Slider',
+          'Color Picker',
+          'TimePicker',
+        ],
+      },
+      {
+        title: 'Advanced Forms',
+        items: [
+          'Advanced Select',
+          'ComboBox',
+          'SearchBox',
+          'Input Number',
+          'Strong Password',
+          'Toggle Password',
+          'Toggle Count',
+          'Copy Markup',
+          'PIN Input',
+          'Overlays',
+          'Dropdown',
+          'Context Menu',
+          'Modal',
+          'Offcanvas (Drawer)',
+          'Popover',
+          'Tooltip',
+        ],
+      },
+      {
+        title: 'Tables',
+        items: ['Tables'],
+      },
+    ],
+    []
+  );
+
+  const mainItems = useMemo(() => {
+    // Flatten and convert into objects with routing decisions
+    const list = [];
+    MAIN_SECTIONS.forEach((sec) => {
+      sec.items.forEach((name) => {
+        const id = slugify(name);
+        const inCatalog = catalogIds.has(String(id));
+        const to = inCatalog
+          ? `/components/${encodeURIComponent(id)}`
+          : { pathname: '/components', search: `?q=${encodeURIComponent(name)}` };
+        list.push({ id, name, section: sec.title, to });
+      });
+    });
+    return list;
+  }, [MAIN_SECTIONS, catalogIds]);
+
+  // Apply current search query (q) to main items so it participates with existing search
+  const filteredMainItems = useMemo(() => {
+    const term = (q || '').toLowerCase();
+    if (!term) return mainItems;
+    return mainItems.filter(
+      (it) =>
+        it.name.toLowerCase().includes(term) ||
+        it.section.toLowerCase().includes(term) ||
+        it.id.toLowerCase().includes(term)
+    );
+  }, [mainItems, q]);
 
   return (
     <div>
@@ -144,19 +291,59 @@ const ComponentsListPage = () => {
         </div>
       ) : null}
 
+      {/* Main Components section (moved from sidebar) */}
+      <section className="mb-8">
+        <h2 className="text-lg font-semibold text-gray-900">Main Components</h2>
+        <p className="mt-1 text-sm text-gray-500">
+          Frequently-used building blocks and patterns. Click to open details or jump to a filtered list.
+        </p>
+
+        {/* Group by section title for readability */}
+        <div className="mt-4 space-y-6">
+          {MAIN_SECTIONS.map((sec) => {
+            const items = filteredMainItems.filter((i) => i.section === sec.title);
+            if (items.length === 0) return null;
+            return (
+              <div key={sec.title}>
+                <div className="mb-2 flex items-center justify-between">
+                  <h3 className="text-sm font-medium text-gray-800">{sec.title}</h3>
+                </div>
+                <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                  {items.map((it) => {
+                    const to = it.to;
+                    const isString = typeof to === 'string';
+                    return (
+                      <li key={it.id}>
+                        <Link
+                          to={to}
+                          className="block rounded-md border border-gray-200 bg-white px-3 py-2 text-sm text-gray-800 shadow-sm hover:bg-gray-50 transition"
+                          title={it.name}
+                        >
+                          {it.name}
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* Existing catalog list below */}
       <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {filtered.map((item) => (
           <li key={item.id} className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
             <div className="mb-2 flex items-start justify-between">
               <h3 className="text-base font-semibold text-gray-900">{item.name}</h3>
-              <span className="text-xs text-gray-500">{Array.isArray(item.categories) ? item.categories[0] : item.category}</span>
+              <span className="text-xs text-gray-500">
+                {Array.isArray(item.categories) ? item.categories[0] : item.category}
+              </span>
             </div>
             <p className="mb-4 line-clamp-2 text-sm text-gray-600">{item.description}</p>
             <div className="flex items-center justify-between">
-              <Link
-                to={`/components/${item.id}`}
-                className="text-sm font-medium text-blue-700 hover:text-blue-800"
-              >
+              <Link to={`/components/${item.id}`} className="text-sm font-medium text-blue-700 hover:text-blue-800">
                 View details
               </Link>
               {Array.isArray(item.tags) && item.tags.length > 0 && (

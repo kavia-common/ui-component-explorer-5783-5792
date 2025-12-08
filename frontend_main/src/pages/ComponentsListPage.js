@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import {
-  GridDemo, ContainerDemo, SectionDemo, CardDemo, TypographyDemo, ListsDemo, MediaDemo,
+  GridDemo, ColumnsDemo, LayoutSplitterDemo, ContainerDemo, SectionDemo, CardDemo, TypographyDemo, ListsDemo, MediaDemo,
   ButtonsDemo, BadgesDemo, AvatarsDemo, AlertsDemo, TagsDemo, ChipsDemo, TooltipsDemo,
   NavbarDemo, SidebarDemo, TabsDemo, BreadcrumbsDemo, PaginationDemo, StepsDemo,
   InputDemo, SelectDemo, CheckboxDemo, RadioDemo, TextAreaDemo, SwitchDemo,
@@ -35,6 +35,8 @@ export default function ComponentsListPage() {
   const componentMap = {
     // Layout & Content
     'Grid': GridDemo,
+    'Columns': ColumnsDemo,
+    'Layout Splitter': LayoutSplitterDemo,
     'Container': ContainerDemo,
     'Section': SectionDemo,
     'Card': CardDemo,

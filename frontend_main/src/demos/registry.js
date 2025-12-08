@@ -16,6 +16,78 @@ export const demoRegistry = {
   },
 
   // Layout & Content (presentational only)
+  'Columns': {
+    componentKey: 'ColumnsDemo',
+    html: `<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+  <div class="rounded-lg border bg-white p-4 text-sm text-gray-600">Left content</div>
+  <div class="rounded-lg border bg-white p-4 text-sm text-gray-600">Right content</div>
+</div>`,
+    js: `// No JS required — static responsive columns.`,
+    dependencies: [],
+    dependencyNotes: '',
+  },
+  'Layout Splitter': {
+    componentKey: 'LayoutSplitterDemo',
+    html: `<div class="flex rounded-lg border bg-white overflow-hidden">
+  <div class="basis-1/2 min-w-[120px] p-4 text-sm">Pane A</div>
+  <div class="w-1 bg-gray-200" role="separator" aria-orientation="vertical"></div>
+  <div class="basis-1/2 min-w-[120px] p-4 text-sm">Pane B</div>
+</div>`,
+    js: `// No JS required — visual split only (no drag).`,
+    dependencies: [],
+    dependencyNotes: '',
+  },
+  'Images': {
+    componentKey: 'ImagesDemo',
+    html: `<figure class="max-w-md rounded-lg border bg-white overflow-hidden">
+  <img src="https://picsum.photos/600/320" alt="Random" class="w-full h-44 object-cover"/>
+  <figcaption class="text-xs text-gray-600 p-2">Responsive image with caption</figcaption>
+</figure>`,
+    js: `// No JS required.`,
+    dependencies: [],
+    dependencyNotes: '',
+  },
+  'Links': {
+    componentKey: 'LinksDemo',
+    html: `<p class="text-sm text-gray-700">Visit the <a href="#" class="text-blue-600 hover:text-blue-700 underline underline-offset-4">documentation</a> for details.</p>`,
+    js: `// No JS required.`,
+    dependencies: [],
+    dependencyNotes: '',
+  },
+  'Dividers & <hr>': {
+    componentKey: 'DividersDemo',
+    html: `<div class="space-y-3">
+  <div class="text-sm text-gray-600">Above</div>
+  <hr class="border-gray-200"/>
+  <div class="text-sm text-gray-600">Below</div>
+</div>`,
+    js: `// No JS required.`,
+    dependencies: [],
+    dependencyNotes: '',
+  },
+  'KBD': {
+    componentKey: 'KBDDemo',
+    html: `<p class="text-sm text-gray-700">Press <kbd class="px-1.5 py-0.5 text-xs font-semibold border rounded bg-gray-50">Ctrl</kbd> + <kbd class="px-1.5 py-0.5 text-xs font-semibold border rounded bg-gray-50">K</kbd> to search</p>`,
+    js: `// No JS required.`,
+    dependencies: [],
+    dependencyNotes: '',
+  },
+  'Custom Scrollbar': {
+    componentKey: 'CustomScrollbarDemo',
+    html: `<div class="h-32 w-full max-w-sm overflow-y-auto rounded-lg border bg-white [scrollbar-width:thin] [scrollbar-color:theme(colors.gray.400)_transparent]">
+  <ul class="divide-y">
+    <li class="p-2 text-sm">Item 1</li>
+    <li class="p-2 text-sm">Item 2</li>
+    <li class="p-2 text-sm">Item 3</li>
+    <li class="p-2 text-sm">Item 4</li>
+    <li class="p-2 text-sm">Item 5</li>
+    <li class="p-2 text-sm">Item 6</li>
+  </ul>
+</div>`,
+    js: `// No JS required.`,
+    dependencies: [],
+    dependencyNotes: '',
+  },
   'Grid': {
     componentKey: 'GridDemo',
     html: `<div class="grid grid-cols-3 gap-3">

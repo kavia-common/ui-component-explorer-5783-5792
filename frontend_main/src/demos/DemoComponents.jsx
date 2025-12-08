@@ -11,6 +11,65 @@
  const secondaryBtn = 'px-3 py-2 rounded-lg border text-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60';
  const inputField = 'w-full px-3 py-2 rounded-lg border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60';
  
+ export function ColumnsDemo() {
+   return (
+     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+       <div className="rounded-lg border bg-white p-4 text-sm text-gray-600">Left content</div>
+       <div className="rounded-lg border bg-white p-4 text-sm text-gray-600">Right content</div>
+     </div>
+   );
+ }
+ export function LayoutSplitterDemo() {
+   return (
+     <div className="flex rounded-lg border bg-white overflow-hidden w-full">
+       <div className="basis-1/2 min-w-[120px] p-4 text-sm">Pane A</div>
+       <div className="w-1 bg-gray-200" role="separator" aria-orientation="vertical"></div>
+       <div className="basis-1/2 min-w-[120px] p-4 text-sm">Pane B</div>
+     </div>
+   );
+ }
+ export function ImagesDemo() {
+   return (
+     <figure className="max-w-md rounded-lg border bg-white overflow-hidden">
+       <img src="https://picsum.photos/600/320" alt="Random" className="w-full h-44 object-cover" />
+       <figcaption className="text-xs text-gray-600 p-2">Responsive image with caption</figcaption>
+     </figure>
+   );
+ }
+ export function LinksDemo() {
+   return (
+     <p className="text-sm text-gray-700">
+       Visit the <a href="#" className="text-blue-600 hover:text-blue-700 underline underline-offset-4">documentation</a> for details.
+     </p>
+   );
+ }
+ export function DividersDemo() {
+   return (
+     <div className="space-y-3 w-full">
+       <div className="text-sm text-gray-600">Above</div>
+       <hr className="border-gray-200" />
+       <div className="text-sm text-gray-600">Below</div>
+     </div>
+   );
+ }
+ export function KBDDemo() {
+   return (
+     <p className="text-sm text-gray-700">
+       Press <kbd className="px-1.5 py-0.5 text-xs font-semibold border rounded bg-gray-50">Ctrl</kbd> + <kbd className="px-1.5 py-0.5 text-xs font-semibold border rounded bg-gray-50">K</kbd> to search
+     </p>
+   );
+ }
+ export function CustomScrollbarDemo() {
+   return (
+     <div className="h-32 w-full max-w-sm overflow-y-auto rounded-lg border bg-white [scrollbar-width:thin] [scrollbar-color:theme(colors.gray.400)_transparent]">
+       <ul className="divide-y">
+         {Array.from({length: 10}).map((_,i)=>(
+           <li key={i} className="p-2 text-sm">Item {i+1}</li>
+         ))}
+       </ul>
+     </div>
+   );
+ }
  export function GridDemo() {
    return (
      <div className="grid grid-cols-3 gap-3 w-full">

@@ -32,7 +32,7 @@ export default function Sidebar({ isOpen, onClose }) {
   );
 
   const linkFor = (_section, item) =>
-    `/components?item=${encodeURIComponent(item)}`;
+    `/components/explorer?item=${encodeURIComponent(item)}`;
 
   // Accordion open state (multi-open). Start with none open by default.
   const [openGroups, setOpenGroups] = useState(() => new Set());

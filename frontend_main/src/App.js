@@ -5,6 +5,7 @@ import './App.css';
 import HomePage from './pages/HomePage';
 import ComponentsListPage from './pages/ComponentsListPage';
 import ComponentDetailPage from './pages/ComponentDetailPage';
+import CatalogPage from './pages/CatalogPage.jsx';
 import Sidebar from './components/Sidebar';
 
 // Theme utilities
@@ -117,8 +118,10 @@ function App() {
       <Layout theme={theme} toggleTheme={toggleTheme}>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/components" element={<ComponentsListPage />} />
-          <Route path="/components/:id" element={<ComponentsListPage />} />
+          <Route path="/components" element={<CatalogPage />} />
+          <Route path="/components/:id" element={<CatalogPage />} />
+          <Route path="/components/explorer" element={<ComponentsListPage />} />
+          <Route path="/components/explorer/:id" element={<ComponentsListPage />} />
         </Routes>
       </Layout>
     </BrowserRouter>

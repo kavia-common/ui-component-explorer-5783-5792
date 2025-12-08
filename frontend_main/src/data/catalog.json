@@ -1,0 +1,60 @@
+{
+  "categories": [
+    "Headers",
+    "Navigation",
+    "Heroes",
+    "Cards",
+    "Buttons",
+    "Footers"
+  ],
+  "components": [
+    {
+      "id": "header-simple",
+      "name": "Header (Simple)",
+      "category": "Headers",
+      "tags": ["header", "topbar", "brand", "nav"],
+      "html": "<header class=\"w-full border-b bg-white\">\n  <div class=\"max-w-7xl mx-auto px-4 h-14 flex items-center justify-between\">\n    <div class=\"flex items-center gap-2\">\n      <div class=\"w-8 h-8 rounded-lg bg-blue-600\"></div>\n      <span class=\"font-semibold\">Brand</span>\n    </div>\n    <nav class=\"hidden md:flex items-center gap-4 text-sm text-gray-600\">\n      <a class=\"hover:text-gray-900\" href=\"#features\">Features</a>\n      <a class=\"hover:text-gray-900\" href=\"#pricing\">Pricing</a>\n      <a class=\"hover:text-gray-900\" href=\"#about\">About</a>\n    </nav>\n    <button class=\"md:hidden inline-flex items-center justify-center w-9 h-9 rounded-md border hover:bg-gray-50\" aria-label=\"Open menu\">≡</button>\n  </div>\n</header>",
+      "jsx": "export function HeaderSimple(){\n  return (\n    <header className=\"w-full border-b bg-white\">\n      <div className=\"max-w-7xl mx-auto px-4 h-14 flex items-center justify-between\">\n        <div className=\"flex items-center gap-2\">\n          <div className=\"w-8 h-8 rounded-lg bg-blue-600\" />\n          <span className=\"font-semibold\">Brand</span>\n        </div>\n        <nav className=\"hidden md:flex items-center gap-4 text-sm text-gray-600\">\n          <a className=\"hover:text-gray-900\" href=\"#features\">Features</a>\n          <a className=\"hover:text-gray-900\" href=\"#pricing\">Pricing</a>\n          <a className=\"hover:text-gray-900\" href=\"#about\">About</a>\n        </nav>\n        <button className=\"md:hidden inline-flex items-center justify-center w-9 h-9 rounded-md border hover:bg-gray-50\" aria-label=\"Open menu\">≡</button>\n      </div>\n    </header>\n  );\n}"
+    },
+    {
+      "id": "navbar-basic",
+      "name": "Navbar (Basic)",
+      "category": "Navigation",
+      "tags": ["navigation", "navbar", "links"],
+      "html": "<nav class=\"w-full rounded-lg border bg-white px-4 py-2 flex items-center justify-between\">\n  <div class=\"font-semibold\">Brand</div>\n  <div class=\"flex items-center gap-3 text-sm\">\n    <a href=\"#home\" class=\"hover:underline\">Home</a>\n    <a href=\"#docs\" class=\"hover:underline\">Docs</a>\n  </div>\n</nav>",
+      "jsx": "export function NavbarBasic(){\n  return (\n    <nav className=\"w-full rounded-lg border bg-white px-4 py-2 flex items-center justify-between\">\n      <div className=\"font-semibold\">Brand</div>\n      <div className=\"flex items-center gap-3 text-sm\">\n        <a href=\"#home\" className=\"hover:underline\">Home</a>\n        <a href=\"#docs\" className=\"hover:underline\">Docs</a>\n      </div>\n    </nav>\n  );\n}"
+    },
+    {
+      "id": "hero-center",
+      "name": "Hero (Centered)",
+      "category": "Heroes",
+      "tags": ["hero", "marketing", "header"],
+      "html": "<section class=\"text-center py-12\">\n  <h1 class=\"text-3xl font-bold\">Build faster with Tailwind</h1>\n  <p class=\"text-gray-600 mt-2\">Copy & paste ready components for your next project.</p>\n  <div class=\"mt-4 flex items-center justify-center gap-2\">\n    <a href=\"#get-started\" class=\"inline-flex items-center justify-center font-semibold text-white rounded-lg px-4 py-2 bg-blue-600 hover:bg-blue-700\">Get Started</a>\n    <a href=\"#components\" class=\"px-4 py-2 rounded-lg border hover:bg-gray-50\">Browse Components</a>\n  </div>\n</section>",
+      "jsx": "export function HeroCenter(){\n  return (\n    <section className=\"text-center py-12\">\n      <h1 className=\"text-3xl font-bold\">Build faster with Tailwind</h1>\n      <p className=\"text-gray-600 mt-2\">Copy & paste ready components for your next project.</p>\n      <div className=\"mt-4 flex items-center justify-center gap-2\">\n        <a href=\"#get-started\" className=\"inline-flex items-center justify-center font-semibold text-white rounded-lg px-4 py-2 bg-blue-600 hover:bg-blue-700\">Get Started</a>\n        <a href=\"#components\" className=\"px-4 py-2 rounded-lg border hover:bg-gray-50\">Browse Components</a>\n      </div>\n    </section>\n  );\n}"
+    },
+    {
+      "id": "card-basic",
+      "name": "Card (Basic)",
+      "category": "Cards",
+      "tags": ["card", "surface", "container"],
+      "html": "<div class=\"p-4 rounded-xl border bg-white max-w-sm\">\n  <h4 class=\"font-semibold\">Card Title</h4>\n  <p class=\"text-sm text-gray-600 mt-1\">Card content goes here.</p>\n  <div class=\"mt-3\">\n    <button class=\"inline-flex items-center justify-center font-semibold text-white rounded-lg px-3 py-2 bg-blue-600 hover:bg-blue-700\">Action</button>\n  </div>\n</div>",
+      "jsx": "export function CardBasic(){\n  return (\n    <div className=\"p-4 rounded-xl border bg-white max-w-sm\">\n      <h4 className=\"font-semibold\">Card Title</h4>\n      <p className=\"text-sm text-gray-600 mt-1\">Card content goes here.</p>\n      <div className=\"mt-3\">\n        <button className=\"inline-flex items-center justify-center font-semibold text-white rounded-lg px-3 py-2 bg-blue-600 hover:bg-blue-700\">Action</button>\n      </div>\n    </div>\n  );\n}"
+    },
+    {
+      "id": "button-primary",
+      "name": "Button (Primary)",
+      "category": "Buttons",
+      "tags": ["button", "primary", "action", "cta"],
+      "html": "<button class=\"inline-flex items-center justify-center font-semibold text-white rounded-lg px-4 py-2 bg-blue-600 hover:bg-blue-700\">Primary</button>",
+      "jsx": "export function ButtonPrimary(){\n  return (\n    <button className=\"inline-flex items-center justify-center font-semibold text-white rounded-lg px-4 py-2 bg-blue-600 hover:bg-blue-700\">Primary</button>\n  );\n}"
+    },
+    {
+      "id": "footer-simple",
+      "name": "Footer (Simple)",
+      "category": "Footers",
+      "tags": ["footer", "legal", "links"],
+      "html": "<footer class=\"w-full border-t bg-white py-6\">\n  <div class=\"max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-gray-600\">\n    <span>© 2025 Brand Inc.</span>\n    <div class=\"flex items-center gap-4\">\n      <a href=\"#privacy\" class=\"hover:text-gray-900\">Privacy</a>\n      <a href=\"#terms\" class=\"hover:text-gray-900\">Terms</a>\n      <a href=\"#contact\" class=\"hover:text-gray-900\">Contact</a>\n    </div>\n  </div>\n</footer>",
+      "jsx": "export function FooterSimple(){\n  return (\n    <footer className=\"w-full border-t bg-white py-6\">\n      <div className=\"max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-gray-600\">\n        <span>© 2025 Brand Inc.</span>\n        <div className=\"flex items-center gap-4\">\n          <a href=\"#privacy\" className=\"hover:text-gray-900\">Privacy</a>\n          <a href=\"#terms\" className=\"hover:text-gray-900\">Terms</a>\n          <a href=\"#contact\" className=\"hover:text-gray-900\">Contact</a>\n        </div>\n      </div>\n    </footer>\n  );\n}"
+    }
+  ]
+}

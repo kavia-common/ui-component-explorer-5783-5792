@@ -70,11 +70,11 @@ export default function HomePage() {
                 <div className="rounded-lg border border-gray-200 bg-slate-50 p-2.5">
                   <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
                     <Link
-                      to="/components?item=Installation"
+                      to="/components"
                       className="btn-brand-45"
-                      aria-label="Getting Started"
+                      aria-label="Browse Catalog"
                     >
-                      Getting Started
+                      Browse Catalog
                     </Link>
                   </div>
                 </div>

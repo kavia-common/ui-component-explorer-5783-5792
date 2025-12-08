@@ -5,7 +5,7 @@ import Sidebar from './components/Sidebar';
 import Breadcrumbs from './components/Breadcrumbs.jsx';
 import HomePage from './pages/HomePage.js';
 import ComponentsListPage from './pages/ComponentsListPage.js';
-import ComponentDetailPage from './pages/ComponentDetailPage.js';
+import ComponentCatalogDetail from './pages/ComponentCatalogDetail.jsx';
 import CatalogPage from './pages/CatalogPage.jsx';
 import InstallationPage from './pages/InstallationPage.jsx';
 import componentsIndex from './data/components.json';
@@ -60,7 +60,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/components" element={<ComponentsListPage />} />
-                <Route path="/components/:id" element={<ComponentDetailPage />} />
+                <Route path="/components/:id" element={<ComponentCatalogDetail />} />
                 <Route path="/catalog" element={<CatalogPage />} />
                 <Route path="/getting-started/installation" element={<InstallationPage />} />
                 <Route path="/installation" element={<InstallationPage />} />

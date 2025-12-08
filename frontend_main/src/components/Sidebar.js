@@ -135,18 +135,27 @@ const Sidebar = () => {
                     );
                   }
 
-                  // Determine destination: catalog-backed items go to /catalog with selected id; others fallback to list filtered search
+                  // Determine destination:
+                  // - catalog-backed items route to /components/:id (detail view with Preview + HTML/React tabs elsewhere)
+                  // - otherwise, fall back to /components with a search filter so user still lands somewhere useful
                   const inCatalog = (catalog.components || []).some((c) => c.id === it.id);
                   const to = inCatalog
-                    ? { pathname: '/catalog' }
+                    ? `/components/${it.id}`
                     : { pathname: '/components', search: `?q=${encodeURIComponent(it.name)}` };
+
+                  const isActive =
+                    (typeof to === 'string' && location.pathname === to) ||
+                    (typeof to !== 'string' &&
+                      location.pathname.startsWith('/components') &&
+                      (to.search || '').includes('q='));
 
                   return (
                     <li key={it.id}>
                       <Link
                         to={to}
-                        state={inCatalog ? { selectId: it.id } : undefined}
-                        className="block rounded-md px-3 py-2 text-sm text-white/90 hover:bg-white/10 hover:text-white"
+                        className={`block rounded-md px-3 py-2 text-sm transition-colors ${
+                          isActive ? 'bg-white/15 text-white' : 'text-white/90 hover:bg-white/10 hover:text-white'
+                        }`}
                         title={it.name}
                       >
                         {it.name}

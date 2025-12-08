@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams, Link, useParams, useNavigate } from 'react-router-dom';
 import catalog from '../data/catalog.json';
 import CodeBlock from '../demos/CodeBlock';
 
@@ -7,11 +7,16 @@ import CodeBlock from '../demos/CodeBlock';
 export default function CatalogPage() {
   /** Catalog of copyable Tailwind components with live preview and HTML/React tabs */
   const [params, setParams] = useSearchParams();
+  const { id: routeId } = useParams();
+  const navigate = useNavigate();
   const q = params.get('q') || '';
   const cat = params.get('cat') || 'All';
-  const sel = params.get('id') || '';
+  const sel = (routeId || params.get('id')) || '';
 
-  const categories = React.useMemo(() => ['All', ...catalog.categories], []);
+  const categories = React.useMemo(() => {
+    const cats = Array.isArray(catalog.categories) ? catalog.categories : [];
+    return ['All', ...cats];
+  }, []);
   const items = React.useMemo(() => {
     const byCat = cat === 'All' ? catalog.components : catalog.components.filter(c => c.category === cat);
     if (!q) return byCat;
@@ -91,7 +96,10 @@ export default function CatalogPage() {
         <Detail
           key={selected.id}
           item={selected}
-          onClose={()=> setQuery({ id: '' })}
+          onClose={()=>{
+            if (routeId) navigate('/components');
+            setQuery({ id: '' });
+          }}
         />
       ) : null}
     </div>

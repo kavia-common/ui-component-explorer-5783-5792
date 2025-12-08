@@ -120,6 +120,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/components" element={<CatalogPage />} />
           <Route path="/components/:id" element={<CatalogPage />} />
+          <Route path="/components/item/:id" element={<CatalogPage />} />
           <Route path="/components/explorer" element={<ComponentsListPage />} />
           <Route path="/components/explorer/:id" element={<ComponentsListPage />} />
         </Routes>

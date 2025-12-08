@@ -6,19 +6,21 @@ import HomePage from './pages/HomePage';
 import ComponentsListPage from './pages/ComponentsListPage';
 import ComponentDetailPage from './pages/ComponentDetailPage';
 import Sidebar from './components/Sidebar';
+import Navbar from './components/Navbar.jsx';
 
 /**
  * PUBLIC_INTERFACE
- * App: Root application component configuring routing and ensuring Sidebar displays on all main routes.
- * Routes:
- * - /                 -> HomePage (with sidebar)
- * - /components       -> ComponentsListPage (with sidebar)
- * - /components/:id   -> ComponentDetailPage (with sidebar)
+ * App: Root component configuring routing and the global layout shell.
+ * - Renders a fixed top Navbar across routes
+ * - Two-column layout (Sidebar + Content) under the navbar
+ * - Sidebar flush with left edge, scrollable independently
+ * - Main content scrolls independently; no horizontal scroll
  */
 function App() {
   return (
     <BrowserRouter>
       <div className="min-h-screen bg-white">
+        <Navbar />
         <Routes>
           {/* All primary routes render within the sidebar layout */}
           <Route element={<WithSidebarLayout />}>
@@ -34,31 +36,47 @@ function App() {
 
 /**
  * PUBLIC_INTERFACE
- * WithSidebarLayout: Two-column layout with Sidebar on the left and route content on the right.
- * - Sticky sidebar on larger screens
- * - Preserves original styling for the sidebar container
- * - Ensures visibility and avoids CSS that could hide it
+ * WithSidebarLayout: Two-column flex layout with a fixed top navbar.
+ * - Sidebar on the left, flush at x=0 with its own scroll
+ * - Content on the right, independently scrollable
+ * - Uses padding-top equal to navbar height to prevent overlap
  */
 function WithSidebarLayout() {
   const location = useLocation();
   const isComponents = location.pathname.startsWith('/components');
 
+  // Navbar height is 64px (h-16); push content below it
   return (
-    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-10">
-      <div className="grid grid-cols-1 md:grid-cols-[260px,1fr] gap-6">
-        <aside aria-label="Component navigation sidebar" className="md:sticky md:self-start top-6 z-10">
-          <div className="rounded-xl border border-gray-200 bg-white p-0 shadow-sm">
-            {/* Constrain the sidebar panel to viewport height and allow vertical scrolling */}
-            <div className="max-h-screen overflow-y-auto">
+    <div className="pt-16">
+      <div className="flex min-h-[calc(100vh-4rem)] w-full overflow-hidden no-left-gutter">
+        {/* Sidebar column */}
+        <aside
+          aria-label="Component navigation sidebar"
+          className="w-[260px] flex-shrink-0 overflow-hidden"
+        >
+          {/* Sidebar must be flush left and scroll independently */}
+          <div className="h-full max-h-[calc(100vh-4rem)] overflow-y-auto">
+            <div
+              className="h-full"
+            >
+              {/* Keep gradient + hover/active styles from Sidebar component */}
               <Sidebar />
             </div>
           </div>
         </aside>
-        <section aria-label={isComponents ? 'Component content' : 'Content'}>
-          <Outlet />
+
+        {/* Main content column */}
+        <section
+          aria-label={isComponents ? 'Component content' : 'Content'}
+          className="flex-1 min-w-0 overflow-y-auto"
+        >
+          {/* Internal content container; avoid outer left margins/paddings that offset the sidebar */}
+          <div className="px-4 sm:px-6 lg:px-8 py-4 lg:py-6">
+            <Outlet />
+          </div>
         </section>
       </div>
-    </main>
+    </div>
   );
 }
 

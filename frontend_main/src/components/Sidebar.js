@@ -84,13 +84,13 @@ export default function Sidebar() {
   // Gradient background wrapper + white/translucent hover/active states for legibility
   return (
     <div
-      className="rounded-xl p-4 text-white max-h-screen overflow-y-auto"
+      className="text-white max-h-screen overflow-y-auto"
       style={{
         background: 'linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%)',
       }}
       aria-label="Sidebar"
     >
-      <nav className="space-y-4">
+      <nav className="space-y-4 p-4">
         {sections.map((section) => (
           <section key={section.title}>
             <h3 className="text-xs font-semibold uppercase tracking-wide text-white/80">

@@ -354,9 +354,9 @@ npm run build`}
     return (
       <article className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white tracking-tight flex items-center gap-2">
+          <h2 className="text-xl font-bold tracking-tight flex items-center gap-2">
             <span className="preview-accent-dot" aria-hidden="true"></span>
-            {selectedItem}
+            <span className="text-brand-45">{selectedItem}</span>
           </h2>
           <div className="flex items-center gap-3">
             <TabToggle value={view} onChange={setView} idBase="item-view" />
@@ -432,7 +432,7 @@ function DependenciesCallout({ entry }) {
     <section aria-labelledby="deps-title" className="bg-white border border-gray-200 rounded-xl shadow-sm">
       <div className="px-4 py-3 border-b border-gray-200 flex items-center justify-between">
         <h3 id="deps-title" className="text-sm font-semibold text-gray-900 flex items-center gap-2">
-          <span className="inline-block w-2 h-2 rounded-full bg-brand-45" aria-hidden="true"></span>
+          <span className="inline-block w-2 h-2 rounded-full" style={{background: 'linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%)'}} aria-hidden="true"></span>
           {deps.length > 0 ? 'Requirements' : 'Dependencies'}
         </h3>
         {deps.length === 0 && (

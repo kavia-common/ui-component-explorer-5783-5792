@@ -63,6 +63,7 @@ small, .text-xs { font-size: 0.75rem; }
 .gradient-ocean { @apply bg-gradient-to-br from-blue-500/10 to-gray-50; }
 
 /* Remove app-wide gradient backgrounds; keep navbar gradient only for the header/sidebar component */
+/* Shared brand gradient token for sidebar & navbar backgrounds */
 .bg-navbar-gradient{
   background: linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%);
 }
@@ -71,8 +72,23 @@ small, .text-xs { font-size: 0.75rem; }
 /* Deprecated alias retained for safety */
 .bg-sidebar-gradient{ background: linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%); }
 
+/* Brand gradient at 45deg (purple -> indigo) as canonical token */
+.bg-brand-45 {
+  background: linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%);
+}
+/* Slightly lighter overlay variation for hover/active states over the gradient */
+.bg-brand-45-soft { background: linear-gradient(45deg, rgba(175,36,151,0.9) 10%, rgba(144,45,154,0.9) 20%, rgba(24,64,160,0.9) 100%); }
+
 /* Readability overlay on gradients */
 .navbar-overlay{ @apply backdrop-blur supports-[backdrop-filter]:bg-white/10; }
+
+/* Gradient text using brand gradient */
+.text-brand-45 {
+  background: linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent; /* text-transparent */
+}
 
 /* Gradient utilities per design directives */
 /* Full-surface hero background at 87deg, semi-transparent so white shows through */

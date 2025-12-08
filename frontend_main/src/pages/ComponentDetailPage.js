@@ -14,7 +14,7 @@ SyntaxHighlighter.registerLanguage('xml', xml);
 function PreviewRenderer({ preview }) {
   if (preview === 'button') {
     return (
-      <button className="px-4 py-2 rounded-lg bg-primary text-white hover:bg-blue-600 transition-colors">
+      <button className="btn-brand-45">
         Primary Button
       </button>
     );

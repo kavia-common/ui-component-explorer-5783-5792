@@ -7,6 +7,7 @@ import HomePage from './pages/HomePage.js';
 import ComponentsListPage from './pages/ComponentsListPage.js';
 import ComponentDetailPage from './pages/ComponentDetailPage.js';
 import CatalogPage from './pages/CatalogPage.jsx';
+import InstallationPage from './pages/InstallationPage.jsx';
 import componentsIndex from './data/components.json';
 import './App.css';
 
@@ -61,6 +62,8 @@ function App() {
                 <Route path="/components" element={<ComponentsListPage />} />
                 <Route path="/components/:id" element={<ComponentDetailPage />} />
                 <Route path="/catalog" element={<CatalogPage />} />
+                <Route path="/getting-started/installation" element={<InstallationPage />} />
+                <Route path="/installation" element={<InstallationPage />} />
               </Routes>
             </div>
           </main>

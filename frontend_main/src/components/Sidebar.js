@@ -16,7 +16,7 @@ const Sidebar = () => {
   const STRUCTURE = useMemo(() => ([
     {
       title: 'Getting Started',
-      items: [{ id: 'installation', name: 'Installation', type: 'catalog', category: 'Getting Started' }],
+      items: [{ id: 'installation', name: 'Installation', type: 'route', category: 'Getting Started', to: '/getting-started/installation' }],
     },
     {
       title: 'Layout & Content',
@@ -120,6 +120,21 @@ const Sidebar = () => {
               </div>
               <ul className="space-y-1">
                 {visibleItems.map((it) => {
+                  // Direct route support for specific items (e.g., Installation)
+                  if (it.type === 'route' && it.to) {
+                    return (
+                      <li key={it.id}>
+                        <Link
+                          to={it.to}
+                          className="block rounded-md px-3 py-2 text-sm text-white/90 hover:bg-white/10 hover:text-white"
+                          title={it.name}
+                        >
+                          {it.name}
+                        </Link>
+                      </li>
+                    );
+                  }
+
                   // Determine destination: catalog-backed items go to /catalog with selected id; others fallback to list filtered search
                   const inCatalog = (catalog.components || []).some((c) => c.id === it.id);
                   const to = inCatalog

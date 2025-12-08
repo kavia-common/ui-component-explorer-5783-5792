@@ -21,6 +21,9 @@ export default function Breadcrumbs({ componentsIndex = [] }) {
     '/': 'Home',
     '/components': 'Components',
     '/catalog': 'Catalog',
+    '/getting-started': 'Getting Started',
+    '/getting-started/installation': 'Installation',
+    '/installation': 'Installation',
   };
 
   // Attempt to resolve a display name for a component id if we're on /components/:id

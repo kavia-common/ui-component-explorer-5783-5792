@@ -8,20 +8,20 @@
  
  // Shared style tokens for demos (Tailwind-only for Playground)
  const primaryBtn = 'btn-brand-45';
- const secondaryBtn = 'px-3 py-2 rounded-lg border text-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60';
- const inputField = 'w-full px-3 py-2 rounded-lg border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60';
+ const secondaryBtn = 'px-3 py-2 rounded-lg border text-sm bg-white text-gray-700 hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60 transition-colors';
+ const inputField = 'w-full px-3 py-2 rounded-lg border bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60 transition-colors';
  
  export function ColumnsDemo() {
    return (
      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
-       <div className="rounded-lg border bg-white p-4 text-sm text-gray-600">Left content</div>
-       <div className="rounded-lg border bg-white p-4 text-sm text-gray-600">Right content</div>
+       <div className="rounded-xl border bg-white p-4 text-sm text-gray-700 shadow-sm">Left content</div>
+       <div className="rounded-xl border bg-white p-4 text-sm text-gray-700 shadow-sm">Right content</div>
      </div>
    );
  }
  export function LayoutSplitterDemo() {
    return (
-     <div className="flex rounded-lg border bg-white overflow-hidden w-full">
+     <div className="flex rounded-xl border bg-white overflow-hidden w-full shadow-sm">
        <div className="basis-1/2 min-w-[120px] p-4 text-sm">Pane A</div>
        <div className="w-1 bg-gray-200" role="separator" aria-orientation="vertical"></div>
        <div className="basis-1/2 min-w-[120px] p-4 text-sm">Pane B</div>
@@ -30,7 +30,7 @@
  }
  export function ImagesDemo() {
    return (
-     <figure className="max-w-md rounded-lg border bg-white overflow-hidden">
+     <figure className="max-w-md rounded-xl border bg-white overflow-hidden shadow-sm">
        <img src="https://picsum.photos/600/320" alt="Random" className="w-full h-44 object-cover" />
        <figcaption className="text-xs text-gray-600 p-2">Responsive image with caption</figcaption>
      </figure>
@@ -61,7 +61,7 @@
  }
  export function CustomScrollbarDemo() {
    return (
-     <div className="h-32 w-full max-w-sm overflow-y-auto rounded-lg border bg-white [scrollbar-width:thin] [scrollbar-color:theme(colors.gray.400)_transparent]">
+     <div className="h-32 w-full max-w-sm overflow-y-auto rounded-xl border bg-white shadow-sm [scrollbar-width:thin] [scrollbar-color:theme(colors.gray.400)_transparent]">
        <ul className="divide-y">
          {Array.from({length: 10}).map((_,i)=>(
            <li key={i} className="p-2 text-sm">Item {i+1}</li>
@@ -74,7 +74,7 @@
    return (
      <div className="grid grid-cols-3 gap-3 w-full">
        {[1,2,3,4,5,6].map(i=> (
-         <div key={i} className="h-16 rounded-lg border bg-white flex items-center justify-center text-sm text-gray-500">Box {i}</div>
+         <div key={i} className="h-16 rounded-xl border bg-white flex items-center justify-center text-sm text-gray-600 shadow-sm">Box {i}</div>
        ))}
      </div>
    );
@@ -86,7 +86,7 @@
  
  export function SectionDemo() {
    return (
-     <section className="py-6 border rounded-lg bg-white w-full">
+     <section className="py-6 border rounded-xl bg-white w-full shadow-sm">
        <h3 className="px-4 font-semibold">Section</h3>
        <div className="px-4 text-sm text-gray-600">Content...</div>
      </section>
@@ -95,7 +95,7 @@
  
  export function CardDemo() {
    return (
-     <div className="p-4 rounded-xl border bg-white w-full max-w-sm">
+     <div className="p-4 rounded-xl border bg-white w-full max-w-sm shadow-sm">
        <h4 className="font-semibold">Card Title</h4>
        <p className="text-sm text-gray-600 mt-1">Card content...</p>
        <div className="mt-3">
@@ -121,7 +121,7 @@
  
  export function MediaDemo() {
    return (
-     <figure className="rounded-lg border overflow-hidden bg-white w-full max-w-md">
+     <figure className="rounded-xl border overflow-hidden bg-white w-full max-w-md shadow-sm">
        <img alt="placeholder" src="https://picsum.photos/400/200" className="w-full h-40 object-cover"/>
        <figcaption className="p-2 text-xs text-gray-600">Sample image</figcaption>
      </figure>
@@ -134,8 +134,8 @@
      <div className="flex flex-wrap gap-2">
        <button className={primaryBtn}>Primary</button>
        <button className={secondaryBtn}>Secondary</button>
-       <button className="px-3 py-2 rounded-lg bg-amber-500 text-white text-sm hover:bg-amber-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60">Warning</button>
-       <button className="px-3 py-2 rounded-lg bg-red-500 text-white text-sm hover:bg-red-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60">Danger</button>
+       <button className="px-3 py-2 rounded-lg bg-amber-500 text-white text-sm hover:bg-amber-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60 transition-colors">Warning</button>
+       <button className="px-3 py-2 rounded-lg bg-red-500 text-white text-sm hover:bg-red-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60 transition-colors">Danger</button>
      </div>
    );
  }
@@ -162,7 +162,7 @@
  }
  
  export function AlertsDemo() {
-   return <div role="alert" className="rounded-lg border border-blue-200 bg-blue-50 text-blue-800 p-3 text-sm">Info alert</div>;
+   return <div role="alert" className="rounded-lg border border-blue-200 bg-blue-50 text-blue-800 p-3 text-sm shadow-sm">Info alert</div>;
  }
  
  export function TagsDemo() {
@@ -174,7 +174,7 @@
    return (
      <div className="flex flex-wrap gap-2">
        {items.map(x=> (
-         <button key={x} className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border text-xs hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60">
+         <button key={x} className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border text-xs hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60 transition-colors">
            {x}
            <span aria-hidden>×</span>
          </button>
@@ -188,7 +188,7 @@
    return (
      <div className="relative inline-block">
        <button onMouseEnter={()=>setShow(true)} onMouseLeave={()=>setShow(false)} className={secondaryBtn}>Hover me</button>
-       {show && <div role="tooltip" className="absolute left-1/2 -translate-x-1/2 mt-2 whitespace-nowrap text-xs bg-black text-white px-2 py-1 rounded">Tooltip text</div>}
+       {show && <div role="tooltip" className="absolute left-1/2 -translate-x-1/2 mt-2 whitespace-nowrap text-xs bg-black text-white px-2 py-1 rounded shadow-soft">Tooltip text</div>}
      </div>
    );
  }
@@ -196,7 +196,7 @@
  // Navigation
  export function NavbarDemo() {
    return (
-     <nav className="w-full rounded-lg border bg-white px-4 py-2 flex items-center justify-between">
+     <nav className="w-full rounded-xl border bg-white px-4 py-2 flex items-center justify-between shadow-sm">
        <div className="font-semibold">Brand</div>
        <div className="flex items-center gap-3 text-sm">
          <a href="#home" className="hover:underline">Home</a>
@@ -207,7 +207,7 @@
  }
  export function SidebarDemo() {
    return (
-     <aside className="w-48 rounded-lg border p-3 bg-white">
+     <aside className="w-48 rounded-xl border p-3 bg-white shadow-sm">
        <a className="block rounded px-2 py-1 text-sm hover:bg-gray-50" href="#a">Item A</a>
        <a className="block rounded px-2 py-1 text-sm hover:bg-gray-50" href="#b">Item B</a>
      </aside>
@@ -219,7 +219,7 @@
      <div>
        <div className="flex gap-2 border-b">
          {['One','Two','Three'].map(t=> (
-           <button key={t} onClick={()=>setTab(t)} className={'px-3 py-2 text-sm ' + (tab===t? 'border-b-2 border-blue-600 font-semibold':'text-gray-600 hover:text-gray-800')}>
+           <button key={t} onClick={()=>setTab(t)} className={'px-3 py-2 text-sm transition-colors ' + (tab===t? 'border-b-2 border-blue-600 font-semibold text-gray-900':'text-gray-600 hover:text-gray-800')}>
              {t}
            </button>
          ))}
@@ -297,7 +297,7 @@
  export function SwitchDemo() {
    const [on,setOn]=React.useState(false);
    return (
-     <button onClick={()=>setOn(o=>!o)} role="switch" aria-checked={on} className={'w-12 h-6 rounded-full flex items-center ' + (on? 'bg-blue-600':'bg-gray-300')}>
+     <button onClick={()=>setOn(o=>!o)} role="switch" aria-checked={on} className={'w-12 h-6 rounded-full flex items-center transition-colors ' + (on? 'bg-blue-600':'bg-gray-300')}>
        <span className={'w-5 h-5 bg-white rounded-full transform transition ' + (on? 'translate-x-6':'translate-x-1')}></span>
      </button>
    );
@@ -364,7 +364,7 @@
  // Tables
  export function SimpleTableDemo() {
    return (
-     <table className="w-full text-sm border rounded-lg overflow-hidden bg-white">
+     <table className="w-full text-sm border rounded-xl overflow-hidden bg-white shadow-sm">
        <thead className="bg-gray-50"><tr><th className="text-left p-2">Name</th><th className="text-left p-2">Role</th></tr></thead>
        <tbody>
          <tr className="border-t"><td className="p-2">Jane</td><td className="p-2">Designer</td></tr>
@@ -380,7 +380,7 @@
    return (
      <div className="w-full">
        <button onClick={()=>setAsc(a=>!a)} className="mb-2 px-2 py-1 rounded border text-xs">Sort {asc? '▼':'▲'}</button>
-       <table className="w-full text-sm border rounded-lg overflow-hidden bg-white">
+       <table className="w-full text-sm border rounded-xl overflow-hidden bg-white shadow-sm">
          <thead className="bg-gray-50"><tr><th className="text-left p-2">Name</th><th className="text-left p-2">Role</th></tr></thead>
          <tbody>
            {sorted.map((r)=> (
@@ -398,7 +398,7 @@
    return (
      <div className="w-full">
        <input className={inputField + ' mb-2'} placeholder="Filter by name" value={q} onChange={e=>setQ(e.target.value)} />
-       <table className="w-full text-sm border rounded-lg overflow-hidden bg-white">
+       <table className="w-full text-sm border rounded-xl overflow-hidden bg-white shadow-sm">
          <thead className="bg-gray-50"><tr><th className="text-left p-2">Name</th><th className="text-left p-2">Role</th></tr></thead>
          <tbody>
            {filtered.map((r)=> (

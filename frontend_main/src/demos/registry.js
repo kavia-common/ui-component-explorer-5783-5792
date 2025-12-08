@@ -121,11 +121,11 @@ export const demoRegistry = {
   },
   'Card': {
     componentKey: 'CardDemo',
-    html: `<div class="p-4 rounded-xl border bg-white">
+    html: `<div class="p-4 rounded-xl border bg-white shadow-sm">
   <h4 class="font-semibold">Card Title</h4>
   <p class="text-sm text-gray-600 mt-1">Card content...</p>
   <div class="mt-3">
-    <button class="inline-flex items-center justify-center font-semibold text-white rounded-lg px-3 py-2 bg-gradient-to-r from-indigo-600 via-violet-600 to-blue-700 hover:opacity-95 shadow-md transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">Action</button>
+    <button class="inline-flex items-center justify-center font-semibold text-white rounded-lg px-3 py-2 bg-[linear-gradient(45deg,_#af2497_10%,_#902d9a_20%,_#1840a0_100%)] hover:opacity-95 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60">Action</button>
   </div>
 </div>`,
     js: `// No JS required — card is static.`,
@@ -168,10 +168,10 @@ export const demoRegistry = {
   'Buttons': {
     componentKey: 'ButtonsDemo',
     html: `<div class="flex flex-wrap gap-2">
-  <button class="inline-flex items-center justify-center font-semibold text-white rounded-lg px-3 py-2 bg-gradient-to-r from-indigo-600 via-violet-600 to-blue-700 hover:opacity-95 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">Primary</button>
-  <button class="px-3 py-2 rounded-lg border text-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">Secondary</button>
-  <button class="px-3 py-2 rounded-lg bg-amber-500 text-white text-sm hover:bg-amber-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">Warning</button>
-  <button class="px-3 py-2 rounded-lg bg-red-500 text-white text-sm hover:bg-red-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">Danger</button>
+  <button class="inline-flex items-center justify-center font-semibold text-white rounded-lg px-3 py-2 bg-[linear-gradient(45deg,_#af2497_10%,_#902d9a_20%,_#1840a0_100%)] hover:opacity-95 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60">Primary</button>
+  <button class="px-3 py-2 rounded-lg border text-sm bg-white text-gray-700 hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60">Secondary</button>
+  <button class="px-3 py-2 rounded-lg bg-amber-500 text-white text-sm hover:bg-amber-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60">Warning</button>
+  <button class="px-3 py-2 rounded-lg bg-red-500 text-white text-sm hover:bg-red-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60">Danger</button>
 </div>`,
     js: `// No JS required — buttons without behavior are presentational.`,
     dependencies: [],
@@ -261,7 +261,7 @@ if (trigger && tip) {
   // Navigations
   'Navbar': {
     componentKey: 'NavbarDemo',
-    html: `<nav class="w-full rounded-lg border bg-white px-4 py-2 flex items-center justify-between">
+    html: `<nav class="w-full rounded-xl border bg-white px-4 py-2 flex items-center justify-between shadow-sm">
   <div class="font-semibold">Brand</div>
   <div class="flex items-center gap-3 text-sm">
     <a href="#home" class="hover:underline">Home</a>
@@ -274,7 +274,7 @@ if (trigger && tip) {
   },
   'Sidebar': {
     componentKey: 'SidebarDemo',
-    html: `<aside class="w-48 rounded-lg border p-3 bg-white">
+    html: `<aside class="w-48 rounded-xl border p-3 bg-white shadow-sm">
   <a class="block rounded px-2 py-1 text-sm hover:bg-gray-50" href="#a">Item A</a>
   <a class="block rounded px-2 py-1 text-sm hover:bg-gray-50" href="#b">Item B</a>
 </aside>`,
@@ -286,9 +286,9 @@ if (trigger && tip) {
     componentKey: 'TabsDemo',
     html: `<div data-tabs>
   <div class="flex gap-2 border-b">
-    <button data-tab="one" class="px-3 py-2 text-sm border-b-2 border-blue-600 font-semibold">One</button>
-    <button data-tab="two" class="px-3 py-2 text-sm text-gray-600">Two</button>
-    <button data-tab="three" class="px-3 py-2 text-sm text-gray-600">Three</button>
+    <button data-tab="one" class="px-3 py-2 text-sm border-b-2 border-blue-600 font-semibold text-gray-900">One</button>
+    <button data-tab="two" class="px-3 py-2 text-sm text-gray-600 hover:text-gray-800">Two</button>
+    <button data-tab="three" class="px-3 py-2 text-sm text-gray-600 hover:text-gray-800">Three</button>
   </div>
   <div class="mt-3 text-sm text-gray-700">
     <div data-panel="one">Tab One content</div>
@@ -375,7 +375,7 @@ if (span && prev && next){
     componentKey: 'InputDemo',
     html: `<div class="space-y-2 max-w-sm">
   <label class="text-sm font-medium">Your name</label>
-  <input data-echo class="w-full px-3 py-2 rounded-lg border" placeholder="Jane Doe"/>
+  <input data-echo class="w-full px-3 py-2 rounded-lg border bg-white" placeholder="Jane Doe"/>
   <div data-echo-out class="text-xs text-gray-500">Typed: —</div>
 </div>`,
     js: `// Echo typed value below input

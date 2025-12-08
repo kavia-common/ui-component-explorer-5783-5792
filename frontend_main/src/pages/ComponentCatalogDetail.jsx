@@ -14,7 +14,8 @@ export default function ComponentCatalogDetail() {
   /** Single component detail view for catalog items (deep link) */
   const { id } = useParams();
   const nav = useNavigate();
-  const item = (catalog.components || []).find((c) => c.id === id);
+  const list = Array.isArray(catalog?.components) ? catalog.components : [];
+  const item = list.find((c) => String(c.id) === String(id));
 
   if (!item) {
     return (
@@ -25,6 +26,9 @@ export default function ComponentCatalogDetail() {
     );
   }
 
+  // Escape labels that may contain angle brackets to avoid any unexpected DOM issues
+  const safeLabel = (s) => String(s ?? '').replace(/</g, '‹').replace(/>/g, '›');
+
   const [tab, setTab] = React.useState('Preview'); // Preview | HTML | React
 
   return (
@@ -33,14 +37,14 @@ export default function ComponentCatalogDetail() {
         <ol className="breadcrumbs flex items-center gap-2">
           <li><Link to="/components" className="hover:underline">Components</Link></li>
           <li aria-hidden="true" className="text-slate-400">/</li>
-          <li className="text-slate-700 font-medium">{item.name}</li>
+          <li className="text-slate-700 font-medium">{safeLabel(item.name)}</li>
         </ol>
       </nav>
 
       <div className="flex items-start justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold">{item.name}</h1>
-          <div className="text-xs text-gray-500 mt-1">{item.category} • {(item.tags || []).join(', ')}</div>
+          <h1 className="text-2xl font-bold">{safeLabel(item.name)}</h1>
+          <div className="text-xs text-gray-500 mt-1">{safeLabel(item.category)} • {(item.tags || []).join(', ')}</div>
         </div>
         <button className="btn-ghost" onClick={() => nav('/components')} aria-label="Back">← Back</button>
       </div>
@@ -62,11 +66,11 @@ export default function ComponentCatalogDetail() {
         {tab === 'Preview' && (
           <div className="preview-surface px-5 py-6">
             <div className="preview-accent-bar" aria-hidden="true" />
-            <div className="pt-4" dangerouslySetInnerHTML={{ __html: item.html }} />
+            <div className="pt-4" dangerouslySetInnerHTML={{ __html: String(item.html ?? '') }} />
           </div>
         )}
-        {tab === 'HTML' && <CodeBlock code={item.html} language="html" title="HTML" />}
-        {tab === 'React' && <CodeBlock code={item.jsx} language="javascript" title="React (JSX)" />}
+        {tab === 'HTML' && <CodeBlock code={String(item.html ?? '')} language="html" title="HTML" />}
+        {tab === 'React' && <CodeBlock code={String(item.jsx ?? '')} language="javascript" title="React (JSX)" />}
       </div>
     </div>
   );

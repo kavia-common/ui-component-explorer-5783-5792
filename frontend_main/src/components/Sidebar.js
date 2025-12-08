@@ -138,13 +138,13 @@ const Sidebar = () => {
                   // Determine destination:
                   // - catalog-backed items route to /components/:id (detail view with Preview + HTML/React tabs elsewhere)
                   // - otherwise, fall back to /components with a search filter so user still lands somewhere useful
-                  const inCatalog = (catalog.components || []).some((c) => c.id === it.id);
+                  const inCatalog = Array.isArray(catalog?.components) && catalog.components.some((c) => String(c.id) === String(it.id));
                   const to = inCatalog
-                    ? `/components/${it.id}`
+                    ? `/components/${encodeURIComponent(it.id)}`
                     : { pathname: '/components', search: `?q=${encodeURIComponent(it.name)}` };
 
                   const isActive =
-                    (typeof to === 'string' && location.pathname === to) ||
+                    (typeof to === 'string' && location.pathname === decodeURIComponent(to)) ||
                     (typeof to !== 'string' &&
                       location.pathname.startsWith('/components') &&
                       (to.search || '').includes('q='));

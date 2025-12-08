@@ -8,10 +8,10 @@ import catalog from '../data/catalog.json';
  * - Accessible markup: <nav aria-label="Breadcrumb"><ol><li>...</li></ol></nav>
  * - Clickable intermediate crumbs; last crumb is current page (aria-current="page")
  * - Supports:
- *   "/" -> Home
- *   "/components" -> Home > Components
- *   "/components/:id" -> Home > Components > <Resolved Name or ID>
- *   "/catalog" (optional) -> Home > Catalog
+ *   "/": Home
+ *   "/components": Home > Components
+ *   "/components/:id": Home > Components > <Resolved Name or ID>
+ *   "/catalog" (optional): Home > Catalog
  * - Styling integrates with the app's subtle breadcrumb look and gradient accent for the last crumb.
  */
 export default function Breadcrumbs({ componentsIndex = [] }) {
@@ -27,18 +27,23 @@ export default function Breadcrumbs({ componentsIndex = [] }) {
     '/installation': 'Installation',
   };
 
+  // Escape/sanitize plain text for rendering (e.g., names that include <hr>)
+  const escapeLabel = (s) => {
+    if (s == null) return '';
+    return String(s).replace(/</g, '‹').replace(/>/g, '›');
+  };
+
   // Attempt to resolve a display name for a component id if we're on /components/:id
   const resolveComponentName = (id) => {
     if (!id) return '';
-    // First try components.json (componentsIndex prop)
-    const foundInIndex = componentsIndex.find((c) => String(c.id) === String(id));
+    const list = Array.isArray(componentsIndex) ? componentsIndex : [];
+    const foundInIndex = list.find((c) => String(c.id) === String(id));
     if (foundInIndex) return foundInIndex.name || id;
 
-    // Fallback: try catalog.json (catalog-backed detail pages)
-    const foundInCatalog = (catalog.components || []).find((c) => String(c.id) === String(id));
+    const catList = Array.isArray(catalog?.components) ? catalog.components : [];
+    const foundInCatalog = catList.find((c) => String(c.id) === String(id));
     if (foundInCatalog) return foundInCatalog.name || id;
 
-    // Default to id if not found anywhere
     return id;
   };
 
@@ -67,7 +72,7 @@ export default function Breadcrumbs({ componentsIndex = [] }) {
       return [
         { to: '/', label: staticLabels['/'] },
         { to: '/components', label: staticLabels['/components'] },
-        { to: pathname, label: name, isLast: true },
+        { to: pathname, label: escapeLabel(name), isLast: true },
       ];
     }
 
@@ -86,8 +91,8 @@ export default function Breadcrumbs({ componentsIndex = [] }) {
     parts.forEach((p, idx) => {
       cur += '/' + p;
       const isLast = idx === parts.length - 1;
-      // Prefer static labels if known
-      const label = staticLabels[cur] || titleCase(decodeURIComponent(p.replace(/-/g, ' ')));
+      const raw = staticLabels[cur] || titleCase(decodeURIComponent(p.replace(/-/g, ' ')));
+      const label = escapeLabel(raw);
       acc.push({ to: cur, label, isLast });
     });
     // Prepend Home

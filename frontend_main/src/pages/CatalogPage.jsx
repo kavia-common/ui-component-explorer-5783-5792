@@ -20,24 +20,29 @@ export default function CatalogPage() {
   }, []);
 
   const items = React.useMemo(() => {
-    const byCat = cat === 'All' ? catalog.components : catalog.components.filter(c => c.category === cat);
+    const list = Array.isArray(catalog?.components) ? catalog.components : [];
+    const byCat = cat === 'All' ? list : list.filter(c => c.category === cat);
     if (!q) return byCat;
     const term = q.toLowerCase();
     return byCat.filter(c =>
-      c.name.toLowerCase().includes(term) ||
-      c.category.toLowerCase().includes(term) ||
-      (c.tags || []).some(t => String(t).toLowerCase().includes(term))
+      String(c.name || '').toLowerCase().includes(term) ||
+      String(c.category || '').toLowerCase().includes(term) ||
+      (Array.isArray(c.tags) ? c.tags.some(t => String(t).toLowerCase().includes(term)) : false)
     );
   }, [q, cat]);
 
   React.useEffect(() => {
     const selId = location && location.state && location.state.selectId;
-    if (selId && catalog.components.some(c => c.id === selId)) {
-      setSel(selId);
+    const list = Array.isArray(catalog?.components) ? catalog.components : [];
+    if (selId && list.some(c => String(c.id) === String(selId))) {
+      setSel(String(selId));
     }
   }, [location]);
 
-  const selected = React.useMemo(() => catalog.components.find(c => c.id === sel) || null, [sel]);
+  const selected = React.useMemo(() => {
+    const list = Array.isArray(catalog?.components) ? catalog.components : [];
+    return list.find(c => String(c.id) === String(sel)) || null;
+  }, [sel]);
 
   return (
     <div className="space-y-6">
@@ -47,7 +52,7 @@ export default function CatalogPage() {
           {selected ? (
             <>
               <li aria-hidden="true" className="text-slate-400">/</li>
-              <li className="text-slate-700 font-medium">{selected.name}</li>
+              <li className="text-slate-700 font-medium">{String(selected.name ?? '').replace(/</g, '‹').replace(/>/g, '›')}</li>
             </>
           ) : null}
         </ol>
@@ -80,7 +85,7 @@ export default function CatalogPage() {
         {items.map(item => (
           <button
             key={item.id}
-            onClick={()=> setSel(item.id)}
+            onClick={()=> setSel(String(item.id))}
             className="text-left card p-4 card-elevate"
           >
             <div className="flex items-center justify-between">
@@ -123,7 +128,7 @@ function Detail({ item, onClose }) {
         <div className="pt-4">
           <div
             ref={htmlRef}
-            dangerouslySetInnerHTML={{ __html: item.html }}
+            dangerouslySetInnerHTML={{ __html: String(item.html ?? '') }}
           />
         </div>
       </div>
@@ -134,8 +139,8 @@ function Detail({ item, onClose }) {
     <section className="card p-4">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <h2 className="text-xl font-bold">{item.name}</h2>
-          <div className="text-xs text-gray-500 mt-1">{item.category} • {(item.tags || []).join(', ')}</div>
+          <h2 className="text-xl font-bold">{String(item.name ?? '').replace(/</g, '‹').replace(/>/g, '›')}</h2>
+          <div className="text-xs text-gray-500 mt-1">{String(item.category ?? '').replace(/</g, '‹').replace(/>/g, '›')} • {(item.tags || []).join(', ')}</div>
         </div>
         <button className="btn-ghost" onClick={onClose} aria-label="Close">Close</button>
       </div>
@@ -157,11 +162,11 @@ function Detail({ item, onClose }) {
         {tab === 'Preview' && <Preview />}
 
         {tab === 'HTML' && (
-          <CodeBlock code={item.html} language="html" title="HTML" />
+          <CodeBlock code={String(item.html ?? '')} language="html" title="HTML" />
         )}
 
         {tab === 'React' && (
-          <CodeBlock code={item.jsx} language="javascript" title="React (JSX)" />
+          <CodeBlock code={String(item.jsx ?? '')} language="javascript" title="React (JSX)" />
         )}
       </div>
 

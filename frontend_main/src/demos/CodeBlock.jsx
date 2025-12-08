@@ -22,6 +22,10 @@ SyntaxHighlighter.registerLanguage('xml', xml);
  * - title: optional heading label
  */
 export default function CodeBlock({ code, language = 'javascript', title = 'Code' }) {
+  // Normalize to strings to avoid runtime errors in highlighter
+  code = String(code ?? '');
+  title = String(title ?? 'Code');
+
   const [copied, setCopied] = React.useState(false);
   const [ariaMsg, setAriaMsg] = React.useState('');
   const [isDark, setIsDark] = React.useState(() =>

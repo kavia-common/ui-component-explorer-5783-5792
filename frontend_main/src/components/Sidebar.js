@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import catalog from '../data/catalog.json';
 
 /**
  * PUBLIC_INTERFACE
@@ -7,30 +8,50 @@ import { Link, useLocation } from 'react-router-dom';
  * Note: Container (position, gradient, width, scroll) is controlled by the App shell.
  * This component outputs only inner content with transparent background.
  *
- * Content rule:
- * - Keep existing visual styling intact.
- * - Only show core entries: "All Components" and "Getting Started > Installation".
- * - All other previous sidebar items are now rendered in the main content area under "Main Components".
+ * Behavior:
+ * - Preserve visual styling exactly as before.
+ * - Restore all component items back to the sidebar, grouped by categories from catalog.json.
+ * - Keep quick filter working to filter visible items.
  */
 const Sidebar = () => {
   const location = useLocation();
-
-  // Local quick filter only affects visible items in this sidebar (now minimal)
   const [query, setQuery] = useState('');
 
   const isActiveComponentsRoot =
     location.pathname.startsWith('/components') && location.search.length === 0;
 
-  // Sections reduced to only Getting Started (Installation)
-  const SECTIONS = useMemo(
-    () => [
-      {
-        title: 'Getting Started',
-        items: [{ id: 'installation', name: 'Installation', to: '/getting-started/installation' }],
-      },
-    ],
-    []
-  );
+  // Build sections from catalog categories and components
+  const sections = useMemo(() => {
+    const cats = Array.isArray(catalog?.categories) ? catalog.categories : [];
+    const comps = Array.isArray(catalog?.components) ? catalog.components : [];
+    const byCat = new Map();
+    cats.forEach((c) => byCat.set(c, []));
+    comps.forEach((c) => {
+      const cat = c.category || 'Other';
+      if (!byCat.has(cat)) byCat.set(cat, []);
+      byCat.get(cat).push(c);
+    });
+    // Ensure stable sort for items within category
+    const result = [];
+    for (const [title, items] of byCat.entries()) {
+      const sorted = [...items].sort((a, b) => String(a.name).localeCompare(String(b.name)));
+      result.push({
+        title,
+        items: sorted.map((it) => ({
+          id: String(it.id),
+          name: String(it.name),
+          to: `/components/${encodeURIComponent(it.id)}`,
+        })),
+      });
+    }
+    // Move "Getting Started" to top if exists
+    result.sort((a, b) => {
+      if (a.title === 'Getting Started') return -1;
+      if (b.title === 'Getting Started') return 1;
+      return String(a.title).localeCompare(String(b.title));
+    });
+    return result;
+  }, []);
 
   const matchQuery = (text) =>
     !query || String(text).toLowerCase().includes(query.toLowerCase());
@@ -65,7 +86,7 @@ const Sidebar = () => {
           </Link>
         </div>
 
-        {SECTIONS.map((section) => {
+        {sections.map((section) => {
           const visibleItems = section.items.filter((it) => matchQuery(it.name));
           if (visibleItems.length === 0) return null;
 

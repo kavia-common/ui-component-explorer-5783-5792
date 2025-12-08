@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import catalog from '../data/catalog.json';
 import CodeBlock from '../demos/CodeBlock';
 
@@ -12,6 +12,7 @@ export default function CatalogPage() {
   const [q, setQ] = React.useState('');
   const [cat, setCat] = React.useState('All');
   const [sel, setSel] = React.useState('');
+  const location = useLocation();
 
   const categories = React.useMemo(() => {
     const cats = Array.isArray(catalog.categories) ? catalog.categories : [];
@@ -28,6 +29,13 @@ export default function CatalogPage() {
       (c.tags || []).some(t => String(t).toLowerCase().includes(term))
     );
   }, [q, cat]);
+
+  React.useEffect(() => {
+    const selId = location && location.state && location.state.selectId;
+    if (selId && catalog.components.some(c => c.id === selId)) {
+      setSel(selId);
+    }
+  }, [location]);
 
   const selected = React.useMemo(() => catalog.components.find(c => c.id === sel) || null, [sel]);
 

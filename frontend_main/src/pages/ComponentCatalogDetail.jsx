@@ -31,6 +31,9 @@ export default function ComponentCatalogDetail() {
 
   const [tab, setTab] = React.useState('Preview'); // Preview | HTML | React
 
+  // Build a contextual "Sub-variants" list for quick navigation among related items
+  const related = getRelatedVariants(list, item);
+
   return (
     <div className="space-y-6">
       <nav aria-label="Breadcrumb" className="mb-1">
@@ -48,6 +51,29 @@ export default function ComponentCatalogDetail() {
         </div>
         <button className="btn-ghost" onClick={() => nav('/components')} aria-label="Back">← Back</button>
       </div>
+
+      {related.length > 0 && (
+        <div className="rounded-lg border border-gray-200 bg-white p-3 shadow-sm">
+          <div className="flex items-center justify-between">
+            <div className="text-sm font-medium text-gray-800">Sub-variants</div>
+          </div>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {related.map(r => (
+              <Link
+                key={r.id}
+                to={`/components/${encodeURIComponent(r.id)}`}
+                className={`inline-flex items-center rounded-md border px-2.5 py-1.5 text-xs sm:text-sm transition ${
+                  r.id === item.id
+                    ? 'bg-blue-600 text-white border-blue-600'
+                    : 'bg-white hover:bg-gray-50 text-gray-800'
+                }`}
+              >
+                {safeLabel(r.name)}
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className="flex items-center gap-2">
         {['Preview','HTML','React'].map((t) => (
@@ -74,4 +100,41 @@ export default function ComponentCatalogDetail() {
       </div>
     </div>
   );
+}
+
+/**
+ * Derive related sub-variants based on a heuristic:
+ * - Items that share the same category and whose names start with the same leading word
+ *   before the first " — " or space (e.g., "Layout Splitter", "Typography", "Images", "Links", "Dividers", "KBD", "Custom Scrollbar").
+ * - Keeps current item included and sorts by name.
+ */
+function getRelatedVariants(all, current) {
+  try {
+    const cat = current.category;
+    const base = String(current.name || '')
+      .split('—')[0]
+      .split('-')[0]
+      .split(':')[0]
+      .trim()
+      .toLowerCase();
+
+    const sameCat = all.filter(x => x.category === cat);
+
+    const isRelated = (name) => {
+      const head = String(name || '')
+        .split('—')[0]
+        .split('-')[0]
+        .split(':')[0]
+        .trim()
+        .toLowerCase();
+      return head === base;
+    };
+
+    const rel = sameCat.filter(x => isRelated(x.name));
+    // Deduplicate by id and sort by name
+    const uniq = Array.from(new Map(rel.map(x => [x.id, x])).values());
+    return uniq.sort((a, b) => String(a.name).localeCompare(String(b.name)));
+  } catch {
+    return [];
+  }
 }

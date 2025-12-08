@@ -186,6 +186,11 @@ const Sidebar = () => {
                       >
                         {it.name}
                       </Link>
+
+                      {/* Sub-variant inline shortcuts for known groups */}
+                      {['layout-splitter','typography','images','links','dividers-and-hr','kbd','custom-scrollbar'].includes(sid) && (
+                        <SubVariantInlineLinks parentId={sid} catalogIds={catalogIds} locationPath={location.pathname} />
+                      )}
                     </li>
                   );
                 })}
@@ -197,5 +202,41 @@ const Sidebar = () => {
     </div>
   );
 };
+
+function SubVariantInlineLinks({ parentId, catalogIds, locationPath }) {
+  const map = {
+    'layout-splitter': ['layout-splitter-horizontal','layout-splitter-vertical','layout-splitter-mixed'],
+    'typography': ['typography-headings','typography-inline'],
+    'images': ['images-thumbnails','images-fixed','images-scroll'],
+    'links': ['links-opacity','links-underline-color','links-hover-variants','links-colored'],
+    'dividers-and-hr': ['dividers-colored','dividers-height','dividers-with-label','dividers-vertical-group-with-label','dividers-responsive'],
+    'kbd': ['kbd-types','kbd-with-icons'],
+    'custom-scrollbar': ['custom-scrollbar-basic-usage','custom-scrollbar-rounded'],
+  };
+  const items = map[parentId] || [];
+  const visible = items.filter(id => catalogIds.has(id));
+  if (visible.length === 0) return null;
+
+  return (
+    <div className="pl-6 pr-3 pb-2">
+      <div className="flex flex-wrap gap-1">
+        {visible.map(id => {
+          const active = locationPath === `/components/${id}`;
+          return (
+            <Link
+              key={id}
+              to={`/components/${id}`}
+              className={`text-[11px] rounded px-2 py-1 border transition ${
+                active ? 'bg-white/20 border-white/30 text-white' : 'border-white/15 text-white/80 hover:bg-white/10'
+              }`}
+            >
+              {id.split(parentId + '-')[1]?.replaceAll('-', ' ') || id}
+            </Link>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
 
 export default Sidebar;

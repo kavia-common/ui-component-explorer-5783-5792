@@ -12,11 +12,12 @@ import CodeBlock from '../demos/CodeBlock';
 import { CodeTabs, TabToggle } from '../demos/PreviewCodeToggle';
 import { getDemoForItem } from '../demos/registry';
 
-// PUBLIC_INTERFACE
+ // PUBLIC_INTERFACE
 export default function ComponentsListPage() {
   /**
    * Components view (single-item mode) with Preview/Code toggle and HTML/JS sub-tabs in Code view.
    * Breadcrumbs preserved; selection via /components/:id or ?item=...
+   * This page renders inside WithSidebarLayout; avoid full-width wrappers that could hide the sidebar.
    */
   const { id: routeId } = useParams();
   const [searchParams] = useSearchParams();

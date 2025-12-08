@@ -4,7 +4,9 @@ import { Link, useLocation } from 'react-router-dom';
 /**
  * PUBLIC_INTERFACE
  * Sidebar: Categorized links for browsing components.
- * Links point to /components with ?item=... and remain compatible with /components/:id routes.
+ * - Highlights active item via query param (?item=...)
+ * - Compatible with /components and /components/:id
+ * - Preserves original spacing and subtle hover styling
  */
 export default function Sidebar() {
   const location = useLocation();
@@ -88,7 +90,7 @@ export default function Sidebar() {
             {section.items.map((it) => {
               const isActive =
                 activePath.startsWith('/components') &&
-                (activePath.includes(`item=${encodeURIComponent(it.label)}`));
+                activePath.includes(`item=${encodeURIComponent(it.label)}`);
               return (
                 <li key={it.label}>
                   <Link

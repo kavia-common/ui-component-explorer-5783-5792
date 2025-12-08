@@ -1,76 +1,121 @@
-import React from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import componentsData from '../data/components.json';
 
 /**
  * PUBLIC_INTERFACE
- * Sidebar: Categorized links for browsing components.
- * - Highlights active item via query param (?item=...)
- * - Compatible with /components and /components/:id
- * - Preserves original spacing and layout while applying brand gradient background
+ * Sidebar component for listing categories and providing quick search/filter controls.
+ * It renders:
+ * - A compact search box (local to sidebar) that filters categories and links.
+ * - A list of categories derived from the components metadata.
+ * - A link to "All Components" plus category‑specific quick links to the listing.
+ *
+ * Behavior notes (restored):
+ * - Does not control global filters; it only sets URL params and links to pages.
+ * - Does not collapse into a header; Navbar remains a separate component.
+ * - Category list is computed from components.json on mount and memoized.
  */
-export default function Sidebar() {
+const Sidebar = () => {
   const location = useLocation();
-  const activePath = location.pathname + location.search;
 
-  const sections = [
-    {
-      title: 'Layout & Content',
-      items: [
-        { label: 'Container', to: '/components?item=Container' },
-        { label: 'Columns', to: '/components?item=Columns' },
-        { label: 'Grid', to: '/components?item=Grid' },
-        { label: 'Layout Splitter', to: '/components?item=Layout Splitter' },
-        { label: 'Typography', to: '/components?item=Typography' },
-        { label: 'Images', to: '/components?item=Images' },
-        { label: 'Links', to: '/components?item=Links' },
-        { label: 'Dividers & <hr>', to: '/components?item=Dividers & <hr>' },
-        { label: 'KBD', to: '/components?item=KBD' },
-        { label: 'Custom Scrollbar', to: '/components?item=Custom Scrollbar' }
-      ],
+  // Derive category list from components.json, keeping insertion order stable
+  const categories = useMemo(() => {
+    const set = new Set();
+    (componentsData || []).forEach((c) => {
+      if (Array.isArray(c.categories)) {
+        c.categories.forEach((cat) => set.add(cat));
+      } else if (typeof c.category === 'string' && c.category.trim()) {
+        set.add(c.category.trim());
+      }
+    });
+    return Array.from(set).sort((a, b) => a.localeCompare(b));
+  }, []);
+
+  // Local search (sidebar only) used to filter visible categories
+  const [query, setQuery] = useState('');
+  const [filteredCategories, setFilteredCategories] = useState(categories);
+
+  useEffect(() => {
+    if (!query) {
+      setFilteredCategories(categories);
+      return;
     }
-  ];
+    const q = query.toLowerCase();
+    setFilteredCategories(categories.filter((c) => c.toLowerCase().includes(q)));
+  }, [categories, query]);
 
-  // Gradient background wrapper + white/translucent hover/active states for legibility
+  const isActivePath = (pathnameStartsWith) => {
+    return location.pathname.startsWith(pathnameStartsWith);
+  };
+
   return (
-    <div
-      className="text-white max-h-screen overflow-y-auto"
-      style={{
-        background: 'linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%)',
-      }}
-      aria-label="Sidebar"
-    >
-      <nav className="space-y-4 p-4">
-        {sections.map((section) => (
-          <section key={section.title}>
-            <h3 className="text-xs font-semibold uppercase tracking-wide text-white/80">
-              {section.title}
-            </h3>
-            <ul className="mt-2 space-y-1">
-              {section.items.map((it) => {
-                const isActive =
-                  activePath.startsWith('/components') &&
-                  activePath.includes(`item=${encodeURIComponent(it.label)}`);
-                return (
-                  <li key={it.label}>
-                    <Link
-                      to={it.to}
-                      className={
-                        'block px-3 py-1.5 rounded-md text-sm transition text-neutral-50 ' +
-                        (isActive
-                          ? 'bg-white/20'
-                          : 'hover:bg-white/15 active:bg-white/20')
-                      }
-                      aria-current={isActive ? 'page' : undefined}
-                    >
-                      {it.label}
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </section>
-        ))}
+    <aside className="w-64 shrink-0 border-r border-gray-200 bg-white/80 backdrop-blur-sm">
+      <div className="p-4 border-b border-gray-100">
+        <h2 className="text-sm font-semibold text-gray-700 tracking-wide uppercase">Browse</h2>
+        <div className="mt-3">
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Filter categories..."
+            className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500"
+            aria-label="Filter categories"
+          />
+        </div>
+      </div>
+
+      <nav className="p-3">
+        <ul className="space-y-1">
+          <li>
+            <Link
+              to="/components"
+              className={`flex items-center justify-between rounded-md px-3 py-2 text-sm transition-colors ${
+                isActivePath('/components') && location.search.length === 0
+                  ? 'bg-blue-50 text-blue-700'
+                  : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+              }`}
+            >
+              <span>All Components</span>
+              <span className="text-[10px] rounded bg-gray-100 px-1.5 py-0.5 text-gray-600">
+                {componentsData.length}
+              </span>
+            </Link>
+          </li>
+        </ul>
+
+        <h3 className="mt-4 mb-2 px-3 text-xs font-medium uppercase tracking-wide text-gray-500">
+          Categories
+        </h3>
+
+        <ul className="space-y-1">
+          {filteredCategories.length === 0 && (
+            <li className="px-3 py-2 text-xs text-gray-500">No matching categories</li>
+          )}
+          {filteredCategories.map((cat) => {
+            const count = (componentsData || []).filter((c) =>
+              Array.isArray(c.categories) ? c.categories.includes(cat) : c.category === cat
+            ).length;
+
+            const active = isActivePath('/components') && new URLSearchParams(location.search).get('category') === cat;
+
+            return (
+              <li key={cat}>
+                <Link
+                  to={`/components?category=${encodeURIComponent(cat)}`}
+                  className={`flex items-center justify-between rounded-md px-3 py-2 text-sm transition-colors ${
+                    active ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                  }`}
+                >
+                  <span className="truncate">{cat}</span>
+                  <span className="text-[10px] rounded bg-gray-100 px-1.5 py-0.5 text-gray-600">{count}</span>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
       </nav>
-    </div>
+    </aside>
   );
-}
+};
+
+export default Sidebar;

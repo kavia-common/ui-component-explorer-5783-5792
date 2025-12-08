@@ -9,9 +9,9 @@ import Sidebar from './components/Sidebar';
 
 /**
  * PUBLIC_INTERFACE
- * App: Root application component configuring routing and ensuring Sidebar displays on components-related routes.
+ * App: Root application component configuring routing and ensuring Sidebar displays on all main routes.
  * Routes:
- * - /                 -> HomePage (full width, no sidebar)
+ * - /                 -> HomePage (with sidebar)
  * - /components       -> ComponentsListPage (with sidebar)
  * - /components/:id   -> ComponentDetailPage (with sidebar)
  */
@@ -20,32 +20,15 @@ function App() {
     <BrowserRouter>
       <div className="min-h-screen bg-white">
         <Routes>
-          {/* Home route without sidebar */}
-          <Route path="/" element={<HomePageLayout />}>
-            <Route index element={<HomePage />} />
-          </Route>
-
-          {/* Any components-related route renders within the sidebar layout */}
+          {/* All primary routes render within the sidebar layout */}
           <Route element={<WithSidebarLayout />}>
+            <Route path="/" element={<HomePage />} />
             <Route path="/components" element={<ComponentsListPage />} />
             <Route path="/components/:id" element={<ComponentDetailPage />} />
           </Route>
         </Routes>
       </div>
     </BrowserRouter>
-  );
-}
-
-/**
- * PUBLIC_INTERFACE
- * HomePageLayout: Full-width container layout for the landing page without Sidebar.
- * Keeps the content centered and padded, matching design tokens.
- */
-function HomePageLayout() {
-  return (
-    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-10">
-      <Outlet />
-    </main>
   );
 }
 

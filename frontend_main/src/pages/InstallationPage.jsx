@@ -3,7 +3,8 @@ import CodeBlock from '../demos/CodeBlock';
 
 /**
  * PUBLIC_INTERFACE
- * InstallationPage: Tailwind CSS setup guide with copyable steps and Ocean Professional accents.
+ * InstallationPage: The single canonical Tailwind CSS setup guide with copyable steps and Ocean Professional accents.
+ * This is the only Installation page. Sidebar 'Installation' routes here: /getting-started/installation
  * Uses the standard app shell (Navbar + flush-left gradient Sidebar) and shows breadcrumbs via App.
  */
 export default function InstallationPage() {

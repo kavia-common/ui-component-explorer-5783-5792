@@ -106,9 +106,8 @@ const Sidebar = () => {
     </Link>
   );
 
-  // Determine active state for the static Installation item
-  const installationPaths = ['/getting-started/installation', '/installation'];
-  const isInstallationActive = installationPaths.includes(location.pathname);
+  // Determine active state for the static Installation item (canonical only)
+  const isInstallationActive = location.pathname === '/getting-started/installation';
 
   return (
     <div className="text-white">

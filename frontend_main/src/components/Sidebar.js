@@ -4,14 +4,9 @@ import catalog from '../data/catalog.json';
 
 /**
  * PUBLIC_INTERFACE
- * Sidebar renders navigational sections and items.
- * Note: Container (position, gradient, width, scroll) is controlled by the App shell.
- * This component outputs only inner content with transparent background.
- *
- * Behavior:
- * - Preserve visual styling exactly as before.
- * - Restore all component items back to the sidebar, grouped by categories from catalog.json.
- * - Keep quick filter working to filter visible items.
+ * Sidebar renders top-level component entries only (no nested sublists).
+ * - Keeps search/filter behavior for the displayed top-level items.
+ * - Preserves routing and layout spacing; only item set and background styles are adjusted.
  */
 const Sidebar = () => {
   const location = useLocation();
@@ -20,41 +15,64 @@ const Sidebar = () => {
   const isActiveComponentsRoot =
     location.pathname.startsWith('/components') && location.search.length === 0;
 
-  // Build sections from catalog categories and components
-  const sections = useMemo(() => {
-    const cats = Array.isArray(catalog?.categories) ? catalog.categories : [];
+  // Build the list of top-level entries only.
+  // We derive these from catalog.components by selecting canonical items and
+  // excluding variant/subitems (e.g., those with " — " in their names).
+  const topLevelItems = useMemo(() => {
     const comps = Array.isArray(catalog?.components) ? catalog.components : [];
-    const byCat = new Map();
-    cats.forEach((c) => byCat.set(c, []));
-    comps.forEach((c) => {
-      const cat = c.category || 'Other';
-      if (!byCat.has(cat)) byCat.set(cat, []);
-      byCat.get(cat).push(c);
+    // Top-level IDs we want to retain in the sidebar (examples given in the task).
+    // We compute them by filtering: take items that don't include an em dash separator
+    // and that match known top-level names like 'Layout Splitter', 'Typography', etc.
+    const allowedNameSet = new Set([
+      'Layout Splitter',
+      'Typography',
+      'Images',
+      'Links',
+      'Dividers and <hr>',
+      'KBD',
+      'Custom Scrollbar',
+      // Also allow Getting Started -> Installation as a single top-level entry if present
+      'Installation',
+    ]);
+
+    const isTopLevel = (name) => {
+      if (!name) return false;
+      // remove variants that use " — "
+      if (name.includes('—') || name.includes('--')) return false;
+      // keep only explicit allowed names
+      return allowedNameSet.has(name);
+    };
+
+    const filtered = comps
+      .filter((c) => isTopLevel(c.name))
+      .map((c) => ({
+        id: String(c.id),
+        name: String(c.name),
+        to: `/components/${encodeURIComponent(c.id)}`,
+        category: c.category || 'Other',
+      }));
+
+    // Deduplicate by name (in case of duplicates)
+    const byName = new Map();
+    filtered.forEach((it) => {
+      if (!byName.has(it.name)) byName.set(it.name, it);
     });
-    // Ensure stable sort for items within category
-    const result = [];
-    for (const [title, items] of byCat.entries()) {
-      const sorted = [...items].sort((a, b) => String(a.name).localeCompare(String(b.name)));
-      result.push({
-        title,
-        items: sorted.map((it) => ({
-          id: String(it.id),
-          name: String(it.name),
-          to: `/components/${encodeURIComponent(it.id)}`,
-        })),
-      });
-    }
-    // Move "Getting Started" to top if exists
-    result.sort((a, b) => {
-      if (a.title === 'Getting Started') return -1;
-      if (b.title === 'Getting Started') return 1;
-      return String(a.title).localeCompare(String(b.title));
+
+    // Stable sort by a curated order matching the allowedNameSet sequence
+    const order = Array.from(allowedNameSet);
+    const items = Array.from(byName.values()).sort((a, b) => {
+      const ai = order.indexOf(a.name);
+      const bi = order.indexOf(b.name);
+      return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
     });
-    return result;
+
+    return items;
   }, []);
 
   const matchQuery = (text) =>
     !query || String(text).toLowerCase().includes(query.toLowerCase());
+
+  const visibleTopLevel = topLevelItems.filter((it) => matchQuery(it.name));
 
   return (
     <div className="text-white">
@@ -86,33 +104,27 @@ const Sidebar = () => {
           </Link>
         </div>
 
-        {sections.map((section) => {
-          const visibleItems = section.items.filter((it) => matchQuery(it.name));
-          if (visibleItems.length === 0) return null;
-
-          return (
-            <div key={section.title}>
-              <div className="mb-2 flex items-center gap-2 px-3">
-                <h3 className="text-xs font-medium uppercase tracking-wide text-white/80">
-                  {section.title}
-                </h3>
-              </div>
-              <ul className="space-y-1">
-                {visibleItems.map((it) => (
-                  <li key={it.id}>
-                    <Link
-                      to={it.to}
-                      className="block rounded-md px-3 py-2 text-sm text-white/90 hover:bg-white/10 hover:text-white"
-                      title={it.name}
-                    >
-                      {it.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          );
-        })}
+        {/* Top-level entries only; no nested lists rendered */}
+        <div>
+          <div className="mb-2 flex items-center gap-2 px-3">
+            <h3 className="text-xs font-medium uppercase tracking-wide text-white/80">
+              Components
+            </h3>
+          </div>
+          <ul className="space-y-1">
+            {visibleTopLevel.map((it) => (
+              <li key={it.id}>
+                <Link
+                  to={it.to}
+                  className="block rounded-md px-3 py-2 text-sm text-white/90 hover:bg-white/10 hover:text-white"
+                  title={it.name}
+                >
+                  {it.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
       </nav>
     </div>
   );

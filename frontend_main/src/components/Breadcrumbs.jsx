@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useLocation, matchPath } from 'react-router-dom';
+import catalog from '../data/catalog.json';
 
 /**
  * PUBLIC_INTERFACE
@@ -29,8 +30,16 @@ export default function Breadcrumbs({ componentsIndex = [] }) {
   // Attempt to resolve a display name for a component id if we're on /components/:id
   const resolveComponentName = (id) => {
     if (!id) return '';
-    const found = componentsIndex.find((c) => String(c.id) === String(id));
-    return found ? (found.name || id) : id;
+    // First try components.json (componentsIndex prop)
+    const foundInIndex = componentsIndex.find((c) => String(c.id) === String(id));
+    if (foundInIndex) return foundInIndex.name || id;
+
+    // Fallback: try catalog.json (catalog-backed detail pages)
+    const foundInCatalog = (catalog.components || []).find((c) => String(c.id) === String(id));
+    if (foundInCatalog) return foundInCatalog.name || id;
+
+    // Default to id if not found anywhere
+    return id;
   };
 
   // Build breadcrumb segments based on current pathname

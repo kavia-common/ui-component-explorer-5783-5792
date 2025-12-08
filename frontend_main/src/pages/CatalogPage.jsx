@@ -1,22 +1,23 @@
 import React from 'react';
-import { useSearchParams, Link, useParams, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import catalog from '../data/catalog.json';
 import CodeBlock from '../demos/CodeBlock';
 
-// PUBLIC_INTERFACE
+/**
+ * PUBLIC_INTERFACE
+ * CatalogPage: Standalone catalog grid with local search/filter and inline detail panel.
+ * This page is independent from any persistent Sidebar shell.
+ */
 export default function CatalogPage() {
-  /** Catalog of copyable Tailwind components with live preview and HTML/React tabs */
-  const [params, setParams] = useSearchParams();
-  const { id: routeId } = useParams();
-  const navigate = useNavigate();
-  const q = params.get('q') || '';
-  const cat = params.get('cat') || 'All';
-  const sel = (routeId || params.get('id')) || '';
+  const [q, setQ] = React.useState('');
+  const [cat, setCat] = React.useState('All');
+  const [sel, setSel] = React.useState('');
 
   const categories = React.useMemo(() => {
     const cats = Array.isArray(catalog.categories) ? catalog.categories : [];
     return ['All', ...cats];
   }, []);
+
   const items = React.useMemo(() => {
     const byCat = cat === 'All' ? catalog.components : catalog.components.filter(c => c.category === cat);
     if (!q) return byCat;
@@ -30,24 +31,26 @@ export default function CatalogPage() {
 
   const selected = React.useMemo(() => catalog.components.find(c => c.id === sel) || null, [sel]);
 
-  const setQuery = (next) => {
-    const newParams = new URLSearchParams(params.toString());
-    if (next.q !== undefined) next.q ? newParams.set('q', next.q) : newParams.delete('q');
-    if (next.cat !== undefined) next.cat && next.cat !== 'All' ? newParams.set('cat', next.cat) : newParams.delete('cat');
-    if (next.id !== undefined) next.id ? newParams.set('id', next.id) : newParams.delete('id');
-    setParams(newParams);
-  };
-
   return (
     <div className="space-y-6">
-      <Breadcrumbs selected={selected} />
+      <nav aria-label="Breadcrumb" className="mb-1">
+        <ol className="breadcrumbs flex items-center gap-2">
+          <li><Link to="/components" className="hover:underline">Components</Link></li>
+          {selected ? (
+            <>
+              <li aria-hidden="true" className="text-slate-400">/</li>
+              <li className="text-slate-700 font-medium">{selected.name}</li>
+            </>
+          ) : null}
+        </ol>
+      </nav>
 
       <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
         <div className="flex gap-2 items-center">
           <label className="text-sm text-gray-600">Category</label>
           <select
             value={cat}
-            onChange={(e)=> setQuery({ cat: e.target.value })}
+            onChange={(e)=> setCat(e.target.value)}
             className="px-3 py-2 rounded-lg border text-sm"
           >
             {categories.map(c => <option key={c} value={c}>{c}</option>)}
@@ -57,7 +60,7 @@ export default function CatalogPage() {
         <div className="flex items-center gap-2">
           <input
             value={q}
-            onChange={(e)=> setQuery({ q: e.target.value })}
+            onChange={(e)=> setQ(e.target.value)}
             placeholder="Search components..."
             className="w-64 max-w-[70vw] px-3 py-2 rounded-lg border text-sm"
             aria-label="Search components"
@@ -65,12 +68,11 @@ export default function CatalogPage() {
         </div>
       </div>
 
-      {/* Grid */}
       <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
         {items.map(item => (
           <button
             key={item.id}
-            onClick={()=> setQuery({ id: item.id })}
+            onClick={()=> setSel(item.id)}
             className="text-left card p-4 card-elevate"
           >
             <div className="flex items-center justify-between">
@@ -91,44 +93,21 @@ export default function CatalogPage() {
         ))}
       </div>
 
-      {/* Detail Drawer/Panel */}
       {selected ? (
         <Detail
           key={selected.id}
           item={selected}
-          onClose={()=>{
-            if (routeId) navigate('/components');
-            setQuery({ id: '' });
-          }}
+          onClose={()=> setSel('')}
         />
       ) : null}
     </div>
   );
 }
 
-function Breadcrumbs({ selected }) {
-  return (
-    <nav aria-label="Breadcrumb" className="mb-1">
-      <ol className="breadcrumbs flex items-center gap-2">
-        <li><Link to="/components" className="hover:underline">Components</Link></li>
-        {selected ? (
-          <>
-            <li aria-hidden="true" className="text-slate-400">/</li>
-            <li className="text-slate-700 font-medium">{selected.name}</li>
-          </>
-        ) : null}
-      </ol>
-    </nav>
-  );
-}
-
 function Detail({ item, onClose }) {
   const [tab, setTab] = React.useState('Preview'); // Preview | HTML | React
-  const [mounted, setMounted] = React.useState(false);
-  React.useEffect(()=>{ setMounted(true); }, []);
   const htmlRef = React.useRef(null);
 
-  // Render unsafe HTML for preview in an isolated container
   const Preview = () => {
     return (
       <div className="preview-surface px-5 py-6">
@@ -141,28 +120,6 @@ function Detail({ item, onClose }) {
         </div>
       </div>
     );
-  };
-
-  const copyExact = async (text) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      return true;
-    } catch {
-      // Fallback
-      try {
-        const ta = document.createElement('textarea');
-        ta.value = text;
-        ta.style.position = 'fixed';
-        ta.style.opacity = '0';
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-        return true;
-      } catch {
-        return false;
-      }
-    }
   };
 
   return (

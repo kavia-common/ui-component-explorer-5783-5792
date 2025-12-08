@@ -1,20 +1,26 @@
 import React from 'react';
 import CodeBlock from '../demos/CodeBlock';
+import Breadcrumbs from '../components/Breadcrumbs';
 
 /**
  * PUBLIC_INTERFACE
- * InstallationPage: Themed setup guide with copyable steps.
- * - Responsive content layout suitable for the existing shell (fixed navbar + sidebar).
- * - Uses existing gradient tokens and buttons for Ocean Professional theme.
- * - Includes prerequisites, cloning/running this project, Tailwind setup for a fresh app,
- *   and how to use the catalog snippets.
+ * InstallationPage: Tailwind CSS setup guide so users can paste snippets and get identical rendering.
+ * - Includes prerequisites; setup via PostCSS or Tailwind CLI; sample tailwind.config.js and postcss.config.js;
+ *   index.css with @tailwind directives; brand gradient utilities used by the app; how to run the dev server;
+ *   and a verification step with a sample snippet.
+ * - Uses CodeBlock with copy-to-clipboard for every code sample.
+ * - Preserves navbar/sidebar layout and Ocean Professional gradients.
+ * - Breadcrumbs show Home > Getting Started > Installation.
  */
 export default function InstallationPage() {
+  // Content: prerequisites
   const prerequisites = `- Node.js 16+ (LTS recommended)
 - npm 7+ (or yarn/pnpm)
-- Git (for cloning)
-- A modern browser`;
+- Git
+- A modern browser
+`;
 
+  // Running this repository locally
   const cloneRun = `# 1) Clone this repository
 git clone https://github.com/your-org/ui-component-explorer.git
 cd ui-component-explorer/frontend_main
@@ -24,13 +30,26 @@ npm install
 
 # 3) Start the dev server
 npm start
-# App runs on http://localhost:3000`;
+# App runs on http://localhost:3000
+`;
 
-  const tailwindInstall = `# Tailwind CSS, PostCSS, Autoprefixer
+  // Tailwind install (PostCSS workflow)
+  const tailwindInstall = `# Install Tailwind CSS, PostCSS, and Autoprefixer
 npm install -D tailwindcss postcss autoprefixer
-# Initialize Tailwind + PostCSS (creates tailwind.config.js & postcss.config.js)
-npx tailwindcss init -p`;
 
+# Initialize Tailwind and PostCSS configs
+npx tailwindcss init -p
+`;
+
+  // postcss.config.js example
+  const postcssConfig = `module.exports = {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+};`;
+
+  // tailwind.config.js example with content globs and theme extension hints
   const tailwindConfig = `/** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: 'class',
@@ -61,60 +80,106 @@ module.exports = {
       }
     }
   },
-  plugins: []
+  plugins: [],
 };`;
 
-  const postcssConfig = `module.exports = {
-  plugins: {
-    tailwindcss: {},
-    autoprefixer: {},
-  },
-};`;
-
+  // index.css directives and brand utilities used in this app
   const cssDirectives = `/* Tailwind layers */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Optional: your custom utilities (you may copy some from this repo's src/index.css) */
-/* Example brand helpers used by this app: */
-.bg-navbar-gradient{ background: linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%); }
-.btn-brand-45{
-  display:inline-flex; align-items:center; justify-content:center; font-weight:600; color:white; border-radius:0.5rem;
-  background: linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%); padding:0.625rem 1rem;
-}`;
+/* Brand helpers used by this app (copy to ensure identical gradients/buttons) */
+.bg-navbar-gradient { 
+  background: linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%);
+}
 
-  const importCss = `// Vite/CRA entry file (e.g., src/main.jsx or src/index.js)
+/* Brand background token for convenience (used by Navbar) */
+.bg-brand-45 {
+  background: linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%);
+}
+
+/* Primary gradient button used across pages */
+.btn-brand-45 {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-weight: 600; color: white; border-radius: 0.5rem;
+  background: linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%);
+  padding: 0.625rem 1rem;
+}
+
+/* Optional subtle surface and utility classes to match this app */
+.card {
+  background: #fff; border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 12px; box-shadow: 0 10px 25px -10px rgba(0,0,0,0.10);
+}
+.btn-ghost {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-weight: 600; color: #111827; border-radius: 0.5rem; padding: 0.625rem 1rem;
+  background: #ffffff; border: 1px solid rgba(0,0,0,0.08);
+}
+.preview-accent-dot {
+  width: 10px; height: 10px; border-radius: 9999px;
+  background: linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%);
+}
+`;
+
+  // Entry import line
+  const importCss = `// In your app entry file (e.g., src/index.js or src/main.jsx)
 import './index.css';`;
 
-  const snippetsUsage = `// Example React usage of copied HTML with tiny JS behavior
-import React, { useEffect, useRef } from 'react';
-import './index.css';
-
-export default function ExampleCard() {
-  const btnRef = useRef(null);
-  useEffect(() => {
-    const btn = btnRef.current;
-    if (!btn) return;
-    const onClick = () => console.log('Clicked!');
-    btn.addEventListener('click', onClick);
-    return () => btn.removeEventListener('click', onClick);
-  }, []);
-
+  // Verification snippet to paste and compare appearance
+  const verificationSnippet = `export default function VerifyTailwind() {
   return (
-    <div className="card p-4">
-      <button ref={btnRef} className="btn-brand-45">Action</button>
+    <div className="p-6 space-y-4">
+      <h2 className="text-xl font-semibold text-gray-900">Verification</h2>
+      <div className="card p-4 flex items-center justify-between">
+        <div>
+          <p className="text-sm text-gray-700">
+            If Tailwind and brand utilities are configured correctly, this card has a soft shadow, white surface, and rounded corners.
+          </p>
+          <p className="mt-1 text-xs text-gray-500">
+            The button on the right should display a purple-blue gradient background.
+          </p>
+        </div>
+        <button className="btn-brand-45">Looks Good</button>
+      </div>
+      <div className="h-12 rounded bg-brand-45" />
     </div>
   );
-}`;
+}
+`;
 
+  // Tailwind CLI flow (no framework) for those who want a minimal setup
+  const cliBuild = `# Tailwind CLI (no framework required)
+
+# 1) Initialize a project and install Tailwind
+npm init -y
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+
+# 2) Create input.css with Tailwind directives
+#   @tailwind base;
+#   @tailwind components;
+#   @tailwind utilities;
+
+# 3) Configure content globs in tailwind.config.js
+# content: ['./*.html', './snippets/**/*.{html,js}']
+
+# 4) Build CSS
+# Dev (watch):
+npx tailwindcss -i ./input.css -o ./dist/output.css --watch
+# Production:
+NODE_ENV=production npx tailwindcss -i ./input.css -o ./dist/output.css --minify
+`;
+
+  // Quick CDN test option
   const standaloneCdn = `<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <title>Snippet Playground</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- Tailwind Play CDN -->
+    <!-- Tailwind Play CDN (for quick prototyping only) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -123,43 +188,30 @@ export default function ExampleCard() {
       };
     </script>
     <style>
-      .bg-navbar-gradient { background: linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%); }
+      .bg-brand-45 { background: linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%); }
       .btn-brand-45 {
         display:inline-flex; align-items:center; justify-content:center; font-weight:600; color:white; border-radius:0.5rem;
         background: linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%); padding:0.625rem 1rem;
       }
+      .card { background:#fff; border:1px solid rgba(0,0,0,0.06); border-radius:12px; box-shadow:0 10px 25px -10px rgba(0,0,0,0.10); }
     </style>
   </head>
   <body class="bg-white">
-    <div class="p-6">
-      <button class="btn-brand-45">Action</button>
+    <div class="p-6 space-y-4">
+      <h1 class="text-xl font-semibold text-gray-900">CDN Quick Test</h1>
+      <div class="card p-4 flex items-center justify-between">
+        <p class="text-sm text-gray-700">Gradient button should look branded</p>
+        <button class="btn-brand-45">Action</button>
+      </div>
+      <div class="h-12 rounded bg-brand-45"></div>
     </div>
-    <script>
-      document.querySelector('.btn-brand-45')?.addEventListener('click', () => alert('Clicked!'));
-    </script>
   </body>
 </html>`;
 
-  const cliBuild = `# Tailwind CLI (no framework required)
-# 1) Install
-npm init -y
-npm install -D tailwindcss postcss autoprefixer
-npx tailwindcss init -p
-
-# 2) input.css
-#  (put @tailwind base; @tailwind components; @tailwind utilities; inside)
-
-# 3) tailwind.config.js content globs:
-#  content: ['./*.html', './snippets/**/*.{html,js}']
-
-# 4) Build
-# Dev watch:
-npx tailwindcss -i ./input.css -o ./dist/output.css --watch
-# Production:
-NODE_ENV=production npx tailwindcss -i ./input.css -o ./dist/output.css --minify`;
-
   return (
     <div className="max-w-5xl mx-auto">
+      {/* Breadcrumbs */}
+      <Breadcrumbs />
       <header className="mb-6">
         <span
           className="inline-flex items-center px-2.5 py-1 rounded-full text-[12px] font-semibold tracking-wide"
@@ -167,9 +219,11 @@ NODE_ENV=production npx tailwindcss -i ./input.css -o ./dist/output.css --minify
         >
           Getting Started
         </span>
-        <h1 className="mt-3 text-2xl font-bold text-brand-45">Installation</h1>
+        <h1 className="mt-3 text-2xl font-bold" style={{ backgroundImage: 'linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%)', WebkitBackgroundClip: 'text', color: 'transparent' }}>
+          Installation
+        </h1>
         <p className="mt-2 text-sm text-slate-600">
-          Set up this project locally, or integrate our Tailwind-powered UI snippets into a fresh app. Copy commands and config directly.
+          Set up Tailwind CSS so copied snippets render exactly like in this app. Choose PostCSS (recommended) or the Tailwind CLI.
         </p>
       </header>
 
@@ -183,25 +237,24 @@ NODE_ENV=production npx tailwindcss -i ./input.css -o ./dist/output.css --minify
           </div>
         </section>
 
-        {/* Clone & run this project */}
+        {/* Run this repository locally */}
         <section className="card p-5">
           <h2 className="text-lg font-semibold">Run this project locally</h2>
           <ol className="mt-2 list-decimal pl-5 text-sm text-slate-700 space-y-1">
             <li>Clone the repository and install dependencies.</li>
-            <li>Start the development server.</li>
+            <li>Start the dev server.</li>
           </ol>
           <div className="mt-3">
             <CodeBlock code={cloneRun} language="javascript" title="Commands" />
           </div>
         </section>
 
-        {/* Tailwind setup for a fresh app */}
+        {/* Tailwind PostCSS setup */}
         <section className="card p-5">
-          <h2 className="text-lg font-semibold">Tailwind CSS setup (fresh app)</h2>
+          <h2 className="text-lg font-semibold">Setup with PostCSS (recommended)</h2>
           <p className="mt-1 text-sm text-slate-600">
             Add Tailwind to an existing React/Vite/Next project with PostCSS + Autoprefixer.
           </p>
-
           <div className="mt-3 grid gap-4 md:grid-cols-2">
             <div className="space-y-3">
               <CodeBlock code={tailwindInstall} language="javascript" title="Install & Initialize" />
@@ -209,57 +262,63 @@ NODE_ENV=production npx tailwindcss -i ./input.css -o ./dist/output.css --minify
             </div>
             <div className="space-y-3">
               <CodeBlock code={tailwindConfig} language="javascript" title="tailwind.config.js" />
-              <CodeBlock code={cssDirectives} language="css" title="index.css (entry)" />
+              <CodeBlock code={cssDirectives} language="css" title="index.css (Tailwind + brand utilities)" />
             </div>
           </div>
-
           <div className="mt-3">
             <CodeBlock code={importCss} language="javascript" title="Import CSS in app entry" />
           </div>
+          <p className="mt-3 text-xs text-slate-600">
+            Important: Ensure the <code>content</code> globs in <code>tailwind.config.js</code> include every folder where you paste snippets (for example <code>./src/components/**/*</code>), so Tailwind includes those classes in the build.
+          </p>
         </section>
 
-        {/* Using catalog snippets */}
+        {/* Verification */}
         <section className="card p-5">
-          <h2 className="text-lg font-semibold">Use the catalog snippets</h2>
+          <h2 className="text-lg font-semibold">Verification</h2>
           <p className="mt-1 text-sm text-slate-600">
-            Copy HTML from the catalog and paste into your component. If minimal JS is included, attach it using React handlers or a useEffect.
+            Create a component and paste the following code. You should see a white card with a soft shadow and a purple-blue gradient button, plus a gradient bar below.
           </p>
           <div className="mt-3">
-            <CodeBlock code={snippetsUsage} language="javascript" title="Example (React)" />
-          </div>
-          <div className="mt-3 text-xs text-slate-600">
-            Tip: Ensure your tailwind.config.js content globs include the folder where you paste the snippet (e.g., ./src/components/**/*).
+            <CodeBlock code={verificationSnippet} language="javascript" title="VerifyTailwind.jsx" />
           </div>
         </section>
 
-        {/* Standalone options */}
+        {/* Standalone and CLI options */}
         <section className="card p-5">
-          <h2 className="text-lg font-semibold">Standalone options</h2>
+          <h2 className="text-lg font-semibold">Alternative setups</h2>
           <div className="mt-3 grid gap-4 md:grid-cols-2">
             <div>
-              <h3 className="text-sm font-semibold">Tailwind Play CDN (quick try)</h3>
-              <p className="mt-1 text-sm text-slate-600">Great for prototyping (not optimized for production).</p>
-              <div className="mt-3">
-                <CodeBlock code={standaloneCdn} language="html" title="index.html (CDN)" />
-              </div>
-            </div>
-            <div>
               <h3 className="text-sm font-semibold">Tailwind CLI (no framework)</h3>
-              <p className="mt-1 text-sm text-slate-600">Build an optimized CSS file and link it in your HTML.</p>
+              <p className="mt-1 text-sm text-slate-600">Build a CSS file and link it in your HTML.</p>
               <div className="mt-3">
                 <CodeBlock code={cliBuild} language="javascript" title="CLI steps" />
               </div>
             </div>
+            <div>
+              <h3 className="text-sm font-semibold">CDN quick test</h3>
+              <p className="mt-1 text-sm text-slate-600">Use Tailwind Play CDN to prototype (not for production).</p>
+              <div className="mt-3">
+                <CodeBlock code={standaloneCdn} language="html" title="index.html (CDN test)" />
+              </div>
+            </div>
           </div>
         </section>
 
-        {/* Troubleshooting pointer */}
+        {/* Troubleshooting */}
         <section className="rounded-lg border border-gray-200 bg-slate-50 p-4">
           <div className="flex items-start gap-3">
             <span className="preview-accent-dot mt-1.5" aria-hidden="true" />
-            <p className="text-sm text-slate-700">
-              Having issues with missing styles in production or gradients not rendering? Double-check your tailwind.config.js content globs and consider copying the helper utilities from this app&apos;s src/index.css.
-            </p>
+            <div className="text-sm text-slate-700">
+              <p className="mb-1">
+                Missing styles in production or gradients not rendering?
+              </p>
+              <ul className="list-disc pl-5 space-y-1">
+                <li>Verify content globs in <code>tailwind.config.js</code> include all snippet locations.</li>
+                <li>Copy the brand utilities from <code>index.css</code> to match gradients and buttons.</li>
+                <li>If using Next.js, ensure <code>globals.css</code> includes the Tailwind directives and your utilities.</li>
+              </ul>
+            </div>
           </div>
         </section>
 

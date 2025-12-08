@@ -8,6 +8,7 @@ import catalog from '../data/catalog.json';
  * - STRICT whitelist rendering for sections and items.
  * - Adds a static "Installation" link under Getting Started that routes to /getting-started/installation.
  * - Filters only within the whitelist. Any dynamic catalog extras are ignored.
+ * - Do NOT add extra items beyond the specified list; preserve Ocean Professional gradient.
  */
 const Sidebar = () => {
   const location = useLocation();

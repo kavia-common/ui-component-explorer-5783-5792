@@ -1,14 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import componentsData from '../data/components.json';
-import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
-import js from 'react-syntax-highlighter/dist/esm/languages/hljs/javascript';
-import xml from 'react-syntax-highlighter/dist/esm/languages/hljs/xml';
-import atomOneLight from 'react-syntax-highlighter/dist/esm/styles/hljs/atom-one-light';
-import atomOneDark from 'react-syntax-highlighter/dist/esm/styles/hljs/atom-one-dark';
-
-SyntaxHighlighter.registerLanguage('javascript', js);
-SyntaxHighlighter.registerLanguage('xml', xml);
+import CodeBlock from '../demos/CodeBlock';
 
 // Mock preview components
 function PreviewRenderer({ preview }) {
@@ -44,7 +37,6 @@ export default function ComponentDetailPage() {
   const item = useMemo(() => componentsData.find(c => String(c.id) === String(id)), [id]);
 
   const [tab, setTab] = useState('code');
-  const [copied, setCopied] = useState(false);
 
   if (!item) {
     return (
@@ -95,28 +87,10 @@ export default function ComponentDetailPage() {
               <TabButton active={tab==='code'} onClick={() => setTab('code')}>Code</TabButton>
               <TabButton active={tab==='usage'} onClick={() => setTab('usage')}>Usage</TabButton>
             </div>
-            <div className="relative">
-              <button onClick={copy} className="inline-flex items-center gap-1 h-9 px-3 rounded-lg text-sm text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-white/10 bg-white hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60" aria-live="polite">
-                {copied ? 'Copied ✓' : 'Copy'}
-              </button>
-              {copied && (
-                <div className="absolute right-0 mt-2 text-xs bg-neutral-900 text-white px-2 py-1 rounded shadow-soft">
-                  Copied to clipboard
-                </div>
-              )}
-            </div>
           </div>
           <div className="p-4 overflow-auto">
             {tab === 'code' ? (
-              <SyntaxHighlighter
-                language="javascript"
-                style={document.documentElement.classList.contains('dark') ? atomOneDark : atomOneLight}
-                customStyle={{ margin: 0, borderRadius: '10px', fontSize: '0.875rem', padding: '12px 14px', background: '#F8FAFC',
-                fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace' }}
-                wrapLongLines
-              >
-                {item.code}
-              </SyntaxHighlighter>
+              <CodeBlock code={String(item.code ?? '')} language="javascript" title="Code" />
             ) : (
               <div className="prose dark:prose-invert max-w-none">
                 <h4>Usage</h4>

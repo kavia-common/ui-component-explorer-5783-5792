@@ -9,7 +9,7 @@
     "Tables"
   ],
   "components": [
-    { "id": "installation", "name": "Installation", "category": "Getting Started", "tags": ["setup","guide"], "html": "<div class=\"prose\"><h2>Installation</h2><p>Follow the steps to install the UI Component Explorer.</p><ol class=\"list-decimal pl-6 text-sm\"><li>Install dependencies</li><li>Run the dev server</li></ol></div>", "jsx": "export function Installation(){ return (<div className=\"prose\"><h2>Installation</h2><p>Follow the steps to install the UI Component Explorer.</p><ol className=\\\"list-decimal pl-6 text-sm\\\"><li>Install dependencies</li><li>Run the dev server</li></ol></div>); }" },
+    
 
     { "id": "container", "name": "Container", "category": "Layout & Content", "tags": ["container","responsive"], "html": "<div class=\"max-w-4xl mx-auto px-4\">Responsive container</div>", "jsx": "export function Container(){ return (<div className=\"max-w-4xl mx-auto px-4\">Responsive container</div>); }" },
     { "id": "columns", "name": "Columns", "category": "Layout & Content", "tags": ["layout","columns","responsive"], "html": "<div class=\"grid grid-cols-1 sm:grid-cols-2 gap-4\"><div class=\"rounded-lg border bg-white p-4 text-sm text-gray-600\">Left content</div><div class=\"rounded-lg border bg-white p-4 text-sm text-gray-600\">Right content</div></div>", "jsx": "export function Columns(){ return (<div className=\"grid grid-cols-1 sm:grid-cols-2 gap-4\"><div className=\"rounded-lg border bg-white p-4 text-sm text-gray-600\">Left content</div><div className=\"rounded-lg border bg-white p-4 text-sm text-gray-600\">Right content</div></div>); }" },

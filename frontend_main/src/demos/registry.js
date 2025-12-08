@@ -9,7 +9,7 @@ export const demoRegistry = {
   },
   'Installation': {
     componentKey: 'Installation',
-    html: `<!-- Installation: follow steps in Components > Installation -->`,
+    html: `<!-- Installation: follow the canonical guide at /getting-started/installation -->`,
     js: `// No JS required for this item.`,
     dependencies: [],
     dependencyNotes: '',

@@ -13,7 +13,7 @@ export default function Navbar() {
       role="banner"
       aria-label="Application header"
     >
-      {/* Gradient background wrapper to match Sidebar; add translucent overlay for readability */}
+      {/* Gradient background as specified: linear-gradient(45deg, #af2497 10%, #902d9a 20%, #1840a0 100%) */}
       <div className="bg-brand-45 navbar-overlay">
         <div className="h-16 flex items-center">
           <div className="w-full px-4 sm:px-6 lg:px-8">

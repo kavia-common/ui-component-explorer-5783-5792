@@ -39,7 +39,7 @@ function App() {
               height: `calc(100vh - ${NAVBAR_HEIGHT}px)`,
             }}
           >
-            {/* Sidebar content wrapper with gradient overlay readability and vertical scroll */}
+            {/* Sidebar content wrapper with independent scroll. Inner content handles hover/active tints. */}
             <div className="h-full overflow-y-auto">
               <Sidebar />
             </div>

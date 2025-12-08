@@ -1,12 +1,8 @@
 import React, { useMemo, useState } from 'react';
 import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import {
-  GridDemo, ColumnsDemo, LayoutSplitterDemo, ContainerDemo, SectionDemo, CardDemo, TypographyDemo, ListsDemo, MediaDemo,
-  ButtonsDemo, BadgesDemo, AvatarsDemo, AlertsDemo, TagsDemo, ChipsDemo, TooltipsDemo,
-  NavbarDemo, SidebarDemo, TabsDemo, BreadcrumbsDemo, PaginationDemo, StepsDemo,
-  InputDemo, SelectDemo, CheckboxDemo, RadioDemo, TextAreaDemo, SwitchDemo,
-  DatePickerDemo, FileUploadDemo, RangeSliderDemo, AutocompleteDemo, ValidationDemo,
-  SimpleTableDemo, SortableTableDemo, DataTableDemo, TableFilteringDemo
+  GridDemo, ColumnsDemo, LayoutSplitterDemo, ContainerDemo,
+  TypographyDemo, ImagesDemo, LinksDemo, DividersDemo, KBDDemo, CustomScrollbarDemo
 } from '../demos/DemoComponents';
 import CodeBlock from '../demos/CodeBlock';
 import { CodeTabs, TabToggle } from '../demos/PreviewCodeToggle';
@@ -31,51 +27,18 @@ export default function ComponentsListPage() {
     return qp || '';
   }, [routeId, searchParams]);
 
-  // Map item name -> Demo component
+  // Map item name -> Demo component (only kept items)
   const componentMap = {
-    // Layout & Content
-    'Grid': GridDemo,
-    'Columns': ColumnsDemo,
-    'Layout Splitter': LayoutSplitterDemo,
     'Container': ContainerDemo,
-    'Section': SectionDemo,
-    'Card': CardDemo,
+    'Columns': ColumnsDemo,
+    'Grid': GridDemo,
+    'Layout Splitter': LayoutSplitterDemo,
     'Typography': TypographyDemo,
-    'Lists': ListsDemo,
-    'Media': MediaDemo,
-    // Base Components
-    'Buttons': ButtonsDemo,
-    'Badges': BadgesDemo,
-    'Avatars': AvatarsDemo,
-    'Alerts': AlertsDemo,
-    'Tags': TagsDemo,
-    'Chips': ChipsDemo,
-    'Tooltips': TooltipsDemo,
-    // Navigations
-    'Navbar': NavbarDemo,
-    'Sidebar': SidebarDemo,
-    'Tabs': TabsDemo,
-    'Breadcrumbs': BreadcrumbsDemo,
-    'Pagination': PaginationDemo,
-    'Steps': StepsDemo,
-    // Basic Forms
-    'Inputs': InputDemo,
-    'Select': SelectDemo,
-    'Checkbox': CheckboxDemo,
-    'Radio': RadioDemo,
-    'Text Area': TextAreaDemo,
-    'Switch': SwitchDemo,
-    // Advanced Forms
-    'Date Picker': DatePickerDemo,
-    'File Upload': FileUploadDemo,
-    'Range Slider': RangeSliderDemo,
-    'Autocomplete': AutocompleteDemo,
-    'Validation': ValidationDemo,
-    // Tables
-    'Simple Table': SimpleTableDemo,
-    'Sortable Table': SortableTableDemo,
-    'Data Table': DataTableDemo,
-    'Filtering': TableFilteringDemo,
+    'Images': ImagesDemo,
+    'Links': LinksDemo,
+    'Dividers & <hr>': DividersDemo,
+    'KBD': KBDDemo,
+    'Custom Scrollbar': CustomScrollbarDemo,
   };
 
   // Breadcrumbs reflect current selection
@@ -337,14 +300,7 @@ npm run build`}
       );
     }
 
-    if (selectedItem === 'Installation') {
-      return (
-        <article className="space-y-4">
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white tracking-tight">{selectedItem}</h2>
-          <InstallationContent />
-        </article>
-      );
-    }
+
 
     const Comp = componentMap[selectedItem];
     const entry = getDemoForItem(selectedItem);

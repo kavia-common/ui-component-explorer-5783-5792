@@ -13,79 +13,21 @@ export default function Sidebar() {
   const activePath = location.pathname + location.search;
 
   const sections = [
-    { title: 'Getting Started', items: [{ label: 'Installation', to: '/components?item=Installation' }] },
     {
       title: 'Layout & Content',
       items: [
-        { label: 'Grid', to: '/components?item=Grid' },
-        { label: 'Columns', to: '/components?item=Columns' },
-        { label: 'Layout Splitter', to: '/components?item=Layout Splitter' },
         { label: 'Container', to: '/components?item=Container' },
-        { label: 'Section', to: '/components?item=Section' },
-        { label: 'Card', to: '/components?item=Card' },
+        { label: 'Columns', to: '/components?item=Columns' },
+        { label: 'Grid', to: '/components?item=Grid' },
+        { label: 'Layout Splitter', to: '/components?item=Layout Splitter' },
         { label: 'Typography', to: '/components?item=Typography' },
         { label: 'Images', to: '/components?item=Images' },
         { label: 'Links', to: '/components?item=Links' },
         { label: 'Dividers & <hr>', to: '/components?item=Dividers & <hr>' },
         { label: 'KBD', to: '/components?item=KBD' },
-        { label: 'Custom Scrollbar', to: '/components?item=Custom Scrollbar' },
-        { label: 'Lists', to: '/components?item=Lists' },
-        { label: 'Media', to: '/components?item=Media' },
+        { label: 'Custom Scrollbar', to: '/components?item=Custom Scrollbar' }
       ],
-    },
-    {
-      title: 'Base Components',
-      items: [
-        { label: 'Buttons', to: '/components?item=Buttons' },
-        { label: 'Badges', to: '/components?item=Badges' },
-        { label: 'Avatars', to: '/components?item=Avatars' },
-        { label: 'Alerts', to: '/components?item=Alerts' },
-        { label: 'Tags', to: '/components?item=Tags' },
-        { label: 'Chips', to: '/components?item=Chips' },
-        { label: 'Tooltips', to: '/components?item=Tooltips' },
-      ],
-    },
-    {
-      title: 'Navigations',
-      items: [
-        { label: 'Navbar', to: '/components?item=Navbar' },
-        { label: 'Sidebar', to: '/components?item=Sidebar' },
-        { label: 'Tabs', to: '/components?item=Tabs' },
-        { label: 'Breadcrumbs', to: '/components?item=Breadcrumbs' },
-        { label: 'Pagination', to: '/components?item=Pagination' },
-        { label: 'Steps', to: '/components?item=Steps' },
-      ],
-    },
-    {
-      title: 'Basic Forms',
-      items: [
-        { label: 'Inputs', to: '/components?item=Inputs' },
-        { label: 'Select', to: '/components?item=Select' },
-        { label: 'Checkbox', to: '/components?item=Checkbox' },
-        { label: 'Radio', to: '/components?item=Radio' },
-        { label: 'Text Area', to: '/components?item=Text Area' },
-        { label: 'Switch', to: '/components?item=Switch' },
-      ],
-    },
-    {
-      title: 'Advanced Forms',
-      items: [
-        { label: 'Date Picker', to: '/components?item=Date Picker' },
-        { label: 'File Upload', to: '/components?item=File Upload' },
-        { label: 'Range Slider', to: '/components?item=Range Slider' },
-        { label: 'Autocomplete', to: '/components?item=Autocomplete' },
-        { label: 'Validation', to: '/components?item=Validation' },
-      ],
-    },
-    {
-      title: 'Tables',
-      items: [
-        { label: 'Simple Table', to: '/components?item=Simple Table' },
-        { label: 'Sortable Table', to: '/components?item=Sortable Table' },
-        { label: 'Data Table', to: '/components?item=Data Table' },
-        { label: 'Filtering', to: '/components?item=Filtering' },
-      ],
-    },
+    }
   ];
 
   // Gradient background wrapper + white/translucent hover/active states for legibility

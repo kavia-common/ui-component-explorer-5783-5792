@@ -219,6 +219,85 @@ NODE_ENV=production npx tailwindcss -i ./input.css -o ./dist/output.css --minify
       </header>
 
       <div className="space-y-8">
+        {/* Tailwind CSS (CLI) – Quick Start */}
+        <section className="card p-5">
+          <h2 className="text-lg font-semibold">Tailwind CSS (CLI) – Quick Start</h2>
+          <p className="mt-2 text-sm text-slate-700">
+            The simplest and fastest way to get up and running with Tailwind CSS from scratch is with the Tailwind CLI tool. The CLI is also available as a standalone executable if you want to use it without installing Node.js.
+          </p>
+
+          {/* 01 Install Tailwind CSS */}
+          <div className="mt-5">
+            <div className="text-xs font-semibold text-slate-500">01</div>
+            <h3 className="text-sm font-semibold mt-1">Install Tailwind CSS</h3>
+            <p className="mt-1 text-sm text-slate-600">Install tailwindcss and @tailwindcss/cli via npm.</p>
+            <div className="mt-2">
+              <div className="text-xs font-medium text-slate-500 mb-1">Terminal</div>
+              <CodeBlock
+                language="bash"
+                title="Terminal"
+                code={`npm install tailwindcss @tailwindcss/cli`}
+              />
+            </div>
+          </div>
+
+          {/* 02 Import Tailwind in your CSS */}
+          <div className="mt-6">
+            <div className="text-xs font-semibold text-slate-500">02</div>
+            <h3 className="text-sm font-semibold mt-1">Import Tailwind in your CSS</h3>
+            <p className="mt-1 text-sm text-slate-600">Add the @import "tailwindcss"; import to your main CSS file.</p>
+            <div className="mt-2">
+              <div className="text-xs font-medium text-slate-500 mb-1">src/input.css</div>
+              <CodeBlock
+                language="css"
+                title="src/input.css"
+                code={`@import "tailwindcss";`}
+              />
+            </div>
+          </div>
+
+          {/* 03 Start the Tailwind CLI build process */}
+          <div className="mt-6">
+            <div className="text-xs font-semibold text-slate-500">03</div>
+            <h3 className="text-sm font-semibold mt-1">Start the Tailwind CLI build process</h3>
+            <p className="mt-1 text-sm text-slate-600">Run the CLI tool to scan your source files for classes and build your CSS.</p>
+            <div className="mt-2">
+              <div className="text-xs font-medium text-slate-500 mb-1">Terminal</div>
+              <CodeBlock
+                language="bash"
+                title="Terminal"
+                code={`npx @tailwindcss/cli -i ./src/input.css -o ./src/output.css --watch`}
+              />
+            </div>
+          </div>
+
+          {/* 04 Start using Tailwind in your HTML */}
+          <div className="mt-6">
+            <div className="text-xs font-semibold text-slate-500">04</div>
+            <h3 className="text-sm font-semibold mt-1">Start using Tailwind in your HTML</h3>
+            <p className="mt-1 text-sm text-slate-600">Add your compiled CSS file to the &lt;head&gt; and start using Tailwind’s utility classes to style your content.</p>
+            <div className="mt-2">
+              <div className="text-xs font-medium text-slate-500 mb-1">src/index.html</div>
+              <CodeBlock
+                language="html"
+                title="src/index.html"
+                code={`<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="./output.css" rel="stylesheet">
+</head>
+<body>
+  <h1 class="text-3xl font-bold underline">
+    Hello world!
+  </h1>
+</body>
+</html>`}
+              />
+            </div>
+          </div>
+        </section>
         <section className="card p-5">
           <h2 className="text-lg font-semibold">Prerequisites</h2>
           <p className="mt-1 text-sm text-slate-600">Ensure the following tools are installed:</p>
